@@ -72,7 +72,7 @@ export default class MyAccountScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD" + url
                         }
                     }, () => this.setModalErrorVisible(true));
                 });
@@ -101,7 +101,7 @@ export default class MyAccountScreen extends React.Component {
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
-                    <HeaderImage/>
+                    <HeaderImage image="MyAccount"/>
                     <View style={styles.myAccountView}>
                         <Text style={styles.myAccountHeaderText}>Moje konto</Text>
                         <Divider/>

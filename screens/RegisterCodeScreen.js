@@ -32,7 +32,9 @@ export default class RegisterCodeScreen extends Component {
     componentDidMount() {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
-
+            this.setState({
+                barCode: '',
+            })
 
         });
         this.listenerBlur = this.props.navigation.addListener('blur', () => {
@@ -49,7 +51,7 @@ export default class RegisterCodeScreen extends Component {
 
     onBarCodeRead = (e) => {
         if (this.state.barCode === '') {
-            Alert.alert("Barcode value is" + e.data, "Barcode type is" + e.type);
+            //Alert.alert("Barcode value is" + e.data, "Barcode type is" + e.type);
             this.setState({
                 barCode: e.data,
             }, () => this.sendNewCode(this.state.barCode))

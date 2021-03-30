@@ -30,7 +30,7 @@ export default class ContactScreen extends React.Component {
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
-                    <HeaderImage/>
+                    <HeaderImage image="Contact"/>
                     <View style={styles.contactView}>
                         <Text style={styles.contactHeaderText}>Kontakt</Text>
                         <Divider/>

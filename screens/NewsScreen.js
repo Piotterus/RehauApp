@@ -58,7 +58,7 @@ export default class NewsScreen extends React.Component {
               isLoading: false,
               error: {
                 code: "BŁĄD",
-                message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
+                message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD" + url
               }
             }, () => this.setModalErrorVisible(true));
           });

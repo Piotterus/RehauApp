@@ -61,7 +61,7 @@ export default class PrizesCategoryScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD" + url
                         }
                     }, () => this.setModalErrorVisible(true));
                 });
@@ -100,7 +100,7 @@ export default class PrizesCategoryScreen extends React.Component {
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
-                    <HeaderImage/>
+                    <HeaderImage image="PrizeCategory"/>
                     <View style={styles.prizesCategoryView}>
                         <Text style={styles.prizesCategoryHeaderText}>Nagrody</Text>
                         <Divider/>

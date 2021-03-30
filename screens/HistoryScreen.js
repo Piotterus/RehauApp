@@ -64,7 +64,7 @@ export default class HistoryScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD" + url
                         }
                     }, () => this.setModalErrorVisible(true));
                 });
@@ -151,7 +151,7 @@ export default class HistoryScreen extends React.Component {
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
-                    <HeaderImage/>
+                    <HeaderImage image="History"/>
                     <View style={styles.historyCategoryView}>
                         <Text style={styles.historyHeaderText}>Moja historia</Text>
                         <HistoryStrip text="Moje zarejestrowane kody"/>

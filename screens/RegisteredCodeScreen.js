@@ -65,25 +65,44 @@ export default class RegisteredCodeScreen extends React.Component {
         this.setState({ modalErrorVisible: visible });
     };
 
+    setGreetingsImage() {
+        if (this.state.isLoading) {
+            return null
+        }
+        if (this.state.data.error.code === 0) {
+            return <Image
+                source={require('../icons/registered_code.png')}
+                style={styles.registeredCodeImage}
+                resizeMode="contain"
+            />
+        } else {
+            return <Image
+                source={require('../icons/code_not_registered.png')}
+                style={styles.registeredCodeImage}
+                resizeMode="contain"
+            />
+        }
+    }
+
     setGreetingsHeaderText() {
         if (this.state.isLoading) {
-            return <Text style={styles.registeredCodeGreetingsHeaderText}>Ladowanie</Text>
+            return <Text style={styles.registeredCodeGreetingsHeaderText}/>
         }
         if (this.state.data.error.code === 0) {
             return <Text style={styles.registeredCodeGreetingsHeaderText}>Gratulacje</Text>
         } else {
-            return <Text style={styles.registeredCodeGreetingsHeaderText}>Niestety</Text>
+            return <Text style={styles.registeredCodeGreetingsHeaderTextWrong}>Skontaktuj się z infolinią Programu 61 8250 785</Text>
         }
     }
 
     setGreetingsText() {
         if (this.state.isLoading) {
-            return <Text style={styles.registeredCodeGreetingsText}>Kod numer nie został zaakceptowany</Text>
+            return <Text style={styles.registeredCodeGreetingsText}/>
         }
         if (this.state.data.error.code === 0) {
             return <Text style={styles.registeredCodeGreetingsText}>Kod numer <Text style={{fontWeight: 'bold'}}>{this.state.data.coupon.code}</Text> został zaakceptowany!</Text>
         } else {
-            return <Text style={styles.registeredCodeGreetingsText}>Kod numer <Text style={{fontWeight: 'bold'}}>{this.state.data.coupon.code}</Text> nie został zaakceptowany</Text>
+            return <Text style={styles.registeredCodeGreetingsText}>Kod został odrzucony!</Text>
         }
     }
 
@@ -96,15 +115,11 @@ export default class RegisteredCodeScreen extends React.Component {
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
-                    <HeaderImage/>
+                    <HeaderImage image="RegisteredCode"/>
                     <View style={styles.registeredCodeView}>
                         <Text style={styles.registeredCodeHeaderText}>Rejestracja kodu</Text>
                         <Divider/>
-                        <Image
-                            source={require('../icons/registered_code.png')}
-                            style={styles.registeredCodeImage}
-                            resizeMode="contain"
-                        />
+                        {this.setGreetingsImage()}
                         {this.setGreetingsHeaderText()}
                         {this.setGreetingsText()}
                         <TouchableOpacity
@@ -171,5 +186,13 @@ const styles = StyleSheet.create({
         color: '#EBEBEB',
         fontWeight: 'bold',
         fontSize: 20,
+    },
+    registeredCodeGreetingsHeaderTextWrong: {
+        color: '#DC0060',
+        fontWeight: 'bold',
+        fontSize: 20,
+        marginTop: 20,
+        paddingLeft: '10%',
+        paddingRight: '10%',
     }
 });
