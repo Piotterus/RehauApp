@@ -39,7 +39,7 @@ export default class StatuteScreen extends React.Component {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
-            let url = `http://api.verbum.com.pl/${this.props.appId}/0/page/5`;
+            let url = `https://api.verbum.com.pl/${this.props.appId}/0/page/5`;
 
             fetch(url, {
                 method: 'GET',

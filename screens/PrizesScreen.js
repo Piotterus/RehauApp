@@ -65,7 +65,7 @@ export default class PrizesScreen extends React.Component {
         let body = {
             code: code,
         };
-        let url = `http://api.verbum.com.pl/${this.props.appId}/${this.props.token}/order`;
+        let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/order`;
 
         fetch(url, {
             method: 'POST',

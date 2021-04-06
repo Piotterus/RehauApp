@@ -35,7 +35,7 @@ export default class PrizesCategoryScreen extends React.Component {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
-            let url = `http://api.verbum.com.pl/${this.props.appId}/${this.props.token}/prizes`;
+            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/prizes`;
 
             fetch(url, {
                 method: 'GET',
@@ -61,7 +61,7 @@ export default class PrizesCategoryScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD" + url
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD" + url + " ERROR:" + error
                         }
                     }, () => this.setModalErrorVisible(true));
                 });

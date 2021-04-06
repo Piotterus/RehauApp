@@ -70,7 +70,7 @@ export default class RegisterCodeScreen extends Component {
         let body = {
             code: code,
         };
-        let url = `http://api.verbum.com.pl/${this.props.appId}/${this.props.token}/register/code`;
+        let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/register/code`;
 
         fetch(url, {
             method: 'POST',
