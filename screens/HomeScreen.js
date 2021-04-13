@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     //width: 0.8 * Dimensions.get("window").width,
   },
   menuItem: {
-    borderWidth: 0.2,
+    borderWidth: 0.25,
     borderColor: '#DC006067',
     flex: 1,
     justifyContent: 'center',

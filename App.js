@@ -22,6 +22,7 @@ import OneNewsItem from './components/OneNewsScreen/OneNewsItem';
 import RegisterCodeScreen from './screens/RegisterCodeScreen';
 import RegisteredCodeScreen from './screens/RegisteredCodeScreen';
 import StatuteScreen from './screens/StatuteScreen';
+import UserUpdateScreen from './screens/UserUpdateScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -33,6 +34,7 @@ export default class App extends  React.Component {
     this.state = {
         isLoggedIn: false,
         isSettingUp: true,
+        isUpdateNow: false,
         token: '',
         firstName: '',
         lastName: '',
@@ -100,12 +102,19 @@ export default class App extends  React.Component {
     }
   };*/
 
-  login(token, fullName) {
-    this.setState( {
+  login(token, fullName, update) {
+    this.setState({
+      isUpdateNow: update,
       token: token,
       isLoggedIn: true,
       fullName: fullName,
-    });
+    })
+  }
+
+  update() {
+    this.setState({
+      isUpdateNow: false,
+    })
   }
 
   async logout() {
@@ -113,8 +122,7 @@ export default class App extends  React.Component {
     await AsyncStorage.setItem('token','');
     this.setState( {
       isLoggedIn: false,
-    })
-    console.log("logout")
+    });
   }
 
   rememberMe(value) {
@@ -128,6 +136,17 @@ export default class App extends  React.Component {
       return (
           <SafeAreaProvider>
             <SplashScreen/>
+          </SafeAreaProvider>
+      )
+    }
+    if (this.state.isUpdateNow) {
+      return (
+          <SafeAreaProvider>
+            <UserUpdateScreen
+                token={this.state.token}
+                appId={this.state.appId}
+                update={this.update.bind(this)}
+            />
           </SafeAreaProvider>
       )
     }

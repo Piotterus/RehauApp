@@ -29,7 +29,7 @@ export default class MyAccountScreen extends React.Component {
             pointsActive: '',
             pointsUsed: '',
             pointsForUse: '',
-            loading: true,
+            isLoading: true,
         }
     }
 

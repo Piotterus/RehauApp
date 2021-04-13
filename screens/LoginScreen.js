@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import ErrorModal from '../components/allScreen/ErrorModal';
+import Activity from '../components/allScreen/Activity';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -26,6 +27,7 @@ export default class LoginScreen extends React.Component {
       error: '',
       modalErrorVisible: false,
       rememberEnabled: false,
+      isLoading: false,
     }
   }
 
@@ -39,11 +41,15 @@ export default class LoginScreen extends React.Component {
 
   login(login,password) {
 
+    this.setState({
+      isLoading: true,
+    });
+
     if (login === "") {
-        login = "rehau11157"
+        login = "test"//"rehau11157"
     }
     if (password === "") {
-        password = "p6TKm3"
+        password = "test"//"p6TKm3"
     }
 
     const queryString = this.objToQueryString({
@@ -71,10 +77,54 @@ export default class LoginScreen extends React.Component {
               await AsyncStorage.setItem('isLoggedIn', '1');
               await AsyncStorage.setItem('token', responseJson.token);
             }
-            this.props.login(responseJson.token, responseJson.fullname)
+            this.checkIfForceUpdate(responseJson.token, responseJson.fullname)
           } else {
             this.setState({
               error: responseJson.error,
+              isLoading: false,
+            }, () => this.setModalErrorVisible(true))
+          }
+        })
+        .catch((error) => {
+          this.setState({
+            isLoading: false,
+            error: {
+              code: "BŁĄD",
+              message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
+            }
+          }, () => this.setModalErrorVisible(true));
+        });
+    this.setState({
+      isLoading: true,
+    });
+  }
+
+  checkIfForceUpdate(token, fullname) {
+    const queryString = this.objToQueryString({
+      key: this.props.keyApp,
+    });
+
+    let url = `https://api.verbum.com.pl/${this.props.appId}/${token}`;
+    console.log("fetch");
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': "application/json",
+      },
+    })
+        .then(response => response.json())
+        .then(async responseJson => {
+          console.log(responseJson);
+          if (responseJson.error.code === 0) {
+            if (responseJson.user?.datemodify == null) {
+              this.props.login(token, fullname, true);
+            } else {
+              this.props.login(token, fullname, false)
+            }
+          } else {
+            this.setState({
+              error: responseJson.error,
+              isLoading: false,
             }, () => this.setModalErrorVisible(true))
           }
         })
@@ -116,7 +166,7 @@ export default class LoginScreen extends React.Component {
           style={{flex: 1}}
           forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
           <Image
-            source={require('../images/rsz_splash_rehau.png')}
+            source={require('../images/rsz_splash_rehau_2021_v2.jpg')}
             style={styles.imageBackground}
           />
           <View style={styles.middleView}>
@@ -173,6 +223,9 @@ export default class LoginScreen extends React.Component {
               resizeMode="contain"
             />
           </View>
+          {this.state.isLoading &&
+          <Activity/>
+          }
         </SafeAreaView>
       </KeyboardAvoidingView>
     );
