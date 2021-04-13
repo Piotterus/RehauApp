@@ -38,7 +38,9 @@ export default class HistoryScreen extends React.Component {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
+
             let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/history/orders`;
+            url = `https://api.verbum.com.pl/${this.props.appId}/73c51449b66acd58b3acc7f41fdc7d9f/history/orders`;
 
             fetch(url, {
                 method: 'GET',
@@ -49,9 +51,15 @@ export default class HistoryScreen extends React.Component {
                 .then(response => response.json())
                 .then(responseJson => {
                     if (responseJson.error.code === 0) {
-                        this.setState({
-                            orders: responseJson.orders.orders,
-                        }, () => this.setState({isLoading: false}))
+                        if (responseJson.orders !== undefined) {
+                            this.setState({
+                                orders: responseJson?.orders?.orders,
+                            }, () => this.setState({isLoading: false}))
+                        } else {
+                            this.setState({
+                                orders: '',
+                            }, () => this.setState({isLoading: false}))
+                        }
                     } else {
                         this.setState({
                             isLoading: false,
@@ -64,7 +72,7 @@ export default class HistoryScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD" + url + " ERROR:" + error
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
                         }
                     }, () => this.setModalErrorVisible(true));
                 });
@@ -202,14 +210,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: '#000000BF',
+        borderColor: '#AAAAAABF',
         alignItems: 'center',
         flex: 1,
         marginBottom: 20
     },
     historyHeaderText: {
         color: '#4E4E4E',
-        fontSize: 20,
+        fontSize: 16,
+        marginTop: 10,
+        marginBottom: 10,
     },
     historyButton: {
         backgroundColor: '#37A48B',
@@ -223,7 +233,7 @@ const styles = StyleSheet.create({
     },
     historyButtonText: {
         color: '#EBEBEB',
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: 'bold'
     },
     historyListView: {

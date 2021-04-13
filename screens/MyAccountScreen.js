@@ -7,7 +7,8 @@ import {
     View,
     Text,
     ScrollView,
-    ActivityIndicator
+    ActivityIndicator,
+    TouchableOpacity
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import HeaderBurger from '../components/allScreen/HeaderBurger';
@@ -72,7 +73,7 @@ export default class MyAccountScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD" + url + " ERROR:" + error
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
                         }
                     }, () => this.setModalErrorVisible(true));
                 });
@@ -106,15 +107,19 @@ export default class MyAccountScreen extends React.Component {
                         <Text style={styles.myAccountHeaderText}>Moje konto</Text>
                         <Divider/>
                         <View style={styles.myAccountWelcomeView}>
-                            <Text style={{color: '#4E4E4E', fontSize: 16, fontWeight: 'bold'}}>Witaj</Text>
-                            <Text style={{color: '#4E4E4E', fontSize: 20, fontWeight: 'bold'}}>{this.props.fullName}</Text>
+                            <Text style={{color: '#4E4E4E', fontSize: 14, fontWeight: 'bold'}}>Witaj</Text>
+                            <Text style={{color: '#4E4E4E', fontSize: 16, fontWeight: 'bold'}}>{this.props.fullName}</Text>
                         </View>
                         <ScrollView style={{width: '100%', height: '100%'}}>
                             <PointsItem name="Punkty zebrane" points={this.state.pointsActive}/>
                             <PointsItem name="Punkty wykorzystane" points={this.state.pointsUsed}/>
                             <PointsItem name="Pozostało na koncie" points={this.state.pointsForUse}/>
-                            <PointsItem name="" points=""/>
-                            <PointsItem name="" points=""/>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('History')} style={styles.myAccountButton}>
+                                <Text style={styles.myAccountButtonText}>Moja historia</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('PrizesCategory')} style={styles.myAccountButton}>
+                                <Text style={styles.myAccountButtonText}>Nagrody</Text>
+                            </TouchableOpacity>
                         </ScrollView>
                     </View>
                     <Footer />
@@ -135,7 +140,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: '#000000BF',
+        borderColor: '#AAAAAABF',
         padding: 10,
         alignItems: 'flex-start',
         flex: 1,
@@ -143,10 +148,32 @@ const styles = StyleSheet.create({
     },
     myAccountHeaderText: {
         color: '#4E4E4E',
-        fontSize: 20,
+        fontSize: 16,
         alignSelf: 'center'
     },
     myAccountWelcomeView: {
         marginTop: 30,
-    }
+    },
+    myAccountButton: {
+        backgroundColor: '#37A48B',
+        width: '95%',
+        alignSelf: 'center',
+        alignItems: 'center',
+        height: 35,
+        justifyContent: 'center',
+        borderRadius: 25,
+        shadowColor: '#000000', //'#00000080',
+        elevation: 3,
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowRadius: 5,
+        marginTop: 30,
+    },
+    myAccountButtonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
 });

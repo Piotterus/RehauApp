@@ -5,10 +5,10 @@ export default class PrizeCategoryItem extends React.Component {
 
     render() {
         return(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Prizes', {data: this.props.data})} style={styles.prizeCategoryView}>
-                <Image source={{uri:this.props.data.image}} style={styles.prizeCategoryImage} resizeMode='cover'/>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Prizes', {data: this.props.data, name: this.props.name})} style={styles.prizeCategoryView}>
+                <Image source={{uri:this.props.data[this.props.name].image}} style={styles.prizeCategoryImage} resizeMode='cover'/>
                 <View style={styles.prizeCategoryViewText}>
-                    <Text style={[styles.prizeCategoryText, {fontWeight: 'bold'}]}>{this.props.data.name}</Text>
+                    <Text style={[styles.prizeCategoryText, {fontWeight: 'bold'}]}>{this.props.data[this.props.name].name}</Text>
                     <Text style={styles.prizeCategoryText}>pkt</Text>
                 </View>
             </TouchableOpacity>
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     },
     prizeCategoryText: {
         color: '#FFFFFF',
-        fontSize: 36,
+        fontSize: 24,
     }
 });
 

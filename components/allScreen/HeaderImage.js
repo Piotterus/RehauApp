@@ -4,7 +4,6 @@ import {Image, StyleSheet, View, TouchableOpacity, Dimensions, Text} from 'react
 export default class HeaderImage extends React.Component {
 
     render() {
-        console.log(this.props.image)
         if (this.props.image === "RegisteredCode") {
             return (
                 <View style={styles.headerView}>

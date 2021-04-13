@@ -40,6 +40,7 @@ export default class OneNewsScreen extends React.Component {
         this.listenerBlur = this.props.navigation.addListener('blur', () => {
             this.setState({
                 isLoading: true,
+                news: '',
             })
         });
     }
@@ -54,13 +55,6 @@ export default class OneNewsScreen extends React.Component {
     };
 
     render() {
-        console.log(this.props.route.params)
-        let newsData = {
-          date: '14.12.2018',
-          category: 'Firma i kariera',
-          title: 'Pomagamy Kubie zrobić pierwszy krok',
-          text: 'Przyłącz się do akcji "REHAU pomaga"',
-        };
     return (
         <View style={{flex: 1}}>
             <SafeAreaView
@@ -69,7 +63,7 @@ export default class OneNewsScreen extends React.Component {
                 <HeaderBack navigation={this.props.navigation} />
                 <HeaderPage title="Aktualnosci" />
                 <ScrollView contentContainerStyle={{flexGrow: 1}}>
-                    <OneNewsItem data={this.state.news} />
+                    <OneNewsItem data={this.state?.news} />
                 </ScrollView>
                 <Footer />
             </SafeAreaView>

@@ -9,9 +9,9 @@ export default class OneNewsItem extends React.Component {
             <View style={styles.newsView}>
                 <Image source={{uri:this.props.data.imagemedium}} style={styles.newsImage} resizeMode='contain'/>
                 <View style={styles.newsFrame}>
-                    <Text style={styles.dateText}>{this.props.data.date} {this.props.data.category}</Text>
+                    {/*<Text style={styles.dateText}>{this.props.data.date} {this.props.data.category}</Text>*/}
                     <Text style={styles.titleText}>{this.props.data.title}</Text>
-                    <HTML style={styles.textText} source={{ html: this.props.data.fulltext}}/>
+                    <HTML style={styles.textText} source={{ html: this.props.data?.fulltext}}/>
                 </View>
             </View>
         )
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     },
     newsImage: {
         width: '100%',
-        height: 200,
+        height: 150,
     },
     dateText: {
         color: '#37A48B',
@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     textText: {
-        fontSize: 12,
+        //fontSize: 12,
     },
     newsFrame: {
         width: '90%',
-        borderColor: '#000000BF',
+        borderColor: '#AAAAAABF',
         borderWidth: 1,
         borderRadius: 20,
         padding: 20,

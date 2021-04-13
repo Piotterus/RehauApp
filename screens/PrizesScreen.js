@@ -20,6 +20,8 @@ import Divider from '../components/allScreen/Divider';
 import PrizeItem from '../components/PrizesScreen/PrizeItem';
 import ErrorModal from '../components/allScreen/ErrorModal';
 import Activity from '../components/allScreen/Activity';
+import DropDownPicker from 'react-native-dropdown-picker';
+import Icon from 'react-native-vector-icons/Feather';
 
 export default class PrizesScreen extends React.Component {
     constructor(props) {
@@ -29,6 +31,8 @@ export default class PrizesScreen extends React.Component {
             modalErrorVisible: false,
             loading: true,
             prizes: '',
+            name: '',
+            country: 'uk',
         }
     }
 
@@ -39,6 +43,7 @@ export default class PrizesScreen extends React.Component {
             if (this.props.route.params?.data) {
                 this.setState({
                     prizes: this.props.route.params.data,
+                    name: this.props.route.params.name,
                     isLoading: false,
                 })
             }
@@ -76,7 +81,6 @@ export default class PrizesScreen extends React.Component {
         })
             .then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson);
                 if (responseJson.orderedProducts.error.code === 0) {
 
                 } else {
@@ -98,12 +102,23 @@ export default class PrizesScreen extends React.Component {
 
     createPrizesList() {
         let prizesList = [];
-        for (let i in this.state.prizes.catalog) {
+        for (let i in this.state?.prizes[this.state?.name]?.catalog) {
             prizesList.push(
-                <PrizeItem key={i} max={this.state.prizes.catalog.length} data={this.state.prizes.catalog[i]} sendNewOrder={this.sendNewOrder.bind(this)}/>,
+                <PrizeItem key={i} max={this.state.prizes[this.state?.name].catalog.length} data={this.state.prizes[this.state?.name].catalog[i]} sendNewOrder={this.sendNewOrder.bind(this)}/>,
             );
         }
         return prizesList;
+    }
+
+    createItemsList() {
+        let itemsList = []
+        for (let i in this.state?.prizes) {
+            itemsList.push({
+                label: this.state.prizes[i].name + " pkt",
+                value: this.state.prizes[i].name
+            })
+        }
+        return itemsList;
     }
 
     render() {
@@ -115,7 +130,24 @@ export default class PrizesScreen extends React.Component {
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
                     <View style={styles.prizesView}>
-                        <Text style={styles.prizesHeaderText}>Nagrody</Text>
+                        <View style={styles.prizesHeaderView}>
+                            <Text style={styles.prizesHeaderText}>Wybierz kategorię</Text>
+                            <DropDownPicker
+                                items={this.createItemsList()}
+                                defaultValue={this.state.name}
+                                containerStyle={{height: 40, width: 100}}
+                                style={{backgroundColor: '#FFFFFF'}}
+                                itemStyle={{
+                                    justifyContent: 'flex-start'
+                                }}
+                                dropDownStyle={{backgroundColor: '#fafafa'}}
+                                onChangeItem={item => this.setState({
+                                    name: item.value
+                                })}
+                                placeholder=""
+                                dropDownMaxHeight={500}
+                            />
+                        </View>
                         <Divider/>
                         <ScrollView style={{width: '100%', height: '100%'}}>
                             {this.createPrizesList()}
@@ -140,7 +172,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: '#000000BF',
+        borderColor: '#AAAAAABF',
         padding: 10,
         alignItems: 'center',
         flex: 1,
@@ -148,6 +180,12 @@ const styles = StyleSheet.create({
     },
     prizesHeaderText: {
         color: '#4E4E4E',
-        fontSize: 20,
+        fontSize: 16,
     },
+    prizesHeaderView: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: '100%'
+    }
 });

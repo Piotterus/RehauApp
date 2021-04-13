@@ -10,16 +10,8 @@ import {
     TouchableOpacity
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
-import HeaderBurger from '../components/allScreen/HeaderBurger';
 import Footer from '../components/allScreen/Footer';
 import HeaderBack from '../components/allScreen/HeaderBack';
-import HeaderPage from '../components/allScreen/HeaderPage';
-import NewsItem from '../components/NewsScreen/NewsItem';
-import PrizeCategoryItem from '../components/PrizesCategoryScreen/PrizeCategoryItem';
-import HeaderImage from '../components/allScreen/HeaderImage';
-import HistoryStrip from '../components/HistoryScreen/HistoryStrip';
-import HistoryCodeItem from '../components/HistoryScreen/HistoryCodeItem';
-import HistoryOrderItem from '../components/HistoryScreen/HistoryOrderItem';
 import ErrorModal from '../components/allScreen/ErrorModal';
 import Activity from '../components/allScreen/Activity';
 import HTML from "react-native-render-html";

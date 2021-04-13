@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     historyListText: {
-
+        fontSize: 12,
     }
 });
 

@@ -61,7 +61,7 @@ export default class PrizesCategoryScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD" + url + " ERROR:" + error
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
                         }
                     }, () => this.setModalErrorVisible(true));
                 });
@@ -86,13 +86,14 @@ export default class PrizesCategoryScreen extends React.Component {
         let prizesCategoryList = [];
         for (let i in this.state.prizes) {
             prizesCategoryList.push(
-                <PrizeCategoryItem navigation={this.props.navigation} key={i} max={this.state.prizes.length} data={this.state.prizes[i]} />,
+                <PrizeCategoryItem navigation={this.props.navigation} key={i} max={this.state.prizes.length} data={this.state.prizes} name={this.state.prizes[i].name} />,
             );
         }
         return prizesCategoryList;
     }
 
     render() {
+        console.log(this.state.prizes)
         return (
             <View style={{flex: 1}}>
                 <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: '#000000BF',
+        borderColor: '#AAAAAABF',
         padding: 10,
         alignItems: 'center',
         flex: 1,
@@ -135,6 +136,6 @@ const styles = StyleSheet.create({
     },
     prizesCategoryHeaderText: {
         color: '#4E4E4E',
-        fontSize: 20,
+        fontSize: 16,
     },
 });

@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
     //width: 0.8 * Dimensions.get("window").width,
   },
   menuItem: {
-    borderWidth: 0.25,
-    borderColor: '#DC0060',
+    borderWidth: 0.2,
+    borderColor: '#DC006067',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -141,16 +141,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   menuImage: {
-    height: '50%',
-    width: '50%',
-    marginBottom: 20,
+    height: '40%',
+    width: '40%',
+    marginBottom: 10,
   },
   menuText: {
     color: '#DC0060',
-    fontSize: 14,
+    fontSize: 11,
   },
   menuSpacer: {
-    borderWidth: 1,
+    borderWidth: 0.8,
     borderColor: '#DC0060',
     width: '30%',
     marginBottom: 10,

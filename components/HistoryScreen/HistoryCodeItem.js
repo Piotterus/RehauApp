@@ -8,7 +8,7 @@ export default class HistoryCodeItem extends React.Component {
             <View style={styles.historyCodeView}>
                 <Text style={[styles.historyListText, {flex: 1}]}>{this.props.data.lp}</Text>
                 <Text style={[styles.historyListText, {flex: 2}]}>{this.props.data.code}</Text>
-                <View style={{justifyContent: 'center', flex: 2,}}>
+                <View style={{justifyContent: 'center', flex: 3,}}>
                     <Text style={[styles.historyListText, {alignSelf: 'flex-end'}]}>{this.props.data.points} PKT</Text>
                 </View>
             </View>
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     historyListText: {
-
+        fontSize: 12,
     }
 });
 

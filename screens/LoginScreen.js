@@ -155,6 +155,7 @@ export default class LoginScreen extends React.Component {
             <Image
               source={require('../images/rsz_1rsz_rehau_logo_new_svg-01.png')}
               style={styles.logo}
+              resizeMode="contain"
             />
           </View>
           <View style={styles.footerView}>
@@ -216,15 +217,15 @@ const styles = StyleSheet.create({
   },
   logo: {
     //height: 100,
-    //width: 0.8 * Dimensions.get("window").width,
+    width: 0.75 * Dimensions.get("window").width,
   },
   headerText: {
     color: '#DC0060',
-    fontSize: 40,
+    fontSize: 30,
   },
   headerText2: {
     color: '#DC0060',
-    fontSize: 20,
+    fontSize: 16,
   },
   loginView: {
     backgroundColor: '#EBEBEB',
@@ -232,6 +233,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingTop: 20,
   },
   textInput: {
     borderBottomColor: '#4E4E4E',
@@ -240,12 +242,13 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width * 0.7,
     height: 40,
     color: '#4E4E4E',
+    fontSize: 14
   },
   loginButton: {
     backgroundColor: '#37A48B',
-    width: '80%',
+    width: '85%',
     alignItems: 'center',
-    height: 50,
+    height: 45,
     justifyContent: 'center',
     borderRadius: 25,
     shadowColor: '#000000', //'#00000080',
