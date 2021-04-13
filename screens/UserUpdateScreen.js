@@ -15,7 +15,10 @@ import {
 import SafeAreaView from 'react-native-safe-area-view';
 import ErrorModal from '../components/allScreen/ErrorModal';
 import Activity from '../components/allScreen/Activity';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { CheckBox } from 'react-native-elements'
+
+Icon.loadFont();
 
 export default class UserUpdateScreen extends React.Component {
 
