@@ -69,7 +69,6 @@ export default class PrizesScreen extends React.Component {
     };
 
     sendNewOrder(code) {
-        console.log("KOD" + code);
         this.setState({
             isLoading: true,
         });
@@ -150,7 +149,6 @@ export default class PrizesScreen extends React.Component {
     }
 
     render() {
-        console.log(this.state.isLoading)
         return (
             <View style={{flex: 1}}>
                 <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
