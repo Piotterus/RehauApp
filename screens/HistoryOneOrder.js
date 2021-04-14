@@ -85,7 +85,7 @@ export default class HistoryOneOrder extends React.Component {
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
-                    <HeaderImage image="History"/>
+                    <HeaderImage image="PrizeCategory"/>
                     <View style={styles.historyCategoryView}>
                         <Text style={styles.historyHeaderText}>{this.state.order.title}</Text>
                         <View style={{borderWidth: 0.25, borderColor: '#DC0060', width: '95%', marginBottom: 15}}/>

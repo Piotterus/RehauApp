@@ -109,7 +109,7 @@ export default class HistoryOrdersScreen extends React.Component {
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
-                    <HeaderImage image="History"/>
+                    <HeaderImage image="PrizeCategory"/>
                     <View style={styles.historyCategoryView}>
                         <Text style={styles.historyHeaderText}>Moja historia</Text>
                         <HistoryStrip text="Moje zamówienia"/>
