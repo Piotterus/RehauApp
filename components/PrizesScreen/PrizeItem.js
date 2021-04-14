@@ -7,8 +7,40 @@ export default class PrizeItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[0].symbol
+            symbol: ''
         }
+    }
+
+    componentDidMount() {
+
+        this.listenerFocus = this.props.navigation.addListener('focus', () => {
+
+                this.setState({
+                    symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[0].symbol,
+                    isLoading: false,
+                })
+
+        });
+        this.listenerBlur = this.props.navigation.addListener('blur', () => {
+            this.setState({
+                symbol: '',
+                isLoading: true,
+            })
+        });
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.data.symbol !== prevProps.data.symbol) {
+            this.setState({
+                symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[0].symbol,
+                isLoading: false,
+            })
+        }
+    }
+
+    componentWillUnmount() {
+        this.listenerFocus();
+        this.listenerBlur();
     }
 
     createItemsList() {

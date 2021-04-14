@@ -62,6 +62,10 @@ export default class PrizesScreen extends React.Component {
     };
 
     sendNewOrder(code) {
+        console.log(code)
+        this.setState({
+            isLoading: true,
+        });
         let body = {
             code: code,
         };
@@ -95,13 +99,22 @@ export default class PrizesScreen extends React.Component {
                     }
                 }, () => this.setModalErrorVisible(true));
             });
+        this.setState({
+            isLoading: false,
+        });
     }
 
     createPrizesList() {
         let prizesList = [];
         for (let i in this.state?.prizes[this.state?.name]?.catalog) {
             prizesList.push(
-                <PrizeItem key={i} max={this.state.prizes[this.state?.name].catalog.length} data={this.state.prizes[this.state?.name].catalog[i]} sendNewOrder={this.sendNewOrder.bind(this)}/>,
+                <PrizeItem
+                    key={i}
+                    max={this.state.prizes[this.state?.name].catalog.length}
+                    data={this.state.prizes[this.state?.name].catalog[i]}
+                    sendNewOrder={this.sendNewOrder.bind(this)}
+                    navigation={this.props.navigation}
+                />,
             );
         }
         return prizesList;
@@ -184,6 +197,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         width: '100%',
-        zIndex: 1
+
     }
 });

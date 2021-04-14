@@ -1,4 +1,4 @@
-package com.rehauapp;
+package pl.com.verbum.rehau.instalujkorzysci;
 
 import android.app.Application;
 import android.content.Context;

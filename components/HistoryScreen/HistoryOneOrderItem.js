@@ -7,8 +7,8 @@ export default class HistoryOneOrderItem extends React.Component {
         return(
             <View style={styles.historyCodeView}>
                 <Text style={[styles.historyListText, {flex: 1}]}>{this.props.lp}</Text>
-                <Text style={[styles.historyListText, {flex: 3}]}>{this.props.data.name}</Text>
-                <Text style={[styles.historyListText, {flex: 3}]}>{this.props.data.quantity}</Text>
+                <Text style={[styles.historyListText, {flex: 6}]}>{this.props.data.name}</Text>
+                <Text style={[styles.historyListText, {flex: 2}]}>{this.props.data.quantity}</Text>
                 <Text style={[styles.historyListText, {flex: 2}]}>{this.props.data.pricepoints}</Text>
             </View>
         )

@@ -1,4 +1,4 @@
-package com.rehauapp;
+package pl.com.verbum.rehau.instalujkorzysci;
 
 import com.facebook.react.ReactActivity;
 
