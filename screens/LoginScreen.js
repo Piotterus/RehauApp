@@ -45,13 +45,6 @@ export default class LoginScreen extends React.Component {
       isLoading: true,
     });
 
-    if (login === "") {
-        login = "test"//"rehau11157"
-    }
-    if (password === "") {
-        password = "test"//"p6TKm3"
-    }
-
     const queryString = this.objToQueryString({
       key: this.props.keyApp,
     });
