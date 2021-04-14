@@ -136,6 +136,13 @@
 			name = RehauApp;
 			sourceTree = "<group>";
 		};
+		1BAED92356324507B7DD53C4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,14 +205,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		1BAED92356324507B7DD53C4 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -218,6 +217,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				B7B8EB57EF7557964E240DF5 /* [CP] Copy Pods Resources */,
+				5FE78D128CE22B6CB18DCCFA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -240,6 +240,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				FD72FE9C737F6F1D61C743C6 /* [CP] Copy Pods Resources */,
+				8720E04692F6D05629E4CAFB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -488,6 +489,42 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
+		5FE78D128CE22B6CB18DCCFA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RehauApp-RehauAppTests/Pods-RehauApp-RehauAppTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RehauApp-RehauAppTests/Pods-RehauApp-RehauAppTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8720E04692F6D05629E4CAFB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RehauApp/Pods-RehauApp-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RehauApp/Pods-RehauApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B7B8EB57EF7557964E240DF5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -730,12 +767,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mariusz Smorawski (9P45J8KUTK)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = RehauApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -759,11 +796,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: MPL Verbum SA (2844JZY274)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				INFOPLIST_FILE = RehauApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
