@@ -9,6 +9,7 @@ import {
     ScrollView,
     TouchableOpacity,
     Linking,
+    TouchableWithoutFeedback
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import HeaderBurger from '../components/allScreen/HeaderBurger';
@@ -40,8 +41,10 @@ export default class ContactScreen extends React.Component {
                                 <Text style={styles.contactItemText}>MPL Verbum SA</Text>
                                 <Text style={styles.contactItemText}>ul. Szelągowska 45 A</Text>
                                 <Text style={styles.contactItemText}>61-626 Poznań</Text>
-                                <Text style={styles.contactItemText}>Infolinia: 61 8250 785 (wew. 10)</Text>
-                                <Text style={styles.contactItemText}>email: info@instalujkorzysci.pl</Text>
+                                <TouchableWithoutFeedback onPress={() => Linking.openURL('tel:618250785') }
+                                                          title="info@instalujkorzysci.pl" ><Text style={styles.contactItemText}>Infolinia: 61 8250 785</Text></TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback onPress={() => Linking.openURL('mailto:info@instalujkorzysci.pl?subject=Instaluj Korzyści') }
+                                                          title="info@instalujkorzysci.pl" ><Text style={styles.contactItemText}>email: info@instalujkorzysci.pl</Text></TouchableWithoutFeedback>
                             </View>
                             <View style={{marginTop: 50}}>
                                 <Text style={styles.contactHeaderItemText}>REHAU Sp. z o.o.</Text>

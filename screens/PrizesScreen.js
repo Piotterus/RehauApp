@@ -18,6 +18,7 @@ import ErrorModal from '../components/allScreen/ErrorModal';
 import Activity from '../components/allScreen/Activity';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
+import MessageModal from '../components/allScreen/MessageModal';
 
 export default class PrizesScreen extends React.Component {
     constructor(props) {
@@ -25,7 +26,9 @@ export default class PrizesScreen extends React.Component {
         this.state = {
             error: '',
             modalErrorVisible: false,
-            loading: true,
+            modalMessageVisible: false,
+            modalMessage: '',
+            isLoading: true,
             prizes: '',
             name: '',
             country: 'uk',
@@ -61,14 +64,28 @@ export default class PrizesScreen extends React.Component {
         this.setState({ modalErrorVisible: visible });
     };
 
+    setModalMessageVisible = (visible) => {
+        this.setState({ modalMessageVisible: visible });
+    };
+
     sendNewOrder(code) {
-        console.log(code)
+        console.log("KOD" + code);
         this.setState({
             isLoading: true,
         });
         let body = {
             code: code,
         };
+        if (code === "") {
+            this.setState({
+                isLoading: false,
+                error: {
+                    code: "BŁĄD",
+                    message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
+                }
+            }, () => this.setModalErrorVisible(true));
+            return;
+        }
         let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/order`;
 
         fetch(url, {
@@ -80,14 +97,15 @@ export default class PrizesScreen extends React.Component {
         })
             .then(response => response.json())
             .then(responseJson => {
+                console.log(responseJson);
                 if (responseJson.orderedProducts.error.code === 0) {
                     this.setState({
-                        error: responseJson.orderedProducts.error
-                    }, () => this.setModalErrorVisible(true))
+                        modalMessage: responseJson.orderedProducts.error
+                    }, () => this.setModalMessageVisible(true))
                 } else {
                     this.setState({
-                        error: responseJson.orderedProducts.error
-                    }, () => this.setModalErrorVisible(true))
+                        modalMessage: responseJson.orderedProducts.error
+                    }, () => this.setModalMessageVisible(true))
                 }
             })
             .catch((error) => {
@@ -132,9 +150,11 @@ export default class PrizesScreen extends React.Component {
     }
 
     render() {
+        console.log(this.state.isLoading)
         return (
             <View style={{flex: 1}}>
                 <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
+                <MessageModal visible={this.state.modalMessageVisible} message={this.state.modalMessage} setModalMessageVisible={this.setModalMessageVisible.bind(this)}/>
                 <SafeAreaView
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
