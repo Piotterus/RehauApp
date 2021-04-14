@@ -146,7 +146,7 @@ export default class PrizesScreen extends React.Component {
                             />
                         </View>
                         <Divider/>
-                        <ScrollView style={{width: '100%', height: '100%'}}>
+                        <ScrollView style={{width: '100%', height: '100%', zIndex: -1}}>
                             {this.createPrizesList()}
                         </ScrollView>
                     </View>
@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        zIndex: 1
     }
 });
