@@ -29,8 +29,9 @@ export default class HistoryScreen extends React.Component {
         this.state = {
             error: '',
             modalErrorVisible: false,
-            loading: true,
+            isLoading: true,
             orders: '',
+            points: '',
         }
     }
 
@@ -38,9 +39,44 @@ export default class HistoryScreen extends React.Component {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
+            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/points`;
 
-            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/history/orders`;
-            url = `https://api.verbum.com.pl/${this.props.appId}/73c51449b66acd58b3acc7f41fdc7d9f/history/orders`;
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': "application/json",
+                },
+            })
+                .then(response => response.json())
+                .then(responseJson => {
+                    if (responseJson.error.code === 0) {
+                        if (responseJson.history !== undefined) {
+                            this.setState({
+                                points: responseJson?.history,
+                            }, () => this.setState({isLoading: false}))
+                        } else {
+                            this.setState({
+                                points: '',
+                            }, () => this.setState({isLoading: false}))
+                        }
+                    } else {
+                        this.setState({
+                            isLoading: false,
+                            error: responseJson.error
+                        }, () => this.setModalErrorVisible(true))
+                    }
+                })
+                .catch((error) => {
+                    this.setState({
+                        isLoading: false,
+                        error: {
+                            code: "BŁĄD",
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
+                        }
+                    }, () => this.setModalErrorVisible(true));
+                });
+
+            url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/history/orders`;
 
             fetch(url, {
                 method: 'GET',
@@ -94,38 +130,11 @@ export default class HistoryScreen extends React.Component {
     };
 
     createHistoryCodeList() {
-        let historyCodeData = [
-            {
-                lp: '1',
-                code: '123456',
-                points: '1',
-            },
-            {
-                lp: '2',
-                code: '123456',
-                points: '1',
-            },
-            {
-                lp: '3',
-                code: '123456',
-                points: '1',
-            },
-            {
-                lp: '4',
-                code: '123456',
-                points: '1',
-            },
-            {
-                lp: '5',
-                code: '123456',
-                points: '1',
-            },
-        ];
         let historyCodeList = [];
-        for (let i in historyCodeData) {
+        for (let i in this.state.points) {
             if (i < 3) {
                 historyCodeList.push(
-                    <HistoryCodeItem key={2*i} max={historyCodeData.length} data={historyCodeData[i]}/>,
+                    <HistoryCodeItem key={2*i} max={this.state.points.length} lp={i} data={this.state.points[i]}/>,
                 );
                 historyCodeList.push(
                     <View key={2*i+1} style={{borderWidth: 0.5, borderColor: '#4E4E4E', width: '100%'}}/>,
@@ -140,7 +149,7 @@ export default class HistoryScreen extends React.Component {
         for (let i in this.state.orders) {
             if (i < 3) {
                 historyOrdersList.push(
-                    <HistoryOrderItem key={2*i} max={this.state.orders.length} lp={i} data={this.state.orders[i]}/>,
+                    <HistoryOrderItem key={2*i} max={this.state.orders.length} lp={i} data={this.state.orders[i]} navigation={this.props.navigation}/>,
                 );
                 historyOrdersList.push(
                     <View key={2*i+1} style={{borderWidth: 0.5, borderColor: '#4E4E4E', width: '100%'}}/>,
@@ -174,7 +183,7 @@ export default class HistoryScreen extends React.Component {
                             <View style={{borderWidth: 1, borderColor: '#4E4E4E', width: '100%'}}/>
                             {this.createHistoryCodeList()}
                         </View>
-                        <TouchableOpacity style={styles.historyButton}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("HistoryPoints")} style={styles.historyButton}>
                             <Text style={styles.historyButtonText}>WIĘCEJ</Text>
                         </TouchableOpacity>
                         <HistoryStrip text="Moje zamówienia"/>
@@ -188,7 +197,7 @@ export default class HistoryScreen extends React.Component {
                             <View style={{borderWidth: 1, borderColor: '#4E4E4E', width: '100%'}}/>
                             {this.createHistoryOrdersList()}
                         </View>
-                        <TouchableOpacity style={styles.historyButton}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("HistoryOrders")} style={styles.historyButton}>
                             <Text style={styles.historyButtonText}>WIĘCEJ</Text>
                         </TouchableOpacity>
                     </View>

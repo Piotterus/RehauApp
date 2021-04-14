@@ -12,10 +12,6 @@ import SafeAreaView from 'react-native-safe-area-view';
 import HeaderBurger from '../components/allScreen/HeaderBurger';
 import Footer from '../components/allScreen/Footer';
 import HeaderBack from '../components/allScreen/HeaderBack';
-import HeaderPage from '../components/allScreen/HeaderPage';
-import NewsItem from '../components/NewsScreen/NewsItem';
-import PrizeCategoryItem from '../components/PrizesCategoryScreen/PrizeCategoryItem';
-import HeaderImage from '../components/allScreen/HeaderImage';
 import Divider from '../components/allScreen/Divider';
 import PrizeItem from '../components/PrizesScreen/PrizeItem';
 import ErrorModal from '../components/allScreen/ErrorModal';
@@ -66,7 +62,6 @@ export default class PrizesScreen extends React.Component {
     };
 
     sendNewOrder(code) {
-        console.log(code);
         let body = {
             code: code,
         };
@@ -82,7 +77,9 @@ export default class PrizesScreen extends React.Component {
             .then(response => response.json())
             .then(responseJson => {
                 if (responseJson.orderedProducts.error.code === 0) {
-
+                    this.setState({
+                        error: responseJson.orderedProducts.error
+                    }, () => this.setModalErrorVisible(true))
                 } else {
                     this.setState({
                         error: responseJson.orderedProducts.error
@@ -136,11 +133,11 @@ export default class PrizesScreen extends React.Component {
                                 items={this.createItemsList()}
                                 defaultValue={this.state.name}
                                 containerStyle={{height: 40, width: 100}}
-                                style={{backgroundColor: '#FFFFFF'}}
+                                style={{backgroundColor: '#FFFFFF', zIndex: 1}}
                                 itemStyle={{
                                     justifyContent: 'flex-start'
                                 }}
-                                dropDownStyle={{backgroundColor: '#fafafa'}}
+                                dropDownStyle={{backgroundColor: '#fafafa', zIndex: 1}}
                                 onChangeItem={item => this.setState({
                                     name: item.value
                                 })}

@@ -105,7 +105,7 @@ export default class LoginScreen extends React.Component {
     });
 
     let url = `https://api.verbum.com.pl/${this.props.appId}/${token}`;
-    console.log("fetch");
+
     fetch(url, {
       method: 'GET',
       headers: {
@@ -114,7 +114,6 @@ export default class LoginScreen extends React.Component {
     })
         .then(response => response.json())
         .then(async responseJson => {
-          console.log(responseJson);
           if (responseJson.error.code === 0) {
             if (responseJson.user?.datemodify == null) {
               this.props.login(token, fullname, true);

@@ -69,7 +69,7 @@ export default class RegisteredCodeScreen extends React.Component {
         if (this.state.isLoading) {
             return null
         }
-        if (this.state.data.error.code === 0) {
+        if (this.state.data.data.code === 0) {
             return <Image
                 source={require('../icons/registered_code.png')}
                 style={styles.registeredCodeImage}
@@ -88,7 +88,7 @@ export default class RegisteredCodeScreen extends React.Component {
         if (this.state.isLoading) {
             return <Text style={styles.registeredCodeGreetingsHeaderText}/>
         }
-        if (this.state.data.error.code === 0) {
+        if (this.state.data.data.code === 0) {
             return <Text style={styles.registeredCodeGreetingsHeaderText}>Gratulacje</Text>
         } else {
             return <Text style={styles.registeredCodeGreetingsHeaderTextWrong}>Skontaktuj się z infolinią Programu 61 8250 785</Text>
@@ -99,7 +99,7 @@ export default class RegisteredCodeScreen extends React.Component {
         if (this.state.isLoading) {
             return <Text style={styles.registeredCodeGreetingsText}/>
         }
-        if (this.state.data.error.code === 0) {
+        if (this.state.data.data.code === 0) {
             return <Text style={styles.registeredCodeGreetingsText}>Kod numer <Text style={{fontWeight: 'bold'}}>{this.state.data.coupon.code}</Text> został zaakceptowany!</Text>
         } else {
             return <Text style={styles.registeredCodeGreetingsText}>Kod został odrzucony!</Text>

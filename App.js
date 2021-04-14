@@ -23,6 +23,9 @@ import RegisterCodeScreen from './screens/RegisterCodeScreen';
 import RegisteredCodeScreen from './screens/RegisteredCodeScreen';
 import StatuteScreen from './screens/StatuteScreen';
 import UserUpdateScreen from './screens/UserUpdateScreen';
+import HistoryPointsScreen from './screens/HistoryPointsScreen';
+import HistoryOrdersScreen from './screens/HistoryOrdersScreen';
+import HistoryOneOrder from './screens/HistoryOneOrder';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -238,6 +241,27 @@ export default class App extends  React.Component {
                     </Drawer.Screen>
                     <Drawer.Screen name="Statute">
                       {props => <StatuteScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="HistoryPoints">
+                      {props => <HistoryPointsScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="HistoryOrders">
+                      {props => <HistoryOrdersScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="HistoryOneOrder">
+                      {props => <HistoryOneOrder
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
