@@ -107,7 +107,6 @@ export default class RegisteredCodeScreen extends React.Component {
     }
 
     render() {
-        console.log(this.state.isLoading);
         return (
             <View style={{flex: 1}}>
                 <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>

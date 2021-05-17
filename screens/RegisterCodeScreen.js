@@ -27,6 +27,7 @@ export default class RegisterCodeScreen extends Component {
             torchOn: false,
             barCode: '',
         }
+        this.isBarCodeRead = false;
     }
 
     componentDidMount() {
@@ -35,6 +36,7 @@ export default class RegisterCodeScreen extends Component {
             this.setState({
                 barCode: '',
             })
+            this.isBarCodeRead = false;
 
         });
         this.listenerBlur = this.props.navigation.addListener('blur', () => {
@@ -50,8 +52,10 @@ export default class RegisterCodeScreen extends Component {
     }
 
     onBarCodeRead = (e) => {
-        if (this.state.barCode === '') {
+        if (this.state.barCode === '' && !this.isBarCodeRead) {
             //Alert.alert("Barcode value is" + e.data, "Barcode type is" + e.type);
+            console.log(e);
+            this.isBarCodeRead = true;
             this.setState({
                 barCode: e.data,
             }, () => this.sendNewCode(this.state.barCode))
@@ -81,7 +85,6 @@ export default class RegisterCodeScreen extends Component {
         })
             .then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson);
                 if (responseJson.regItem.error.code === 0) {
                     this.props.navigation.navigate('RegisteredCode', {
                         data: responseJson.regItem
@@ -108,7 +111,6 @@ export default class RegisterCodeScreen extends Component {
     };
 
     render() {
-        console.log(this.state.barCode);
         return (
             <View style={{flex: 1}}>
                 <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
