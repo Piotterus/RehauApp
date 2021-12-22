@@ -20,8 +20,8 @@ export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      login: '',
-      password: '',
+      login: 'test',
+      password: 'test',
       isFocusedName: false,
       isFocusedAge: false,
       error: '',
@@ -90,6 +90,10 @@ export default class LoginScreen extends React.Component {
     this.setState({
       isLoading: true,
     });
+  }
+
+  register() {
+
   }
 
   checkIfForceUpdate(token, fullname) {
@@ -187,8 +191,17 @@ export default class LoginScreen extends React.Component {
                     autoCapitalize="none"
                   />
                 </View>
+                <View style={styles.remindView}>
+                  <Text style={styles.remindText}>Przypomnij hasło</Text>
+                </View>
                 <TouchableOpacity onPress={() => this.login(this.state.login, this.state.password)} style={styles.loginButton}>
                   <Text style={styles.loginText}>Zaloguj się</Text>
+                </TouchableOpacity>
+                <View style={styles.noAccountView}>
+                  <Text style={styles.noAccountText}>Nie masz konta?</Text>
+                </View>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')} style={styles.registerButton}>
+                  <Text style={styles.registerText}>Zarejestruj się</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -308,6 +321,38 @@ const styles = StyleSheet.create({
   loginText: {
     color: '#EBEBEB',
     fontSize: 20,
+    fontWeight: 'bold',
+  },
+  registerButton: {
+    backgroundColor: '#EBEBEB',
+    width: '85%',
+    alignItems: 'center',
+    height: 45,
+    justifyContent: 'center',
+    borderRadius: 25,
+    marginBottom: 20,
+    borderColor: '#37A48B',
+    borderWidth: 1,
+  },
+  registerText: {
+    color: '#4E4E4E',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  remindView : {
+    width: Dimensions.get('window').width * 0.7,
+  },
+  remindText: {
+    textDecorationLine: 'underline',
+    color: '#4E4E4E',
+    fontSize: 12,
+  },
+  noAccountView: {
+    width: Dimensions.get('window').width * 0.7,
+  },
+  noAccountText: {
+    color: '#4E4E4E',
+    fontSize: 16,
     fontWeight: 'bold',
   },
 });

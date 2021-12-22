@@ -26,6 +26,7 @@ import UserUpdateScreen from './screens/UserUpdateScreen';
 import HistoryPointsScreen from './screens/HistoryPointsScreen';
 import HistoryOrdersScreen from './screens/HistoryOrdersScreen';
 import HistoryOneOrder from './screens/HistoryOneOrder';
+import RegisterScreen from './screens/RegisterScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -291,6 +292,20 @@ export default class App extends  React.Component {
                           login={this.login.bind(this)}
                           appId={this.state.appId}
                           rememberMe={this.rememberMe.bind(this)}
+                      />}
+                    </Stack.Screen>
+                    <Stack.Screen name="Register"
+                                options={{
+                                    title: 'Register',
+                                    headerStyle: {
+                                        backgroundColor: 'transparent',
+                                    },
+                                    gestureEnabled: false,
+                                }}
+                    >
+                      {props => <RegisterScreen
+                          {...props}
+                          appId={this.state.appId}
                       />}
                     </Stack.Screen>
                   </>
