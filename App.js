@@ -27,6 +27,12 @@ import HistoryPointsScreen from './screens/HistoryPointsScreen';
 import HistoryOrdersScreen from './screens/HistoryOrdersScreen';
 import HistoryOneOrder from './screens/HistoryOneOrder';
 import RegisterScreen from './screens/RegisterScreen';
+import BonusPromoMenuScreen from './screens/BonusPromoMenuScreen';
+import BonusPromoAboutScreen from './screens/BonusPromoAboutScreen';
+import BonusPromoPrizesScreen from './screens/BonusPromoPrizesScreen';
+import BonusPromoPremieScreen from './screens/BonusPromoPremieScreen';
+import BonusPromoMyFVScreen from './screens/BonusPromoMyFVScreen';
+import BonusPromoProductsScreen from './screens/BonusPromoProductsScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -263,6 +269,48 @@ export default class App extends  React.Component {
                     </Drawer.Screen>
                     <Drawer.Screen name="HistoryOneOrder">
                       {props => <HistoryOneOrder
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="BonusPromoMenu">
+                      {props => <BonusPromoMenuScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="BonusPromoAbout">
+                      {props => <BonusPromoAboutScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="BonusPromoPrizes">
+                      {props => <BonusPromoPrizesScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="BonusPromoPremie">
+                      {props => <BonusPromoPremieScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="BonusPromoMyFV">
+                      {props => <BonusPromoMyFVScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="BonusPromoProducts">
+                      {props => <BonusPromoProductsScreen
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}

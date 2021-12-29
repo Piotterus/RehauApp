@@ -50,14 +50,14 @@ export default class HomeScreen extends React.Component {
               </TouchableOpacity>
             </View>
             <View style={styles.menuRow}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('History')} style={styles.menuItem}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('PrizesCategory')} style={styles.menuItem}>
                 <Image
-                  source={require('../icons/time_icon.png')}
-                  style={styles.menuImage}
-                  resizeMode="contain"
+                    source={require('../icons/present_icon.png')}
+                    style={styles.menuImage}
+                    resizeMode="contain"
                 />
                 <View style={styles.menuSpacer} />
-                <Text style={styles.menuText}>MOJA HISTORIA</Text>
+                <Text style={styles.menuText}>NAGRODY</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('News')} style={styles.menuItem}>
                 <Image
@@ -70,14 +70,20 @@ export default class HomeScreen extends React.Component {
               </TouchableOpacity>
             </View>
             <View style={styles.menuRow}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('PrizesCategory')} style={styles.menuItem}>
-                <Image
-                  source={require('../icons/present_icon.png')}
-                  style={styles.menuImage}
-                  resizeMode="contain"
-                />
-                <View style={styles.menuSpacer} />
-                <Text style={styles.menuText}>NAGRODY</Text>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('BonusPromoMenu')} style={styles.menuItem}>
+                <ImageBackground
+                    source={require('../images/wlaczBonusMenuTlo.png')}
+                    resizeMode="cover"
+                    style={styles.imageBonusTlo}
+                >
+                  <Image
+                    source={require('../icons/guzik-on.png')}
+                    style={styles.menuImage}
+                    resizeMode="contain"
+                  />
+                  <View style={styles.menuSpacer} />
+                  <Text style={styles.menuText}>WŁĄCZ SOBIE BONUS</Text>
+                </ImageBackground>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('Contact')} style={styles.menuItem}>
                 <Image
@@ -101,6 +107,12 @@ const styles = StyleSheet.create({
   imageBackground: {
     width: Dimensions.get('window').width, //for full screen
     height: '100%',
+  },
+  imageBonusTlo: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerView: {
     position: 'absolute',
