@@ -1,5 +1,6 @@
 import React from 'react'
 import {Image, StyleSheet, View, TouchableOpacity, Dimensions, Text, TextInput} from 'react-native';
+import Icons from '../../icons/icons';
 
 export default class BonusPromoMenu extends React.Component {
 
@@ -8,14 +9,14 @@ export default class BonusPromoMenu extends React.Component {
             return (
                 <TouchableOpacity onPress={() => this.props.navigation.navigate(this.props.navigateTo)} style={[styles.menuItem, styles.menuItemRed]}>
                     <Text style={[styles.menuText, styles.menuTextWhite]}>{this.props.text}</Text>
-                    {/*<Image source={}/>*/}
+                    <Image source={Icons.arrowWhite} style={styles.iconImage}/>
                 </TouchableOpacity>
             )
         } else {
             return (
                 <TouchableOpacity onPress={() => this.props.navigation.navigate(this.props.navigateTo)} style={[styles.menuItem, styles.menuItemWhite]}>
                     <Text style={[styles.menuText, styles.menuTextRed]}>{this.props.text}</Text>
-                    {/*<Image source={}/>*/}
+                    <Image source={Icons.arrowRed} style={styles.iconImage}/>
                 </TouchableOpacity>
             )
         }
@@ -26,7 +27,9 @@ const styles = StyleSheet.create({
     menuItem: {
         width: '95%',
         height: 40,
-        justifyContent: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         paddingLeft: 10,
         paddingRight: 10,
         borderRadius: 5,
@@ -40,6 +43,7 @@ const styles = StyleSheet.create({
 
         elevation: 5,
         marginBottom: 20,
+
     },
     menuItemRed: {
         backgroundColor: '#DC0060',
@@ -59,6 +63,10 @@ const styles = StyleSheet.create({
     },
     menuTextRed: {
         color: '#DC0060'
+    },
+    iconImage: {
+        height: 25,
+        width: 25,
     }
 });
 

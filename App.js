@@ -33,6 +33,9 @@ import BonusPromoPrizesScreen from './screens/BonusPromoPrizesScreen';
 import BonusPromoPremieScreen from './screens/BonusPromoPremieScreen';
 import BonusPromoMyFVScreen from './screens/BonusPromoMyFVScreen';
 import BonusPromoProductsScreen from './screens/BonusPromoProductsScreen';
+import BonusPromoOneProductScreen from './screens/BonusPromoOneProductScreen';
+import BonusPromoRegisterFVScreen from './screens/BonusPromoRegisterFVScreen';
+import BonusPromoRegisteredFVScreen from './screens/BonusPromoRegisteredFVScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -311,6 +314,27 @@ export default class App extends  React.Component {
                     </Drawer.Screen>
                     <Drawer.Screen name="BonusPromoProducts">
                       {props => <BonusPromoProductsScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="BonusPromoOneProduct">
+                      {props => <BonusPromoOneProductScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="BonusPromoRegisterFV">
+                      {props => <BonusPromoRegisterFVScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="BonusPromoRegisteredFV">
+                      {props => <BonusPromoRegisteredFVScreen
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}

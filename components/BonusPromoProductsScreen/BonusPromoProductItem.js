@@ -1,5 +1,14 @@
 import React from 'react'
-import {Image, StyleSheet, View, TouchableOpacity, ImageBackground, Text} from 'react-native';
+import {
+    Image,
+    StyleSheet,
+    View,
+    TouchableOpacity,
+    ImageBackground,
+    Text,
+    TouchableHighlight,
+    TouchableWithoutFeedback,
+} from 'react-native';
 import Images from '../../images/images';
 
 export default class BonusPromoProductItem extends React.Component {
@@ -24,7 +33,7 @@ export default class BonusPromoProductItem extends React.Component {
                 <View style={styles.textView}>
                     <Text style={styles.headerText}>{headerText}</Text>
                     <Text style={styles.textText}>{text}</Text>
-                    <Text style={styles.moreText}>Więcej {'>'}</Text>
+                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('BonusPromoOneProduct')}><Text style={styles.moreText}>Więcej {'>'}</Text></TouchableWithoutFeedback>
                 </View>
             </View>
         )

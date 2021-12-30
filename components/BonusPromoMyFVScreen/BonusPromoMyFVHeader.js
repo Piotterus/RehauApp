@@ -12,8 +12,12 @@ export default class BonusPromoMyFVHeader extends React.Component {
                     <Text style={[styles.textSmall, styles.textBold]}>Numer FV</Text>
                     <Text style={styles.textSmall}>Data dodania</Text>
                 </View>
-                <Text style={[styles.textView, styles.textSmall]}>Plik</Text>
-                <Text style={[styles.textView, styles.textSmall]}>Status</Text>
+                <View style={styles.textView}>
+                    <Text style={[styles.textSmall]}>Plik</Text>
+                </View>
+                <View style={styles.textView}>
+                    <Text style={[styles.textSmall]}>Status</Text>
+                </View>
             </View>
         )
     }
@@ -34,6 +38,7 @@ const styles = StyleSheet.create({
     },
     textView: {
         flex: 1,
+        alignItems: 'center'
     },
     textSmall: {
         fontSize: 12,

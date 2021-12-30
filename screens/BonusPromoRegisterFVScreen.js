@@ -16,7 +16,7 @@ import HeaderPage from '../components/allScreen/HeaderPage';
 import Footer from '../components/allScreen/Footer';
 import Activity from '../components/allScreen/Activity';
 
-export default class RegisterCodeScreen extends Component {
+export default class BonusPromoRegisterFVScreen extends Component {
     constructor(props) {
         super(props);
         this.handleTorch = this.handleTorch.bind(this);
@@ -25,24 +25,16 @@ export default class RegisterCodeScreen extends Component {
             modalErrorVisible: false,
             isLoading: false,
             torchOn: false,
-            barCode: '',
-        }
-        this.isBarCodeRead = false;
+        };
     }
 
     componentDidMount() {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
-            this.setState({
-                barCode: '',
-            })
-            this.isBarCodeRead = false;
 
         });
         this.listenerBlur = this.props.navigation.addListener('blur', () => {
-            this.setState({
-                barCode: '',
-            })
+
         });
     }
 
@@ -50,17 +42,6 @@ export default class RegisterCodeScreen extends Component {
         this.listenerFocus();
         this.listenerBlur();
     }
-
-    onBarCodeRead = (e) => {
-        if (this.state.barCode === '' && !this.isBarCodeRead) {
-            //Alert.alert("Barcode value is" + e.data, "Barcode type is" + e.type);
-            console.log(e);
-            this.isBarCodeRead = true;
-            this.setState({
-                barCode: e.data,
-            }, () => this.sendNewCode(this.state.barCode))
-        }
-    };
 
     handleTorch(value) {
         if (value === true) {
@@ -110,6 +91,22 @@ export default class RegisterCodeScreen extends Component {
         this.setState({ modalErrorVisible: visible });
     };
 
+    takePicture = async () => {
+        if (this.camera) {
+            const options = { quality: 1, base64: true };
+            const data = await this.camera.takePictureAsync(options);
+            console.log(data.uri);
+            this.sendImage(data)
+
+        }
+    };
+
+    sendImage(data) {
+        console.log("sended");
+        console.log(data.uri);
+        this.props.navigation.navigate('BonusPromoRegisteredFV')
+    }
+
     render() {
         return (
             <View style={{flex: 1}}>
@@ -123,7 +120,6 @@ export default class RegisterCodeScreen extends Component {
                         <RNCamera
                             style={styles.preview}
                             flashMode={this.state.torchOn ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
-                            onBarCodeRead={this.onBarCodeRead}
                             ref={cam => this.camera = cam}
                             captureAudio={false}
                             /*aspect={RNCamera.Constants.Aspect.fill}*/
@@ -133,6 +129,13 @@ export default class RegisterCodeScreen extends Component {
                             <TouchableOpacity onPress={() => this.handleTorch(this.state.torchOn)}>
                                 <Image style={styles.cameraIcon} source={require('../icons/add.png')} />
                                 {/*<Image style={{height: 30, width: 30}} source={require('../icons/X-icon.png')}/>*/}
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{position: 'absolute', left: 0, right: 0, bottom: 40, alignItems: 'center'}}>
+                            <TouchableOpacity onPress={this.takePicture.bind(this)} >
+                                <View style={styles.whiteCircle}>
+                                    <View style={styles.redCircle}/>
+                                </View>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -161,11 +164,41 @@ const styles = StyleSheet.create({
         margin: 5,
         height: 40,
         width: 40
-    }, bottomOverlay: {
+    },
+    bottomOverlay: {
         position: "absolute",
         width: "100%",
         flex: 20,
         flexDirection: "row",
         justifyContent: "space-between"
     },
+    capture: {
+        flex: 0,
+        backgroundColor: '#fff',
+        borderRadius: 5,
+        padding: 15,
+        paddingHorizontal: 20,
+        alignSelf: 'center',
+        margin: 20,
+    },
+    whiteCircle: {
+        backgroundColor: '#FFFFFF25',
+        height: 66,
+        width: 66,
+        borderRadius: 33,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    redCircle: {
+        backgroundColor: '#D50000',
+        height: 54,
+        width: 54,
+        borderRadius: 27,
+
+    },
+    snapButtonView: {
+        position: "absolute",
+        bottom: 40,
+
+    }
 });

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Image, StyleSheet, View, TouchableOpacity, ImageBackground, Text} from 'react-native';
-import Images from '../../images/images';
+import Icons from '../../icons/icons';
 
 export default class BonusPromoMyFVItem extends React.Component {
 
@@ -12,8 +12,12 @@ export default class BonusPromoMyFVItem extends React.Component {
                     <Text style={styles.fvTitleText}>FV 123/456/2022</Text>
                     <Text style={styles.fvDateText}>RRRR-MM-DD GG:MM:SS</Text>
                 </View>
-                <Text style={styles.fvImage}>Plik</Text>
-                <Text style={styles.fvImage}>Status</Text>
+                <View style={styles.fvImageView}>
+                    <Image source={Icons.fv.plik} style={styles.fvImage} resizeMode="contain"/>
+                </View>
+                <View style={styles.fvImageView}>
+                    <Image source={Icons.fv.zaakceptowana} style={styles.fvImage} resizeMode="contain"/>
+                </View>
             </View>
         )
     }
@@ -31,8 +35,14 @@ const styles = StyleSheet.create({
     FVDataView: {
         flex: 4,
     },
-    fvImage: {
+    fvImageView: {
         flex: 1,
+        alignItems: 'center'
+    },
+    fvImage: {
+        height: 25,
+        width: 25,
+
     },
     fvTitleText: {
         color: '#4E4E4E',

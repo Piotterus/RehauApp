@@ -36,8 +36,8 @@ export default class BonusPromoProductsScreen extends React.Component {
                         <Text style={styles.contactHeaderText}>O produktach</Text>
                         <Divider/>
                         <ScrollView contentContainerStyle={{alignItems: 'flex-start'}} style={{width: '100%', height: '100%'}}>
-                            <BonusPromoProductItem product="ReGuard"/>
-                            <BonusPromoProductItem product="ReFine"/>
+                            <BonusPromoProductItem product="ReGuard" navigation={this.props.navigation}/>
+                            <BonusPromoProductItem product="ReFine" navigation={this.props.navigation}/>
                         </ScrollView>
                     </View>
                     <Footer />
