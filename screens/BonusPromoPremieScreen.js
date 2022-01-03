@@ -21,10 +21,69 @@ import Divider from '../components/allScreen/Divider';
 import BonusPromoMenu from '../components/BonusPromoMenuScreen/BonusPromoMenu';
 import BonusPromoPremieButtons from '../components/BonusPromoPremieScreen/BonusPromoPremieButtons';
 import BonusPromoPremieText from '../components/BonusPromoPremieScreen/BonusPromoPremieText';
+import Activity from '../components/allScreen/Activity';
 
 export default class BonusPromoPremieScreen extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            error: '',
+            modalErrorVisible: false,
+            pointsActive: '',
+            pointsUsed: '',
+            pointsForUse: '',
+            isLoading: true,
+        }
+    }
+
+    componentDidMount() {
+
+        this.listenerFocus = this.props.navigation.addListener('focus', () => {
+
+            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/points`;
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': "application/json",
+                },
+            })
+                .then(response => response.json())
+                .then(responseJson => {
+                    console.log(responseJson);
+                    if (responseJson.error.code === 0) {
+                        this.setState({
+                            pointsActive: responseJson.promotion.points.accept,
+                            pointsUsed: responseJson.promotion.points.used,
+                            pointsForUse: responseJson.promotion.points.foruse,
+                        }, () => this.setState({isLoading: false}))
+                    } else {
+                        this.setState({
+                            isLoading: false,
+                            error: responseJson.error
+                        }, () => this.setModalErrorVisible(true))
+                    }
+                })
+                .catch((error) => {
+                    this.setState({
+                        isLoading: false,
+                        error: {
+                            code: "BŁĄD",
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
+                        }
+                    }, () => this.setModalErrorVisible(true));
+                });
+        });
+        this.listenerBlur = this.props.navigation.addListener('blur', () => {
+            this.setState({
+                isLoading: true,
+            })
+        });
+    }
+
+    componentWillUnmount() {
+        this.listenerFocus();
+        this.listenerBlur();
     }
 
     render() {
@@ -40,12 +99,15 @@ export default class BonusPromoPremieScreen extends React.Component {
                         <Divider/>
                         <ScrollView contentContainerStyle={{alignItems: 'flex-start'}} style={{width: '100%', height: '100%'}}>
                             <BonusPromoPremieButtons  navigation={this.props.navigation}/>
-                            <BonusPromoPremieText text="Moje premie:" amount="150"/>
-                            <BonusPromoPremieText text="Wykorzystane:" amount="50"/>
-                            <BonusPromoPremieText text="Pozostało do wykorzystania:" amount="100"/>
+                            <BonusPromoPremieText text="Moje premie:" amount={this.state.pointsActive}/>
+                            <BonusPromoPremieText text="Wykorzystane:" amount={this.state.pointsUsed}/>
+                            <BonusPromoPremieText text="Pozostało do wykorzystania:" amount={this.state.pointsForUse} />
                         </ScrollView>
                     </View>
                     <Footer />
+                    {this.state.isLoading &&
+                    <Activity/>
+                    }
                 </SafeAreaView>
             </View>
         );

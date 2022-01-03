@@ -24,18 +24,77 @@ import BonusPromoPremieText from '../components/BonusPromoPremieScreen/BonusProm
 import PrizeCategoryItem from '../components/PrizesCategoryScreen/PrizeCategoryItem';
 import BonusPromoMyFVItem from '../components/BonusPromoMyFVScreen/BonusPromoMyFVItem';
 import BonusPromoMyFVHeader from '../components/BonusPromoMyFVScreen/BonusPromoMyFVHeader';
+import Activity from '../components/allScreen/Activity';
 
 export default class BonusPromoMyFVScreen extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            error: '',
+            modalErrorVisible: false,
+            loading: true,
+            invoicesList: '',
+        }
+    }
+
+    componentDidMount() {
+
+        this.listenerFocus = this.props.navigation.addListener('focus', () => {
+
+            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/invoice/list`;
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': "application/json",
+                },
+            })
+                .then(response => response.json())
+                .then(responseJson => {
+                    if (responseJson.error.code === 0) {
+                        if (responseJson.invoicesList !== undefined) {
+                            this.setState({
+                                invoicesList: responseJson?.invoicesList,
+                            }, () => this.setState({isLoading: false}))
+                        } else {
+                            this.setState({
+                                invoicesList: '',
+                            }, () => this.setState({isLoading: false}))
+                        }
+                    } else {
+                        this.setState({
+                            isLoading: false,
+                            error: responseJson.error
+                        }, () => this.setModalErrorVisible(true))
+                    }
+                })
+                .catch((error) => {
+                    this.setState({
+                        isLoading: false,
+                        error: {
+                            code: "BŁĄD",
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
+                        }
+                    }, () => this.setModalErrorVisible(true));
+                });
+        });
+        this.listenerBlur = this.props.navigation.addListener('blur', () => {
+            this.setState({
+                isLoading: true,
+            })
+        });
+    }
+
+    componentWillUnmount() {
+        this.listenerFocus();
+        this.listenerBlur();
     }
 
     createFVList() {
-        let fvs = [1,2,3,4,5,6,7,8,9,10];
         let fvList = [];
-        for (let i in fvs) {
+        for (let i in this.state.invoicesList) {
             fvList.push(
-                <BonusPromoMyFVItem navigation={this.props.navigation} key={i}/>,
+                <BonusPromoMyFVItem navigation={this.props.navigation} key={i} invoice={this.state.invoicesList[i]}/>,
             );
         }
         return fvList;
@@ -58,6 +117,9 @@ export default class BonusPromoMyFVScreen extends React.Component {
                         </ScrollView>
                     </View>
                     <Footer />
+                    {this.state.isLoading &&
+                    <Activity/>
+                    }
                 </SafeAreaView>
             </View>
         );

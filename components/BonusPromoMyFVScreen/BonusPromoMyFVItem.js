@@ -5,18 +5,34 @@ import Icons from '../../icons/icons';
 export default class BonusPromoMyFVItem extends React.Component {
 
     render() {
-
+        let invoice = this.props.invoice;
+        let status = '';
+        if (invoice.status.id === '1') {
+            status = 'zaakceptowana';
+        } else if (invoice.status.id === '3') {
+            status = 'odrzucona';
+        } else {
+            status = 'oczekujaca';
+        }
         return(
             <View style={styles.FVView}>
                 <View style={styles.FVDataView}>
-                    <Text style={styles.fvTitleText}>FV 123/456/2022</Text>
-                    <Text style={styles.fvDateText}>RRRR-MM-DD GG:MM:SS</Text>
+                    <Text style={styles.fvTitleText}>{invoice.title}</Text>
+                    <Text style={styles.fvDateText}>{invoice.dateadd}</Text>
                 </View>
                 <View style={styles.fvImageView}>
                     <Image source={Icons.fv.plik} style={styles.fvImage} resizeMode="contain"/>
                 </View>
                 <View style={styles.fvImageView}>
-                    <Image source={Icons.fv.zaakceptowana} style={styles.fvImage} resizeMode="contain"/>
+                    {status === 'zaakceptowana' &&
+                        <Image source={Icons.fv.zaakceptowana} style={styles.fvImage} resizeMode="contain"/>
+                    }
+                    {status === 'oczekujaca' &&
+                        <Image source={Icons.fv.oczekujaca} style={styles.fvImage} resizeMode="contain"/>
+                    }
+                    {status === 'odrzucona' &&
+                    <Image source={Icons.fv.odrzucona} style={styles.fvImage} resizeMode="contain"/>
+                    }
                 </View>
             </View>
         )

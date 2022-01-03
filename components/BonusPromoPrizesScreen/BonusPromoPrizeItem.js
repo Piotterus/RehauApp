@@ -30,7 +30,7 @@ export default class BonusPromoPrizeItem extends React.Component {
             text = "Rossmann";
         }
         return(
-            <View style={styles.prizeView}>
+            <TouchableOpacity style={styles.prizeView} onPress={() => this.props.setModalItemVisible(true, text)}>
                 <ImageBackground
                     source={tlo}
                     resizeMode="contain"
@@ -40,7 +40,7 @@ export default class BonusPromoPrizeItem extends React.Component {
                 </ImageBackground>
                 <Text style={styles.textAmount}>50 pln</Text>
                 <Image source={karta} resizeMode="contain" style={styles.imageKarta}/>
-            </View>
+            </TouchableOpacity>
         )
     }
 }

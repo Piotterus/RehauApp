@@ -21,6 +21,8 @@ import ErrorModal from '../components/allScreen/ErrorModal';
 import Activity from '../components/allScreen/Activity';
 import BonusPromoPrizeItem from '../components/BonusPromoPrizesScreen/BonusPromoPrizeItem';
 import BonusPromoPrizePrzelew from '../components/BonusPromoPrizesScreen/BonusPromoPrizePrzelew';
+import BonusPromoModalPrzelew from '../components/BonusPromoPrizesScreen/BonusPromoModalPrzelew';
+import BonusPromoModalPrize from '../components/BonusPromoPrizesScreen/BonusPromoModalPrize';
 
 export default class BonusPromoPrizesScreen extends React.Component {
     constructor(props) {
@@ -30,16 +32,32 @@ export default class BonusPromoPrizesScreen extends React.Component {
             modalErrorVisible: false,
             isLoading: false,
             prizes: '',
+            modalPrzelewVisible: false,
+            modalItemVisible: false,
+            item: '',
         }
     }
     setModalErrorVisible = (visible) => {
         this.setState({ modalErrorVisible: visible });
     };
 
+    setModalPrzelewVisible = (visible) => {
+        this.setState({ modalPrzelewVisible: visible });
+    };
+
+    setModalItemVisible = (visible, item) => {
+        this.setState({
+            modalItemVisible: visible,
+            item: item,
+        });
+    };
+
     render() {
         return (
             <View style={{flex: 1}}>
                 <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
+                <BonusPromoModalPrzelew visible={this.state.modalPrzelewVisible} setModalPrzelewVisible={this.setModalPrzelewVisible.bind(this)}/>
+                <BonusPromoModalPrize visible={this.state.modalItemVisible} item={this.state.item} setModalItemVisible={this.setModalItemVisible.bind(this)}/>
                 <SafeAreaView
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
@@ -49,12 +67,12 @@ export default class BonusPromoPrizesScreen extends React.Component {
                         <Text style={styles.prizesCategoryHeaderText}>Nagrody</Text>
                         <Divider/>
                         <ScrollView style={{width: '100%', height: '100%'}}>
-                            <BonusPromoPrizePrzelew/>
-                            <BonusPromoPrizeItem prize='mediaExpert'/>
-                            <BonusPromoPrizeItem prize='allegro'/>
-                            <BonusPromoPrizeItem prize='smyk'/>
-                            <BonusPromoPrizeItem prize='decathlon'/>
-                            <BonusPromoPrizeItem prize='rossmann'/>
+                            <BonusPromoPrizePrzelew setModalPrzelewVisible={this.setModalPrzelewVisible.bind(this)}/>
+                            <BonusPromoPrizeItem setModalItemVisible={this.setModalItemVisible.bind(this)} prize='mediaExpert'/>
+                            <BonusPromoPrizeItem setModalItemVisible={this.setModalItemVisible.bind(this)} prize='allegro'/>
+                            <BonusPromoPrizeItem setModalItemVisible={this.setModalItemVisible.bind(this)} prize='smyk'/>
+                            <BonusPromoPrizeItem setModalItemVisible={this.setModalItemVisible.bind(this)} prize='decathlon'/>
+                            <BonusPromoPrizeItem setModalItemVisible={this.setModalItemVisible.bind(this)} prize='rossmann'/>
                         </ScrollView>
                     </View>
                     <Footer />

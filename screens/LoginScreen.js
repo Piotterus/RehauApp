@@ -20,8 +20,8 @@ export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      login: 'test',
-      password: 'test',
+      login: '',
+      password: '',
       isFocusedName: false,
       isFocusedAge: false,
       error: '',
@@ -46,11 +46,11 @@ export default class LoginScreen extends React.Component {
     });
 
     if (login === '') {
-        login = 'test';
+        login = 'testapi';//'test';
     }
 
     if (password === '') {
-        password = 'test';
+        password = 'TestVerbumAPI1';//'test';
     }
 
     const queryString = this.objToQueryString({
