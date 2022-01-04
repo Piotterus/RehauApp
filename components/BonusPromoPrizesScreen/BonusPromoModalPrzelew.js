@@ -15,6 +15,31 @@ export default class BonusPromoModalPrzelew extends React.Component {
         }
     }
 
+    componentDidMount() {
+
+        this.listenerFocus = this.props.navigation.addListener('focus', () => {
+            this.setState({
+                bankAccount: this.props.cardNumber,
+            })
+        });
+        this.listenerBlur = this.props.navigation.addListener('blur', () => {
+
+        });
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.cardNumber !== prevProps.cardNumber) {
+            this.setState({
+                bankAccount: this.props.cardNumber,
+            })
+        }
+    }
+
+    componentWillUnmount() {
+        this.listenerFocus();
+        this.listenerBlur();
+    }
+
     updateValue(text, field) {
         if (field === 'bankAccount') {
             let nowString = this.state.bankAccount;

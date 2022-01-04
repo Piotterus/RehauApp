@@ -93,6 +93,7 @@ export default class BonusPromoMyFVScreen extends React.Component {
     createFVList() {
         let fvList = [];
         for (let i in this.state.invoicesList) {
+            console.log(this.state.invoicesList[i]);
             fvList.push(
                 <BonusPromoMyFVItem navigation={this.props.navigation} key={i} invoice={this.state.invoicesList[i]}/>,
             );

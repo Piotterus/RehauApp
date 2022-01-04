@@ -30,19 +30,72 @@ export default class BonusPromoPrizesScreen extends React.Component {
         this.state = {
             error: '',
             modalErrorVisible: false,
-            isLoading: false,
+            isLoading: true,
             prizes: '',
             modalPrzelewVisible: false,
             modalItemVisible: false,
             item: '',
+            cardNumber: '',
         }
     }
+
+    componentDidMount() {
+
+        this.listenerFocus = this.props.navigation.addListener('focus', () => {
+
+            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}`;
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': "application/json",
+                },
+            })
+                .then(response => response.json())
+                .then(responseJson => {
+                    console.log(responseJson);
+                    if (responseJson.error.code === 0) {
+                        this.setState({
+                            cardNumber: responseJson?.user?.card?.number,
+                        }, () => this.setState({isLoading: false}))
+                    } else {
+                        this.setState({
+                            isLoading: false,
+                            error: responseJson.error
+                        }, () => this.setModalErrorVisible(true))
+                    }
+                })
+                .catch((error) => {
+                    this.setState({
+                        isLoading: false,
+                        error: {
+                            code: "BŁĄD",
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
+                        }
+                    }, () => this.setModalErrorVisible(true));
+                });
+        });
+        this.listenerBlur = this.props.navigation.addListener('blur', () => {
+            this.setState({
+                isLoading: true,
+            })
+        });
+    }
+
+    componentWillUnmount() {
+        this.listenerFocus();
+        this.listenerBlur();
+    }
+
     setModalErrorVisible = (visible) => {
         this.setState({ modalErrorVisible: visible });
     };
 
     setModalPrzelewVisible = (visible) => {
         this.setState({ modalPrzelewVisible: visible });
+        if (visible) {
+
+        }
     };
 
     setModalItemVisible = (visible, item) => {
@@ -56,7 +109,7 @@ export default class BonusPromoPrizesScreen extends React.Component {
         return (
             <View style={{flex: 1}}>
                 <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
-                <BonusPromoModalPrzelew visible={this.state.modalPrzelewVisible} setModalPrzelewVisible={this.setModalPrzelewVisible.bind(this)}/>
+                <BonusPromoModalPrzelew visible={this.state.modalPrzelewVisible} navigation={this.props.navigation} cardNumber={this.state.cardNumber} setModalPrzelewVisible={this.setModalPrzelewVisible.bind(this)}/>
                 <BonusPromoModalPrize visible={this.state.modalItemVisible} item={this.state.item} setModalItemVisible={this.setModalItemVisible.bind(this)}/>
                 <SafeAreaView
                     style={{flex: 1}}

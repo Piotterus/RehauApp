@@ -21,6 +21,7 @@ import Divider from '../components/allScreen/Divider';
 import ErrorModal from '../components/allScreen/ErrorModal';
 import Activity from '../components/allScreen/Activity';
 import RegisterItem from '../components/RegisterScreen/RegisterItem';
+import RegisterItemSelect from '../components/RegisterScreen/RegisterItemSelect';
 
 export default class RegisterScreen extends React.Component {
     constructor(props) {
@@ -49,55 +50,6 @@ export default class RegisterScreen extends React.Component {
             keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
         }
         return keyValuePairs.join('&');
-    }
-
-    componentDidMount() {
-
-        /*this.listenerFocus = this.props.navigation.addListener('focus', () => {
-
-            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/points`;
-
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': "application/json",
-                },
-            })
-                .then(response => response.json())
-                .then(responseJson => {
-                    if (responseJson.error.code === 0) {
-                        this.setState({
-                            pointsActive: responseJson.points.active,
-                            pointsUsed: responseJson.points.used,
-                            pointsForUse: responseJson.points.foruse,
-                        }, () => this.setState({isLoading: false}))
-                    } else {
-                        this.setState({
-                            isLoading: false,
-                            error: responseJson.error
-                        }, () => this.setModalErrorVisible(true))
-                    }
-                })
-                .catch((error) => {
-                    this.setState({
-                        isLoading: false,
-                        error: {
-                            code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
-                        }
-                    }, () => this.setModalErrorVisible(true));
-                });
-        });
-        this.listenerBlur = this.props.navigation.addListener('blur', () => {
-            this.setState({
-                isLoading: true,
-            })
-        });*/
-    }
-
-    componentWillUnmount() {
-        /*this.listenerFocus();
-        this.listenerBlur();*/
     }
 
     setModalErrorVisible = (visible) => {
@@ -154,8 +106,89 @@ export default class RegisterScreen extends React.Component {
         })
     }
 
-    register() {
+    checkFields() {
+        if (this.state.firstName !== "" &&
+            this.state.lastName !== "" &&
+            this.state.phone !== "" &&
+            this.state.email !== "" &&
+            this.state.postal !== "" &&
+            this.state.address !== "" &&
+            this.state.city !== "" &&
+            this.state.nip !== "" &&
+            this.state.workerCount !== "" &&
+            this.state.salesManager !== ""
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    register() {
+        if (this.checkFields()) {
+            let url = `https://api.verbum.com.pl/user/register`;
+
+            let agree1;
+            if (this.state.check) {
+                agree1 = 1;
+            } else {
+                agree1 = 0;
+            }
+
+            let body = {
+                appId: this.props.appId,
+                firstname: this.state.firstName,
+                lastname: this.state.lastName,
+                email: this.state.email,
+                phone: this.state.phone,
+                nip: this.state.nip,
+                city: this.state.city,
+                address: this.state.address,
+                zipcode: this.state.postal,
+                other1: this.state.workerCount,
+                account: this.state.salesManager,
+                regulations: {
+                    1: agree1,
+                }
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': "application/json",
+                },
+                body: JSON.stringify(body)
+            })
+                .then(response => response.json())
+                .then(responseJson => {
+                    console.log(responseJson);
+                    if (responseJson.error.code === 0) {
+                        this.props.navigation.navigate('Login');
+                    } else {
+                        this.setState({
+                            isLoading: false,
+                            error: responseJson.error
+                        }, () => this.setModalErrorVisible(true))
+                    }
+                })
+                .catch((error) => {
+                    this.setState({
+                        isLoading: false,
+                        error: {
+                            code: "BŁĄD",
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
+                        }
+                    }, () => this.setModalErrorVisible(true));
+                });
+        } else {
+            this.setState({
+                isLoading: false,
+                error: {
+                    code: "BŁĄD",
+                    message: "Proszę wypełnij wszystkie pola:"
+                }
+            }, () => this.setModalErrorVisible(true));
+        }
     }
 
     render() {
@@ -182,7 +215,8 @@ export default class RegisterScreen extends React.Component {
                             <RegisterItem text='Miejscowość' updateValue={this.updateValue.bind(this)} fieldName='city'/>
                             <RegisterItem text='NIP' updateValue={this.updateValue.bind(this)} fieldName='nip'/>
                             <RegisterItem text='Ilość pracowników' updateValue={this.updateValue.bind(this)} fieldName='workerCount'/>
-                            <RegisterItem text='Menadżer sprzedaży' updateValue={this.updateValue.bind(this)} fieldName='salesManager'/>
+                            {/*<RegisterItem text='Menadżer sprzedaży' updateValue={this.updateValue.bind(this)} fieldName='salesManager'/>*/}
+                            <RegisterItemSelect text='Menadżer sprzedaży' value={this.state.salesManager} updateValue={this.updateValue.bind(this)} fieldName='salesManager'/>
                             <CheckBox
                                 title='Zapoznałam/łem się z Regulaminem Promocji "Promocja Rehau - Instaluj korzyści"'
                                 checked={this.state.check}

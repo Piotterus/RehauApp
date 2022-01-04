@@ -6,6 +6,11 @@ const icons = {
         odrzucona: require('./odrzucony.png'),
         oczekujaca: require('./w_trakcie.png'),
         plik: require('./file-pdf-o.png')
+    },
+    order: {
+        zaakceptowane: require('./zrealizowany.png'),
+        odrzucone: require('./odrzucony.png'),
+        oczekujace: require('./w_trakcie.png'),
     }
 };
 

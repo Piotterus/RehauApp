@@ -193,7 +193,6 @@ export default class UserUpdateScreen extends React.Component {
     };
 
     render () {
-        console.log(this.state.user)
         return (
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

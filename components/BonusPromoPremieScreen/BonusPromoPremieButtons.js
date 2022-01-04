@@ -10,7 +10,7 @@ export default class BonusPromoPremieButtons extends React.Component {
             <View style={styles.buttonsView}>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate("BonusPromoRegisterFV")} style={styles.buttonView}><Text style={styles.buttonText}>Rejestruj fakturę</Text></TouchableOpacity>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate("BonusPromoMyFV")} style={styles.buttonView}><Text style={styles.buttonText}>Moje faktury</Text></TouchableOpacity>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("BonusPromoMyFV")} style={styles.buttonView}><Text style={styles.buttonText}>Moje bonusy</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("BonusPromoMyBonuses")} style={styles.buttonView}><Text style={styles.buttonText}>Moje bonusy</Text></TouchableOpacity>
             </View>
         )
     }

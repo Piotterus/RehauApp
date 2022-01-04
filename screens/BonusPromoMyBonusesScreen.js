@@ -7,27 +7,29 @@ import {
     View,
     Text,
     ScrollView,
+    TouchableOpacity,
+    Linking,
+    TouchableWithoutFeedback
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import HeaderBurger from '../components/allScreen/HeaderBurger';
 import Footer from '../components/allScreen/Footer';
 import HeaderBack from '../components/allScreen/HeaderBack';
-import HeaderPage from '../components/allScreen/HeaderPage';
-import NewsItem from '../components/NewsScreen/NewsItem';
-import PrizeCategoryItem from '../components/PrizesCategoryScreen/PrizeCategoryItem';
 import HeaderImage from '../components/allScreen/HeaderImage';
+import PointsItem from '../components/MyAccountScreen/PointsItem';
 import Divider from '../components/allScreen/Divider';
-import ErrorModal from '../components/allScreen/ErrorModal';
 import Activity from '../components/allScreen/Activity';
+import BonusPromoBonusHeader from '../components/BonusPromoMyBonusesScreen/BonusPromoBonusHeader';
+import BonusPromoBonusItem from '../components/BonusPromoMyBonusesScreen/BonusPromoBonusItem';
 
-export default class PrizesCategoryScreen extends React.Component {
+export default class BonusPromoMyBonusesScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             error: '',
             modalErrorVisible: false,
-            isLoading: true,
-            prizes: '',
+            loading: true,
+            orders: '',
         }
     }
 
@@ -35,7 +37,7 @@ export default class PrizesCategoryScreen extends React.Component {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
-            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/prizes`;
+            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/history/orders`;
 
             fetch(url, {
                 method: 'GET',
@@ -45,10 +47,18 @@ export default class PrizesCategoryScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
+                    console.log(url);
+                    console.log(responseJson.orders.orders[1].status);
                     if (responseJson.error.code === 0) {
-                        this.setState({
-                            prizes: responseJson.prizes,
-                        }, () => this.setState({isLoading: false}))
+                        if (responseJson.orders !== undefined) {
+                            this.setState({
+                                orders: responseJson?.orders?.orders,
+                            }, () => this.setState({isLoading: false}))
+                        } else {
+                            this.setState({
+                                orders: '',
+                            }, () => this.setState({isLoading: false}))
+                        }
                     } else {
                         this.setState({
                             isLoading: false,
@@ -78,37 +88,31 @@ export default class PrizesCategoryScreen extends React.Component {
         this.listenerBlur();
     }
 
-    setModalErrorVisible = (visible) => {
-        this.setState({ modalErrorVisible: visible });
-    };
-
-    createPrizesCategoryList() {
-        let prizesCategoryList = [];
-        for (let i in this.state.prizes) {
-            if (this.state.prizes[i].name !== "Bonus") {
-                prizesCategoryList.push(
-                    <PrizeCategoryItem navigation={this.props.navigation} key={i} max={this.state.prizes.length}
-                                       data={this.state.prizes} name={this.state.prizes[i].name}/>,
-                );
-            }
+    createOrdersList() {
+        let orderList = [];
+        console.log(this.state.orders);
+        for (let i in this.state.orders) {
+            orderList.push(
+                <BonusPromoBonusItem navigation={this.props.navigation} key={i} order={this.state.orders[i]}/>,
+            );
         }
-        return prizesCategoryList;
+        return orderList;
     }
 
     render() {
         return (
             <View style={{flex: 1}}>
-                <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
                 <SafeAreaView
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
-                    <HeaderImage image="PrizeCategory"/>
-                    <View style={styles.prizesCategoryView}>
-                        <Text style={styles.prizesCategoryHeaderText}>Nagrody</Text>
+                    <HeaderImage image="Contact"/>
+                    <View style={styles.contactView}>
+                        <Text style={styles.contactHeaderText}>Moje faktury</Text>
                         <Divider/>
-                        <ScrollView style={{width: '100%', height: '100%'}}>
-                            {this.createPrizesCategoryList()}
+                        <ScrollView contentContainerStyle={{alignItems: 'flex-start'}} style={{width: '100%', height: '100%'}}>
+                            <BonusPromoBonusHeader/>
+                            {this.createOrdersList()}
                         </ScrollView>
                     </View>
                     <Footer />
@@ -122,22 +126,23 @@ export default class PrizesCategoryScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    prizesCategoryView: {
+    contactView: {
         marginTop: -30,
         width: '90%',
-        justifyContent: 'center',
         alignSelf: 'center',
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: '#AAAAAABF',
+        borderColor: '#000000BF',
         padding: 10,
-        alignItems: 'center',
+        alignItems: 'flex-start',
         flex: 1,
         marginBottom: 20
     },
-    prizesCategoryHeaderText: {
+    contactHeaderText: {
         color: '#4E4E4E',
-        fontSize: 16,
+        fontSize: 20,
+        alignSelf: 'center'
     },
+
 });
