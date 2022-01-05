@@ -19,6 +19,7 @@ import HeaderImage from '../components/allScreen/HeaderImage';
 import PointsItem from '../components/MyAccountScreen/PointsItem';
 import Divider from '../components/allScreen/Divider';
 import BonusPromoMenu from '../components/BonusPromoMenuScreen/BonusPromoMenu';
+import Swiper from 'react-native-swiper'
 
 export default class BonusPromoAboutScreen extends React.Component {
     constructor(props) {
@@ -32,7 +33,7 @@ export default class BonusPromoAboutScreen extends React.Component {
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
-                    <HeaderImage image="Contact"/>
+                    <HeaderImage image="BonusPromo"/>
                     <View style={styles.contactView}>
                         <Text style={styles.contactHeaderText}>O promocji</Text>
                         <Divider/>
@@ -40,7 +41,7 @@ export default class BonusPromoAboutScreen extends React.Component {
                             <Text style={[styles.textPromo, styles.textBold, styles.textColorRed]}>WŁĄCZ SOBIE BONUS</Text>
                             <Text style={[styles.textPromo, styles.textBold]}>Wybierając produkty REHAU, podejmujesz dobrą decyzję. Ale czy wiesz, że tylko kilka kroków dzieli Cię od tego, by zyskać nie tylko wysoką jakość i innowacyjne urządzenie?</Text>
                             <Text style={[styles.textPromo, styles.textBold, styles.textColorRed, styles.textPromoBig]}>50 zł premii czeka na Ciebie!</Text>
-                            <BonusPromoMenu backgroundColor='red' text='Zarejestruj FV' navigation={this.props.navigation} navigateTo='BonusPromoMenu'/>
+                            <BonusPromoMenu backgroundColor='red' text='Zarejestruj FV' navigation={this.props.navigation} navigateTo='BonusPromoRegisterFV'/>
                             <Text style={[styles.textPromo, styles.textBold]}>Zasady:</Text>
                             <Text style={[styles.textPromo]}>- Kup zawór RE.FINE lub RE.GUARD w terminie od 10.01.2021 do 31.12.2022 r.</Text>
                             <Text style={[styles.textPromo]}>- Zarejestruj fakturę za zakup produktu</Text>
@@ -49,6 +50,11 @@ export default class BonusPromoAboutScreen extends React.Component {
                             <Text style={[styles.textPromo, styles.textMarginBottom]}>Akcję kierujemy tylko do zarejestrowanych uczestników programu Instaluj Korzyści. Chcesz się cieszyć bonusem? Załóż konto, zajmie Ci to tylko kilka chwil i zapewni wiele możliwości do zysku!</Text>
                             <Text style={[styles.textPromo, styles.textBold]}>Bonus:</Text>
                             <Text style={[styles.textPromo]}>Ty kupiłeś, Ty wybierasz – zobacz jakie nagrody na Ciebie czekają:</Text>
+                            <Swiper style={{height: 160, marginTop: 20}}>
+                                <Image source={require('../images/grupaNagrody1.png')} resizeMode='contain' style={{width: '100%', height: 120}}/>
+                                <Image source={require('../images/grupaNagrody2.png')} resizeMode='contain' style={{width: '100%', height: 120}}/>
+                                <Image source={require('../images/grupaNagrody3.png')} resizeMode='contain' style={{width: '100%', height: 120}}/>
+                            </Swiper>
                         </ScrollView>
                     </View>
                     <Footer />
@@ -73,7 +79,7 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     contactHeaderText: {
-        color: '#4E4E4E',
+        color: '#DC0060',
         fontSize: 20,
         alignSelf: 'center'
     },

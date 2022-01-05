@@ -8,32 +8,38 @@ export default class BonusPromoPrizeItem extends React.Component {
         let tlo;
         let karta;
         let text;
+        let code;
         if (this.props.prize === 'mediaExpert') {
             tlo = Images.mediaExpert.tlo;
             karta = Images.mediaExpert.karta;
             text = "Media Expert";
+            code = "REHAU2021_097";
         } else if (this.props.prize === 'allegro') {
             tlo = Images.allegro.tlo;
             karta = Images.allegro.karta;
             text = "Allegro";
+            code = "REHAU2021_098";
         } else if (this.props.prize === 'smyk') {
             tlo = Images.smyk.tlo;
             karta = Images.smyk.karta;
             text = "Smyk";
+            code = "REHAU2021_101";
         } else if (this.props.prize === 'decathlon') {
             tlo = Images.decathlon.tlo;
             karta = Images.decathlon.karta;
             text = "Decathlon";
+            code = "REHAU2021_100";
         } else if (this.props.prize === 'rossmann') {
             tlo = Images.rossmann.tlo;
             karta = Images.rossmann.karta;
             text = "Rossmann";
+            code = "REHAU2021_099";
         }
         return(
-            <TouchableOpacity style={styles.prizeView} onPress={() => this.props.setModalItemVisible(true, text)}>
+            <TouchableOpacity style={styles.prizeView} onPress={() => this.props.setModalItemVisible(true, text, code)}>
                 <ImageBackground
                     source={tlo}
-                    resizeMode="contain"
+                    resizeMode="cover"
                     style={styles.imageTlo}
                 >
                     <Text style={styles.textTlo}>Voucher do {text}</Text>

@@ -15,7 +15,7 @@ export default class BonusPromoPrizePrzelew extends React.Component {
             <TouchableOpacity style={styles.prizeView} onPress={() => this.props.setModalPrzelewVisible(true)}>
                 <ImageBackground
                     source={tlo}
-                    resizeMode="contain"
+                    resizeMode="cover"
                     style={styles.imageTlo}
                 >
                     <Text style={styles.textTlo}>{text}</Text>

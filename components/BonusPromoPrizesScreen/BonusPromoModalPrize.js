@@ -35,7 +35,7 @@ export default class BonusPromoModalPrize extends React.Component {
                 <TouchableWithoutFeedback onPress={() => this.props.setModalItemVisible(false)}>
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                         <View style={{backgroundColor: '#FFFFFF', height: 300, width: '95%', padding: 5, justifyContent: 'space-around', alignItems: 'center', borderRadius: 10}}>
-                            <Text style={{color: '#0E395A', fontSize: 14}}>Voucher do {this.props.item}</Text>
+                            <Text style={{color: '#0E395A', fontSize: 14}}>Voucher do {this.props.item.text}</Text>
                             <View style={styles.setPrzelewView}>
                                 <Icon onPress={() => this.subtractValue()} name="minus-circle" size={40} color="#cd390d"/>
                                 <Text style={styles.textValue}>{this.state.value}</Text>
@@ -51,7 +51,7 @@ export default class BonusPromoModalPrize extends React.Component {
                                         backgroundColor: 'blue'
                                     }}
                                 />
-                                <TouchableOpacity style={{alignSelf: 'stretch'}} onPress={() => this.props.setModalItemVisible(false)}>
+                                <TouchableOpacity style={{alignSelf: 'stretch'}} onPress={() => this.props.order(this.props.item.code,this.state.value)}>
                                     <Text style={{color: '#2592E6', alignSelf: 'center', paddingTop: 10}}>ZAMÓW</Text>
                                 </TouchableOpacity>
                             </View>

@@ -106,7 +106,7 @@ export default class BonusPromoMyBonusesScreen extends React.Component {
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
-                    <HeaderImage image="Contact"/>
+                    <HeaderImage image="BonusPromo"/>
                     <View style={styles.contactView}>
                         <Text style={styles.contactHeaderText}>Moje faktury</Text>
                         <Divider/>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     contactHeaderText: {
-        color: '#4E4E4E',
+        color: '#DC0060',
         fontSize: 20,
         alignSelf: 'center'
     },

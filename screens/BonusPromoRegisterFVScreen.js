@@ -155,7 +155,7 @@ export default class BonusPromoRegisterFVScreen extends Component {
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
-                    <HeaderPage title="Rejestracja kodu" />
+                    <HeaderPage title="Rejestracja FV" />
                     <View style={styles.container}>
                         {this.state.isLoading === false &&
                             <RNCamera
@@ -183,6 +183,11 @@ export default class BonusPromoRegisterFVScreen extends Component {
                                     </View>
                                 </TouchableOpacity>
                             </View>
+                        }
+                        {this.state.isLoading === true &&
+                        <View style={{position: 'absolute', left: 0, right: 0, top: '35%', alignItems: 'center'}}>
+                            <Text style={{color: '#4E4E4E'}}>Proszę czekać...</Text>
+                        </View>
                         }
                     </View>
                     <Footer />

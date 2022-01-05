@@ -1,5 +1,5 @@
 import React from 'react'
-import {Image, StyleSheet, View, TouchableOpacity, ImageBackground, Text} from 'react-native';
+import {Image, StyleSheet, View, TouchableOpacity, ImageBackground, Text, Linking} from 'react-native';
 import Icons from '../../icons/icons';
 
 export default class BonusPromoMyFVItem extends React.Component {
@@ -21,7 +21,9 @@ export default class BonusPromoMyFVItem extends React.Component {
                     <Text style={styles.fvDateText}>{invoice.dateadd}</Text>
                 </View>
                 <View style={styles.fvImageView}>
-                    <Image source={Icons.fv.plik} style={styles.fvImage} resizeMode="contain"/>
+                    <TouchableOpacity onPress={() => Linking.openURL('https://www.instalujkorzysci.pl/files-user/sale-fv/20122/20220105-091730_41a.jpg')}>
+                        <Image source={Icons.fv.plik} style={styles.fvImage} resizeMode="contain"/>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.fvImageView}>
                     {status === 'zaakceptowana' &&
