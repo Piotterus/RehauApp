@@ -25,6 +25,7 @@ import PrizeCategoryItem from '../components/PrizesCategoryScreen/PrizeCategoryI
 import BonusPromoMyFVItem from '../components/BonusPromoMyFVScreen/BonusPromoMyFVItem';
 import BonusPromoMyFVHeader from '../components/BonusPromoMyFVScreen/BonusPromoMyFVHeader';
 import Activity from '../components/allScreen/Activity';
+import ErrorModal from '../components/allScreen/ErrorModal';
 
 export default class BonusPromoMyFVScreen extends React.Component {
     constructor(props) {
@@ -90,10 +91,13 @@ export default class BonusPromoMyFVScreen extends React.Component {
         this.listenerBlur();
     }
 
+    setModalErrorVisible = (visible) => {
+        this.setState({ modalErrorVisible: visible });
+    };
+
     createFVList() {
         let fvList = [];
         for (let i in this.state.invoicesList) {
-            console.log(this.state.invoicesList[i]);
             fvList.push(
                 <BonusPromoMyFVItem navigation={this.props.navigation} key={i} invoice={this.state.invoicesList[i]}/>,
             );
@@ -104,6 +108,7 @@ export default class BonusPromoMyFVScreen extends React.Component {
     render() {
         return (
             <View style={{flex: 1}}>
+                <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
                 <SafeAreaView
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>

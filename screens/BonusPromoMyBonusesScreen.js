@@ -21,6 +21,7 @@ import Divider from '../components/allScreen/Divider';
 import Activity from '../components/allScreen/Activity';
 import BonusPromoBonusHeader from '../components/BonusPromoMyBonusesScreen/BonusPromoBonusHeader';
 import BonusPromoBonusItem from '../components/BonusPromoMyBonusesScreen/BonusPromoBonusItem';
+import ErrorModal from '../components/allScreen/ErrorModal';
 
 export default class BonusPromoMyBonusesScreen extends React.Component {
     constructor(props) {
@@ -28,7 +29,7 @@ export default class BonusPromoMyBonusesScreen extends React.Component {
         this.state = {
             error: '',
             modalErrorVisible: false,
-            loading: true,
+            isLoading: true,
             orders: '',
         }
     }
@@ -48,7 +49,8 @@ export default class BonusPromoMyBonusesScreen extends React.Component {
                 .then(response => response.json())
                 .then(responseJson => {
                     console.log(url);
-                    console.log(responseJson.orders.orders[1].status);
+                    console.log(responseJson);
+                    //console.log(responseJson.orders.orders[1].status);
                     if (responseJson.error.code === 0) {
                         if (responseJson.orders !== undefined) {
                             this.setState({
@@ -88,6 +90,10 @@ export default class BonusPromoMyBonusesScreen extends React.Component {
         this.listenerBlur();
     }
 
+    setModalErrorVisible = (visible) => {
+        this.setState({ modalErrorVisible: visible });
+    };
+
     createOrdersList() {
         let orderList = [];
         console.log(this.state.orders);
@@ -102,13 +108,14 @@ export default class BonusPromoMyBonusesScreen extends React.Component {
     render() {
         return (
             <View style={{flex: 1}}>
+                <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
                 <SafeAreaView
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
                     <HeaderImage image="BonusPromo"/>
                     <View style={styles.contactView}>
-                        <Text style={styles.contactHeaderText}>Moje faktury</Text>
+                        <Text style={styles.contactHeaderText}>Moje zamówienia</Text>
                         <Divider/>
                         <ScrollView contentContainerStyle={{alignItems: 'flex-start'}} style={{width: '100%', height: '100%'}}>
                             <BonusPromoBonusHeader/>

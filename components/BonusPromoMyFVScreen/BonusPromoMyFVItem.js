@@ -21,7 +21,7 @@ export default class BonusPromoMyFVItem extends React.Component {
                     <Text style={styles.fvDateText}>{invoice.dateadd}</Text>
                 </View>
                 <View style={styles.fvImageView}>
-                    <TouchableOpacity onPress={() => Linking.openURL('https://www.instalujkorzysci.pl/files-user/sale-fv/20122/20220105-091730_41a.jpg')}>
+                    <TouchableOpacity onPress={() => Linking.openURL(invoice.files[1].urlOriginal)}>
                         <Image source={Icons.fv.plik} style={styles.fvImage} resizeMode="contain"/>
                     </TouchableOpacity>
                 </View>
