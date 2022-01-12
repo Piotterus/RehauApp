@@ -22,8 +22,37 @@ import BonusPromoOneProduct from '../components/BonusPromoOneProductScreen/Bonus
 export default class BonusPromoOneProductScreen extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            error: '',
+            modalErrorVisible: false,
+            isLoading: true,
+            product: '',
+        }
     }
 
+    componentDidMount() {
+
+        this.listenerFocus = this.props.navigation.addListener('focus', () => {
+
+            if (this.props.route.params?.product) {
+                this.setState({
+                    product: this.props.route.params.product,
+                    isLoading: false
+                })
+            }
+
+        });
+        this.listenerBlur = this.props.navigation.addListener('blur', () => {
+            this.setState({
+                isLoading: true,
+            })
+        });
+    }
+
+    componentWillUnmount() {
+        this.listenerFocus();
+        this.listenerBlur();
+    }
 
     render() {
         return (
@@ -37,7 +66,7 @@ export default class BonusPromoOneProductScreen extends React.Component {
                         <Text style={styles.contactHeaderText}>O produktach</Text>
                         <Divider/>
                         <ScrollView contentContainerStyle={{alignItems: 'flex-start'}} style={{width: '100%', height: '100%'}}>
-                            <BonusPromoOneProduct product="ReFine"/>
+                            <BonusPromoOneProduct product={this.state.product}/>
                         </ScrollView>
                     </View>
                     <Footer />

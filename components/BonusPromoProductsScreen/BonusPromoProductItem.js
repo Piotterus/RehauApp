@@ -15,9 +15,9 @@ export default class BonusPromoProductItem extends React.Component {
 
     render() {
         let headerReGuard = 'RE.GUARD';
-        let textReGuard = 'RE.GUARD wykorzystuje nowoczesną technologię do ochrony domu poprzez minimalizowanie skutków zalania. Wyróżniony za design system niezawodnie odcina dopływ wody, zanim dojdzie do poważniejszych szkód.';
+        let textReGuard = 'Poznaj RE.GUARD, inteligentny zawór odcinający, który wykrywa pęknięcia rur oraz nawet najdrobniejsze nieszczelności, by w ten sposób zapobiegać większym stratom. RE.GUARD to instalacja wodociągowa pod stałą kontrolą.';
         let headerReFine = 'RE.FINE';
-        let textReFine = 'Woda pitna jest naszym najważniejszym produktem spożywczym. Jej czystość jest koniecznym warunkiem dla zdrowia oraz dobrego samopoczucia. Filtry RE.FINE opracowane przez ekspertów REHAU usuwają nawet najmniejsze obce cząsteczki z wody pitneji dbają o jej całkowitą czystość. W tym samym czasie chronią również całą instalację.';
+        let textReFine = 'Najcenniejszy surowiec na Ziemi to nie złoto, platyna czy ropa naftowa. To woda, która jest nam niezbędna do życia. Dlatego przedstawiamy filtry RE.FINE, usuwające nawet najdrobniejsze cząsteczki obce z wody pitnej i chroniące całą instalację.';
         let headerText;
         let text;
         if (this.props.product === 'ReGuard') {
@@ -29,11 +29,18 @@ export default class BonusPromoProductItem extends React.Component {
         }
         return(
             <View style={styles.productView}>
-                <View style={styles.placeholder}/>
+                {this.props.product === "ReGuard" &&
+                <Image style={styles.headerImage} source={require('../../images/RE_GUARD-baner_1.png')}
+                       resizeMode="cover"/>
+                }
+                {this.props.product === "ReFine" &&
+                <Image style={styles.headerImage} source={require('../../images/RE_FINE-baner_1.png')}
+                       resizeMode="cover"/>
+                }
                 <View style={styles.textView}>
                     <Text style={styles.headerText}>{headerText}</Text>
                     <Text style={styles.textText}>{text}</Text>
-                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('BonusPromoOneProduct')}><Text style={styles.moreText}>Więcej {'>'}</Text></TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('BonusPromoOneProduct', {product: this.props.product})}><Text style={styles.moreText}>Więcej {'>'}</Text></TouchableWithoutFeedback>
                 </View>
             </View>
         )
@@ -61,6 +68,11 @@ const styles = StyleSheet.create({
     textView: {
         paddingTop: 5,
         paddingLeft: 10,
+    },
+    headerImage: {
+        width: '100%',
+        height: 150,
+        alignSelf: 'center'
     }
 });
 
