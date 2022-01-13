@@ -12,7 +12,7 @@ export default class BonusPromoPrizePrzelew extends React.Component {
         karta = Images.przelew.karta;
         text = "Przelew na konto";
         return(
-            <TouchableOpacity style={styles.prizeView} onPress={() => this.props.setModalPrzelewVisible(true)}>
+            <TouchableOpacity style={styles.prizeView} onPress={() => this.props.setModalPrzelewVisible(true, this.props.code)}>
                 <ImageBackground
                     source={tlo}
                     resizeMode="cover"

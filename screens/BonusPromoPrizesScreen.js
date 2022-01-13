@@ -91,11 +91,14 @@ export default class BonusPromoPrizesScreen extends React.Component {
         this.setState({ modalErrorVisible: visible });
     };
 
-    setModalPrzelewVisible = (visible) => {
-        this.setState({ modalPrzelewVisible: visible });
-        if (visible) {
-
-        }
+    setModalPrzelewVisible = (visible, code) => {
+        this.setState({
+            modalPrzelewVisible: visible,
+            item: {
+                text: "Przelew",
+                code: code
+            }
+        });
     };
 
     setModalItemVisible = (visible, item, code) => {
@@ -109,7 +112,6 @@ export default class BonusPromoPrizesScreen extends React.Component {
     };
 
     sendOrder(code,quantity) {
-        console.log('order');
         this.setState({
             isLoading: true,
         },() => this.setModalItemVisible(false,'',''));
@@ -134,13 +136,62 @@ export default class BonusPromoPrizesScreen extends React.Component {
             .then(response => response.json())
             .then(responseJson => {
                 console.log(responseJson);
+                if (responseJson.error.code === 0) {
+                    this.setState({
+                        isLoading: false,
+                        error: responseJson.error
+                    }, () => {
+                        this.setModalErrorVisible(true);
+                        this.setModalItemVisible(false, '', '');
+                    })
+                }
+            })
+            .catch((error) => {
                 this.setState({
                     isLoading: false,
-                    error: responseJson.error
-                }, () => {
-                    this.setModalErrorVisible(true)
-                    this.setModalItemVisible(false,'','');
-                })
+                    error: {
+                        code: "BŁĄD",
+                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
+                    }
+                }, () => this.setModalErrorVisible(true));
+            });
+    }
+
+    sendPrzelew(code,points) {
+        this.setState({
+            isLoading: true,
+        },() => this.setModalItemVisible(false,'',''));
+        let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/sendPrepaid`;
+
+        let body = {
+            order: [
+                {
+                    symbol: code,
+                    quantity: 1,
+                    pricepoints: points
+                }
+            ]
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': "application/json",
+            },
+            body: JSON.stringify(body)
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson);
+                if (responseJson.error.code === 0) {
+                    this.setState({
+                        isLoading: false,
+                        error: responseJson.error
+                    }, () => {
+                        this.setModalErrorVisible(true);
+                        this.setModalItemVisible(false, '', '');
+                    })
+                }
             })
             .catch((error) => {
                 this.setState({
@@ -157,7 +208,7 @@ export default class BonusPromoPrizesScreen extends React.Component {
         return (
             <View style={{flex: 1}}>
                 <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
-                <BonusPromoModalPrzelew visible={this.state.modalPrzelewVisible} navigation={this.props.navigation} cardNumber={this.state.cardNumber} setModalPrzelewVisible={this.setModalPrzelewVisible.bind(this)}/>
+                <BonusPromoModalPrzelew visible={this.state.modalPrzelewVisible} item={this.state.item} navigation={this.props.navigation} cardNumber={this.state.cardNumber} setModalPrzelewVisible={this.setModalPrzelewVisible.bind(this)} przelew={this.sendPrzelew.bind(this)}/>
                 <BonusPromoModalPrize visible={this.state.modalItemVisible} item={this.state.item} setModalItemVisible={this.setModalItemVisible.bind(this)} order={this.sendOrder.bind(this)}/>
                 <SafeAreaView
                     style={{flex: 1}}
