@@ -59,7 +59,7 @@ export default class RegisterItemSelect extends React.Component {
                 <ModalSelector
                     data={data}
                     initValue="wybierz"
-                    supportedOrientations={['landscape']}
+                    //supportedOrientations={['landscape']}
                     accessible={true}
                     scrollViewAccessibilityLabel={'Scrollable options'}
                     cancelButtonAccessibilityLabel={'Cancel Button'}
