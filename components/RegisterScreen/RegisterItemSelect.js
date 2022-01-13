@@ -1,6 +1,7 @@
 import React from 'react'
 import {Image, StyleSheet, View, TouchableOpacity, Dimensions, Text, TextInput, Platform} from 'react-native';
 import {Picker, PickerIOS} from '@react-native-picker/picker';
+import ModalSelector from 'react-native-modal-selector'
 
 export default class RegisterItemSelect extends React.Component {
 
@@ -38,9 +39,40 @@ export default class RegisterItemSelect extends React.Component {
                 fieldName = 'salesManager';
                 break;
         }
+        const data = [
+            {key: 900, label: "Artur Jakonis"},
+            {key: 901, label: "Ireneusz Mojsiewicz"},
+            {key: 902, label: "Krzysztof Twardy"},
+            {key: 903, label: "Mariusz Kuleta"},
+            {key: 904, label: "Michał Kot"},
+            {key: 905, label: "Paweł Kowal"},
+            {key: 906, label: "Piotr Bawolski"},
+        ];
+        let textValue = "";
+        for (let i in data) {
+            if (data[i].key === this.props.value) {
+                textValue = data[i].label;
+            }
+        }
         return (
             <View style={styles.textInputView}>
-                {Platform.OS === 'android' &&
+                <ModalSelector
+                    data={data}
+                    initValue="wybierz"
+                    supportedOrientations={['landscape']}
+                    accessible={true}
+                    scrollViewAccessibilityLabel={'Scrollable options'}
+                    cancelButtonAccessibilityLabel={'Cancel Button'}
+                    onChange={(option)=>{ this.props.updateValue(option.key, fieldName)}}>
+
+                    <TextInput
+                        style={styles.textInput}
+                        editable={false}
+                        placeholder="wybierz"
+                        value={textValue} />
+
+                </ModalSelector>
+                {/*Platform.OS === 'android' &&
                 <Picker
                     style={styles.textInput}
                     selectedValue={this.props.value}
@@ -56,8 +88,8 @@ export default class RegisterItemSelect extends React.Component {
                     <Picker.Item label="Paweł Kowal" value="905"/>
                     <Picker.Item label="Piotr Bawolski" value="906"/>
                 </Picker>
-                }
-                {Platform.OS === 'ios' &&
+                */}
+                {/*Platform.OS === 'ios' &&
                 <PickerIOS
                     style={styles.textInput}
                     selectedValue={this.props.value}
@@ -73,7 +105,7 @@ export default class RegisterItemSelect extends React.Component {
                     <PickerIOS.Item label="Paweł Kowal" value="905"/>
                     <PickerIOS.Item label="Piotr Bawolski" value="906"/>
                 </PickerIOS>
-                }
+                */}
                 <Text style={styles.placeHolderText}>{this.props.text}</Text>
             </View>
         )
