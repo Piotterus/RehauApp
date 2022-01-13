@@ -63,6 +63,7 @@ export default class RegisterItemSelect extends React.Component {
                     accessible={true}
                     scrollViewAccessibilityLabel={'Scrollable options'}
                     cancelButtonAccessibilityLabel={'Cancel Button'}
+                    cancelText="Anuluj"
                     onChange={(option)=>{ this.props.updateValue(option.key, fieldName)}}>
 
                     <TextInput
