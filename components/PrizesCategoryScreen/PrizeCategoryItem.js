@@ -4,7 +4,7 @@ import {Image, StyleSheet, View, TouchableOpacity, Dimensions, Text} from 'react
 export default class PrizeCategoryItem extends React.Component {
 
     render() {
-        console.log(this.props.name);
+        //console.log(this.props.name);
         return(
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Prizes', {data: this.props.data, name: this.props.name})} style={styles.prizeCategoryView}>
                 <Image source={{uri:this.props.data[this.props.name].image}} style={styles.prizeCategoryImage} resizeMode='cover'/>

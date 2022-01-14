@@ -78,6 +78,12 @@ export default class RegisterScreen extends React.Component {
                 address: text,
             });
         } else if (field === 'postal') {
+            let nowString = this.state.postal;
+            let newString = text;
+
+            if (newString.length === 2 && newString.length > nowString.length) {
+                text += '-';
+            }
             this.setState({
                 postal: text,
             });
@@ -206,15 +212,15 @@ export default class RegisterScreen extends React.Component {
                         <ScrollView style={{width: '90%', height: '100%'}} contentContainerStyle={styles.registerForm}>
                             <Text style={styles.registerHeaderText}>Wypełnij poprawnie poniższy formualrz i dołącz do Instaluj Korzyści.</Text>
                             <Text style={styles.registerHeaderText}>Zapraszamy!</Text>
-                            <RegisterItem text='Imię' updateValue={this.updateValue.bind(this)} fieldName='firstName'/>
-                            <RegisterItem text='Nazwisko' updateValue={this.updateValue.bind(this)} fieldName='lastName'/>
-                            <RegisterItem text='Telefon' updateValue={this.updateValue.bind(this)} fieldName='phone'/>
-                            <RegisterItem text='Adres e-mail' updateValue={this.updateValue.bind(this)} fieldName='email'/>
-                            <RegisterItem text='Adres' updateValue={this.updateValue.bind(this)} fieldName='address'/>
-                            <RegisterItem text='Kod pocztowy' updateValue={this.updateValue.bind(this)} fieldName='postal'/>
-                            <RegisterItem text='Miejscowość' updateValue={this.updateValue.bind(this)} fieldName='city'/>
-                            <RegisterItem text='NIP' updateValue={this.updateValue.bind(this)} fieldName='nip'/>
-                            <RegisterItem text='Ilość pracowników' updateValue={this.updateValue.bind(this)} fieldName='workerCount'/>
+                            <RegisterItem text='Imię' updateValue={this.updateValue.bind(this)} value={this.state.firstname} fieldName='firstName' keyboardType='default'/>
+                            <RegisterItem text='Nazwisko' updateValue={this.updateValue.bind(this)} value={this.state.lastname} fieldName='lastName' keyboardType='default'/>
+                            <RegisterItem text='Telefon' updateValue={this.updateValue.bind(this)} value={this.state.phone} fieldName='phone' keyboardType='numeric'/>
+                            <RegisterItem text='Adres e-mail' updateValue={this.updateValue.bind(this)} value={this.state.email} fieldName='email' keyboardType='email-address'/>
+                            <RegisterItem text='Adres' updateValue={this.updateValue.bind(this)} value={this.state.address} fieldName='address' keyboardType='default'/>
+                            <RegisterItem text='Kod pocztowy' updateValue={this.updateValue.bind(this)} value={this.state.postal} fieldName='postal' keyboardType='numeric'/>
+                            <RegisterItem text='Miejscowość' updateValue={this.updateValue.bind(this)} value={this.state.city} fieldName='city' keyboardType='default'/>
+                            <RegisterItem text='NIP' updateValue={this.updateValue.bind(this)} value={this.state.nip} fieldName='nip' keyboardType='numeric'/>
+                            <RegisterItem text='Ilość pracowników' updateValue={this.updateValue.bind(this)} value={this.state.workerCount} fieldName='workerCount' keyboardType='default'/>
                             {/*<RegisterItem text='Menadżer sprzedaży' updateValue={this.updateValue.bind(this)} fieldName='salesManager'/>*/}
                             <RegisterItemSelect text='Menadżer sprzedaży' value={this.state.salesManager} updateValue={this.updateValue.bind(this)} fieldName='salesManager'/>
                             <CheckBox

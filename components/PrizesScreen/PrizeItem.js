@@ -16,7 +16,7 @@ export default class PrizeItem extends React.Component {
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
                 this.setState({
-                    symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[0].symbol,
+                    symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[1].symbol,
                     isLoading: false,
                 })
 
@@ -32,7 +32,7 @@ export default class PrizeItem extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.data.symbol !== prevProps.data.symbol) {
             this.setState({
-                symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[0].symbol,
+                symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[1].symbol,
                 isLoading: false,
             })
         }
@@ -55,6 +55,7 @@ export default class PrizeItem extends React.Component {
     }
 
     render() {
+        console.log(this.props.data);
         return(
             <View style={styles.prizeCategoryView}>
                 <Image source={{uri:this.props.data.imagemedium}} style={styles.prizeImage} resizeMode='contain'/>
@@ -63,7 +64,7 @@ export default class PrizeItem extends React.Component {
                 {this.props.data.variants !== undefined &&
                 <DropDownPicker
                     items={this.createItemsList()}
-                    defaultValue={this.props.data?.variants[0].symbol}
+                    defaultValue={this.props.data?.variants[1].symbol}
                     containerStyle={{height: 40, width: 100}}
                     style={{backgroundColor: '#FFFFFF', zIndex: 1}}
                     itemStyle={{

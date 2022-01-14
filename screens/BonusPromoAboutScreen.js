@@ -46,8 +46,6 @@ export default class BonusPromoAboutScreen extends React.Component {
                             <Text style={[styles.textPromo]}>- Kup zawór RE.FINE lub RE.GUARD w terminie od 10.01.2021 do 31.12.2022 r.</Text>
                             <Text style={[styles.textPromo]}>- Zarejestruj fakturę za zakup produktu</Text>
                             <Text style={[styles.textPromo, styles.textMarginBottom]}>- Wybierz swój bonus!</Text>
-                            <Text style={[styles.textPromo, styles.textBold, styles.textColorBlue]}>Uwaga</Text>
-                            <Text style={[styles.textPromo, styles.textMarginBottom]}>Akcję kierujemy tylko do zarejestrowanych uczestników programu Instaluj Korzyści. Chcesz się cieszyć bonusem? Załóż konto, zajmie Ci to tylko kilka chwil i zapewni wiele możliwości do zysku!</Text>
                             <Text style={[styles.textPromo, styles.textBold]}>Bonus:</Text>
                             <Text style={[styles.textPromo]}>Ty kupiłeś, Ty wybierasz – zobacz jakie nagrody na Ciebie czekają:</Text>
                             <Swiper style={{height: 160, marginTop: 20}}>

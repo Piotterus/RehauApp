@@ -115,7 +115,7 @@ export default class BonusPromoMyBonusesScreen extends React.Component {
                     <HeaderBack navigation={this.props.navigation} />
                     <HeaderImage image="BonusPromo"/>
                     <View style={styles.contactView}>
-                        <Text style={styles.contactHeaderText}>Moje zamówienia</Text>
+                        <Text style={styles.contactHeaderText}>Moje bonusy</Text>
                         <Divider/>
                         <ScrollView contentContainerStyle={{alignItems: 'flex-start'}} style={{width: '100%', height: '100%'}}>
                             <BonusPromoBonusHeader/>
