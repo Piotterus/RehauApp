@@ -73,6 +73,7 @@ export default class LoginScreen extends React.Component {
     })
         .then(response => response.json())
         .then(async responseJson => {
+          console.log(responseJson);
           if (responseJson.error.code === 0) {
             if (this.state.rememberEnabled) {
               await AsyncStorage.setItem('isLoggedIn', '1');

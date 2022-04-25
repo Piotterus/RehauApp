@@ -101,7 +101,7 @@ export default class BonusPromoModalPrzelew extends React.Component {
                                         backgroundColor: 'blue'
                                     }}
                                 />
-                                <TouchableOpacity style={{alignSelf: 'stretch'}} onPress={() => this.props.przelew(this.props.item.code,this.state.value)}>
+                                <TouchableOpacity style={{alignSelf: 'stretch'}} onPress={() => this.props.przelew(this.props.item.code,this.state.value,this.state.bankAccount)}>
                                     <Text style={{color: '#2592E6', alignSelf: 'center', paddingTop: 10}}>ZAMÓW</Text>
                                 </TouchableOpacity>
                             </View>
