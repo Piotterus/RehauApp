@@ -62,8 +62,8 @@ export default class LoginScreen extends React.Component {
       password: password,
     };
 
-    let url = `https://api.verbum.com.pl/authentication?${queryString}`;
-
+    let url = `${this.props.apiUrl}/authentication?${queryString}`;
+    console.log(url);
     fetch(url, {
       method: 'POST',
       headers: {
@@ -73,8 +73,10 @@ export default class LoginScreen extends React.Component {
     })
         .then(response => response.json())
         .then(async responseJson => {
+          responseJson = responseJson.data;
           console.log(responseJson);
           if (responseJson.error.code === 0) {
+            console.log(responseJson.error.code)
             if (this.state.rememberEnabled) {
               await AsyncStorage.setItem('isLoggedIn', '1');
               await AsyncStorage.setItem('token', responseJson.token);
@@ -120,6 +122,8 @@ export default class LoginScreen extends React.Component {
     })
         .then(response => response.json())
         .then(async responseJson => {
+          responseJson = responseJson.data;
+          console.log(responseJson);
           if (responseJson.error.code === 0) {
             if (responseJson.user?.datemodify == null) {
               this.props.login(token, fullname, true);
