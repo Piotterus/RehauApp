@@ -28,11 +28,23 @@ export default class NewsScreen extends React.Component {
     }
   }
 
+  objToQueryString(obj) {
+    const keyValuePairs = [];
+    for (const key in obj) {
+      keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
+    }
+    return keyValuePairs.join('&');
+  }
+
   componentDidMount() {
 
     this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
-      let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/infos`;
+      const queryString = this.objToQueryString({
+        session: this.props.token,
+      });
+
+      let url = `${this.props.apiUrl}/newsList?${queryString}`;
 
       fetch(url, {
         method: 'GET',
@@ -42,9 +54,11 @@ export default class NewsScreen extends React.Component {
       })
           .then(response => response.json())
           .then(responseJson => {
+            responseJson = responseJson.data;
+            console.log(responseJson);
             if (responseJson.error.code === 0) {
               this.setState({
-                news: responseJson.news,
+                news: responseJson.article,
               }, () => this.setState({isLoading: false}))
             } else {
               this.setState({

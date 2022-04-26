@@ -45,8 +45,12 @@ export default class MyAccountScreen extends React.Component {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
-            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/points`;
+            const queryString = this.objToQueryString({
+                session: this.props.token,
+            });
 
+            let url = `${this.props.apiUrl}/points?${queryString}`;
+console.log(url);
             fetch(url, {
                 method: 'GET',
                 headers: {
@@ -55,6 +59,8 @@ export default class MyAccountScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
+                    responseJson = responseJson.data;
+                    console.log(responseJson);
                     if (responseJson.error.code === 0) {
                         this.setState({
                             pointsActive: responseJson.points.active,

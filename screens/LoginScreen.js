@@ -76,12 +76,16 @@ export default class LoginScreen extends React.Component {
           responseJson = responseJson.data;
           console.log(responseJson);
           if (responseJson.error.code === 0) {
-            console.log(responseJson.error.code)
             if (this.state.rememberEnabled) {
               await AsyncStorage.setItem('isLoggedIn', '1');
-              await AsyncStorage.setItem('token', responseJson.token);
+              await AsyncStorage.setItem('token', responseJson.session.id);
             }
-            this.checkIfForceUpdate(responseJson.token, responseJson.fullname)
+            console.log(responseJson.user?.datemodify);
+            if (responseJson.user?.datemodify == null) {
+                this.props.login(responseJson.session.id, responseJson.fullname, true);
+            } else {
+                this.props.login(responseJson.session.id, responseJson.fullname, false);
+            }
           } else {
             this.setState({
               error: responseJson.error,
@@ -104,48 +108,6 @@ export default class LoginScreen extends React.Component {
   }
 
   register() {
-
-  }
-
-  checkIfForceUpdate(token, fullname) {
-    const queryString = this.objToQueryString({
-      key: this.props.keyApp,
-    });
-
-    let url = `https://api.verbum.com.pl/${this.props.appId}/${token}`;
-
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': "application/json",
-      },
-    })
-        .then(response => response.json())
-        .then(async responseJson => {
-          responseJson = responseJson.data;
-          console.log(responseJson);
-          if (responseJson.error.code === 0) {
-            if (responseJson.user?.datemodify == null) {
-              this.props.login(token, fullname, true);
-            } else {
-              this.props.login(token, fullname, false)
-            }
-          } else {
-            this.setState({
-              error: responseJson.error,
-              isLoading: false,
-            }, () => this.setModalErrorVisible(true))
-          }
-        })
-        .catch((error) => {
-          this.setState({
-            isLoading: false,
-            error: {
-              code: "BŁĄD",
-              message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
-            }
-          }, () => this.setModalErrorVisible(true));
-        });
 
   }
 

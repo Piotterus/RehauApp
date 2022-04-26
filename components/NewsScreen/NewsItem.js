@@ -9,9 +9,7 @@ export default class NewsItem extends React.Component {
                 onPress={() => this.props.navigation.navigate('OneNews', {data: this.props.data})}
                 style={styles.newsView}>
                 <Image source={{uri:this.props.data.imagesmall}} style={styles.newsImage} resizeMode='contain'/>
-                <Text style={styles.dateText}>{this.props.data.date} {this.props.data.category}</Text>
                 <Text style={styles.titleText}>{this.props.data.title}</Text>
-                <Text style={styles.textText}></Text>
                 <View style={styles.dividerView}/>
             </TouchableOpacity>
         )
@@ -43,7 +41,7 @@ const styles = StyleSheet.create({
     dividerView: {
         width: '100%',
         borderColor: '#4e4e4e',
-        borderWidth: 1,
+        borderWidth: 0.5,
         marginTop: 10,
         marginBottom: 10,
     }

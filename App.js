@@ -37,6 +37,7 @@ import BonusPromoOneProductScreen from './screens/BonusPromoOneProductScreen';
 import BonusPromoRegisterFVScreen from './screens/BonusPromoRegisterFVScreen';
 import BonusPromoRegisteredFVScreen from './screens/BonusPromoRegisteredFVScreen';
 import BonusPromoMyBonusesScreen from './screens/BonusPromoMyBonusesScreen';
+import HistoryFVScreen from './screens/HistoryFVScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -215,6 +216,14 @@ export default class App extends  React.Component {
                     </Drawer.Screen>
                     <Drawer.Screen name="History">
                       {props => <HistoryScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="HistoryFV">
+                      {props => <HistoryFVScreen
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
