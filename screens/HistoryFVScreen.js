@@ -26,6 +26,9 @@ import BonusPromoMyFVItem from '../components/BonusPromoMyFVScreen/BonusPromoMyF
 import BonusPromoMyFVHeader from '../components/BonusPromoMyFVScreen/BonusPromoMyFVHeader';
 import Activity from '../components/allScreen/Activity';
 import ErrorModal from '../components/allScreen/ErrorModal';
+import HistoryFVItem2 from '../components/HistoryFVScreen/HistoryFVItem2';
+import HistoryFVItem from '../components/HistoryScreen/HistoryFVItem';
+import HistoryFVHeader from '../components/HistoryScreen/HistoryFVHeader';
 
 export default class HistoryFVScreen extends React.Component {
     constructor(props) {
@@ -67,9 +70,9 @@ export default class HistoryFVScreen extends React.Component {
                     responseJson = responseJson.data;
                     console.log(responseJson);
                     if (responseJson.error.code === 0) {
-                        if (responseJson.invoicesList !== undefined) {
+                        if (responseJson.invoice !== undefined) {
                             this.setState({
-                                invoicesList: responseJson?.invoicesList,
+                                invoicesList: responseJson?.invoice,
                             }, () => this.setState({isLoading: false}))
                         } else {
                             this.setState({
@@ -112,8 +115,9 @@ export default class HistoryFVScreen extends React.Component {
     createFVList() {
         let fvList = [];
         for (let i in this.state.invoicesList) {
+            console.log(this.state.invoicesList[i])
             fvList.push(
-                <BonusPromoMyFVItem navigation={this.props.navigation} key={i} invoice={this.state.invoicesList[i]}/>,
+                <HistoryFVItem navigation={this.props.navigation} key={i} invoice={this.state.invoicesList[i]}/>,
             );
         }
         return fvList;
@@ -132,7 +136,7 @@ export default class HistoryFVScreen extends React.Component {
                         <Text style={styles.contactHeaderText}>Moje faktury</Text>
                         <Divider/>
                         <ScrollView contentContainerStyle={{alignItems: 'flex-start'}} style={{width: '100%', height: '100%'}}>
-                            <BonusPromoMyFVHeader/>
+                            <HistoryFVHeader/>
                             {this.createFVList()}
                         </ScrollView>
                     </View>

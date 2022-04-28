@@ -30,7 +30,7 @@ export default class HomeScreen extends React.Component {
             style={styles.imageBackground}>
             <HeaderBurger navigation={this.props.navigation} />
             <View style={styles.menuRow}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('RegisterCode')} style={styles.menuItem}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('RegisterFV')} style={styles.menuItem}>
                 <Image
                   source={require('../icons/barcode_icon.png')}
                   style={styles.menuImage}
@@ -50,7 +50,7 @@ export default class HomeScreen extends React.Component {
               </TouchableOpacity>
             </View>
             <View style={styles.menuRow}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('HistoryFV')} style={styles.menuItem}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('History')} style={styles.menuItem}>
                 <Image
                     source={require('../icons/time_icon.png')}
                     style={styles.menuImage}

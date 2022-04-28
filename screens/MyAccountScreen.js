@@ -50,7 +50,7 @@ export default class MyAccountScreen extends React.Component {
             });
 
             let url = `${this.props.apiUrl}/points?${queryString}`;
-console.log(url);
+
             fetch(url, {
                 method: 'GET',
                 headers: {

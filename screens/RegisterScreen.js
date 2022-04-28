@@ -8,7 +8,9 @@ import {
     Text,
     ScrollView,
     ActivityIndicator,
-    TouchableOpacity, TextInput,
+    TouchableOpacity,
+    TextInput,
+    KeyboardAvoidingView,
 } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import SafeAreaView from 'react-native-safe-area-view';
@@ -132,7 +134,12 @@ export default class RegisterScreen extends React.Component {
 
     register() {
         if (this.checkFields()) {
-            let url = `https://api.verbum.com.pl/user/register`;
+
+            const queryString = this.objToQueryString({
+                session: this.props.token,
+            });
+
+            let url = `${this.props.apiUrl}/userRegister?${queryString}`;
 
             let agree1;
             if (this.state.check) {
@@ -142,17 +149,16 @@ export default class RegisterScreen extends React.Component {
             }
 
             let body = {
-                appId: this.props.appId,
-                firstname: this.state.firstName,
-                lastname: this.state.lastName,
-                email: this.state.email,
-                phone: this.state.phone,
-                nip: this.state.nip,
-                city: this.state.city,
-                address: this.state.address,
-                zipcode: this.state.postal,
-                other1: this.state.workerCount,
-                account: this.state.salesManager,
+                user_firstname: this.state.firstName,
+                user_lastname: this.state.lastName,
+                user_email: this.state.email,
+                user_phone: this.state.phone,
+                user_nip: this.state.nip,
+                user__address_city: this.state.city,
+                user__address_street: this.state.address,
+                user__address_zipcode: this.state.postal,
+                user_other1: this.state.workerCount,
+                user_account: this.state.salesManager,
                 regulations: {
                     1: agree1,
                 }
@@ -167,6 +173,7 @@ export default class RegisterScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
+                    responseJson = responseJson.data;
                     console.log(responseJson);
                     if (responseJson.error.code === 0) {
                         this.props.navigation.navigate('Login');
@@ -199,17 +206,20 @@ export default class RegisterScreen extends React.Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{flex: 1}}
+            >
                 <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
                 <SafeAreaView
                     style={{flex: 1}}
-                    forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
+                    forceInset={{top: 0, bottom: 'always', right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
                     <HeaderImage image="Register"/>
                     <View style={styles.myAccountView}>
-                        <Text style={styles.myAccountHeaderText}>Przystąp do programu</Text>
-                        <Divider/>
                         <ScrollView style={{width: '90%', height: '100%'}} contentContainerStyle={styles.registerForm}>
+                            <Text style={styles.myAccountHeaderText}>Przystąp do programu</Text>
+                            <Divider/>
                             <Text style={styles.registerHeaderText}>Wypełnij poprawnie poniższy formualrz i dołącz do Instaluj Korzyści.</Text>
                             <Text style={styles.registerHeaderText}>Zapraszamy!</Text>
                             <RegisterItem text='Imię' updateValue={this.updateValue.bind(this)} value={this.state.firstname} fieldName='firstName' keyboardType='default'/>
@@ -220,7 +230,7 @@ export default class RegisterScreen extends React.Component {
                             <RegisterItem text='Kod pocztowy' updateValue={this.updateValue.bind(this)} value={this.state.postal} fieldName='postal' keyboardType='numeric'/>
                             <RegisterItem text='Miejscowość' updateValue={this.updateValue.bind(this)} value={this.state.city} fieldName='city' keyboardType='default'/>
                             <RegisterItem text='NIP' updateValue={this.updateValue.bind(this)} value={this.state.nip} fieldName='nip' keyboardType='numeric'/>
-                            <RegisterItem text='Ilość pracowników' updateValue={this.updateValue.bind(this)} value={this.state.workerCount} fieldName='workerCount' keyboardType='default'/>
+                            <RegisterItem text='Ilość pracowników' updateValue={this.updateValue.bind(this)} value={this.state.workerCount} fieldName='workerCount' keyboardType='numeric'/>
                             {/*<RegisterItem text='Menadżer sprzedaży' updateValue={this.updateValue.bind(this)} fieldName='salesManager'/>*/}
                             <RegisterItemSelect text='Menadżer sprzedaży' value={this.state.salesManager} updateValue={this.updateValue.bind(this)} fieldName='salesManager'/>
                             <CheckBox
@@ -242,7 +252,7 @@ export default class RegisterScreen extends React.Component {
                     <Activity/>
                     }
                 </SafeAreaView>
-            </View>
+            </KeyboardAvoidingView>
         );
     }
 }

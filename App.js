@@ -38,6 +38,8 @@ import BonusPromoRegisterFVScreen from './screens/BonusPromoRegisterFVScreen';
 import BonusPromoRegisteredFVScreen from './screens/BonusPromoRegisteredFVScreen';
 import BonusPromoMyBonusesScreen from './screens/BonusPromoMyBonusesScreen';
 import HistoryFVScreen from './screens/HistoryFVScreen';
+import RegisterFVScreen from './screens/RegisterFVScreen';
+import RegisteredFVScreen from './screens/RegisteredFVScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -57,6 +59,7 @@ export default class App extends  React.Component {
       appId: 99,
       fullName: '',
       apiUrl: 'https://2022.instalujkorzysci.pl/apiverbum/apiVerbum',
+      baseUrl: 'https://2022.instalujkorzysci.pl',
     }
   }
 
@@ -177,6 +180,7 @@ export default class App extends  React.Component {
                                   }}
                                   drawerContent={(props) => <CustomDrawer
                                       logout={this.logout.bind(this)} {...props}
+                                      baseUrl={this.state.baseUrl}
                                       />}
                                   openByDefault={false}
                 >
@@ -199,6 +203,22 @@ export default class App extends  React.Component {
                     </Drawer.Screen>
                     <Drawer.Screen name="RegisteredCode">
                       {props => <RegisteredCodeScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="RegisterFV">
+                      {props => <RegisterFVScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="RegisteredFV">
+                      {props => <RegisteredFVScreen
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
