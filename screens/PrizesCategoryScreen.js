@@ -27,7 +27,7 @@ export default class PrizesCategoryScreen extends React.Component {
             error: '',
             modalErrorVisible: false,
             isLoading: true,
-            prizes: '',
+            prizesCategory: '',
         }
     }
 
@@ -47,7 +47,7 @@ export default class PrizesCategoryScreen extends React.Component {
                 session: this.props.token,
             });
 
-            let url = `${this.props.apiUrl}/catalogPrizesCategory?${queryString}`;
+            let url = `${this.props.apiUrl}/catalogPrizes?${queryString}`;
 
             fetch(url, {
                 method: 'GET',
@@ -57,18 +57,18 @@ export default class PrizesCategoryScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
-                    responseJson = responseJson.data
+                    responseJson = responseJson.data;
                     console.log(responseJson);
-                    /*if (responseJson.error.code === 0) {
+                    if (responseJson.error.code === 0) {
                         this.setState({
-                            prizes: responseJson.prizes,
+                            prizesCategory: responseJson.category,
                         }, () => this.setState({isLoading: false}))
                     } else {
                         this.setState({
                             isLoading: false,
                             error: responseJson.error
                         }, () => this.setModalErrorVisible(true))
-                    }*/
+                    }
                 })
                 .catch((error) => {
                     this.setState({
@@ -98,11 +98,12 @@ export default class PrizesCategoryScreen extends React.Component {
 
     createPrizesCategoryList() {
         let prizesCategoryList = [];
-        for (let i in this.state.prizes) {
-            if (this.state.prizes[i].name !== "Bonus") {
+        for (let i in this.state.prizesCategory) {
+            console.log(this.state.prizesCategory[i])
+            if (this.state.prizesCategory[i].name !== "Bonus") {
                 prizesCategoryList.push(
-                    <PrizeCategoryItem navigation={this.props.navigation} key={i} max={this.state.prizes.length}
-                                       data={this.state.prizes} name={this.state.prizes[i].name}/>,
+                    <PrizeCategoryItem navigation={this.props.navigation} key={i}
+                                       data={this.state.prizesCategory[i]} name={this.state.prizesCategory[i].name}/>,
                 );
             }
         }
