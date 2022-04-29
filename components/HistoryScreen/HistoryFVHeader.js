@@ -9,8 +9,11 @@ export default class HistoryFVHeader extends React.Component {
         return(
             <View style={styles.FVView}>
                 <View style={styles.FVDataView}>
-                    <Text style={[styles.textSmall, styles.textBold]}>Numer FV</Text>
+                    {/*<Text style={[styles.textSmall, styles.textBold]}>Numer FV</Text>*/}
                     <Text style={styles.textSmall}>Data dodania</Text>
+                </View>
+                <View style={styles.FVDataView}>
+                    <Text style={[styles.textSmall]}>Wartość FV (netto)</Text>
                 </View>
                 <View style={styles.textView}>
                     <Text style={[styles.textSmall]}>Plik</Text>
@@ -33,7 +36,7 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
     },
     FVDataView: {
-        flex: 4,
+        flex: 2,
     },
     textView: {
         flex: 1,

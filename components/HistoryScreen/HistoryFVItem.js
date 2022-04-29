@@ -17,8 +17,11 @@ export default class HistoryFVItem extends React.Component {
         return(
             <View style={styles.FVView}>
                 <View style={styles.FVDataView}>
-                    <Text style={styles.fvTitleText}>{invoice.title}</Text>
+                    {/*<Text style={styles.fvTitleText}>{invoice.title}</Text>*/}
                     <Text style={styles.fvDateText}>{invoice.dateadd}</Text>
+                </View>
+                <View style={styles.FVDataView}>
+                    <Text style={styles.fvDateText}>{invoice.points}</Text>
                 </View>
                 <View style={styles.fvImageView}>
                     {/*<TouchableOpacity onPress={() => Linking.openURL(invoice.files[1].urlOriginal)}>
