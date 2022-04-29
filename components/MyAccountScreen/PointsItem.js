@@ -8,7 +8,7 @@ export default class PointsItem extends React.Component {
             return (
                 <View style={styles.pointsView}>
                     <Text style={styles.pointsText}>{this.props.name}</Text>
-                    <Text style={styles.pointsValue}>{this.props.points} pkt</Text>
+                    <Text style={styles.pointsValue}>{this.props.points} {this.props.pointsType}</Text>
                 </View>
             )
         } else {

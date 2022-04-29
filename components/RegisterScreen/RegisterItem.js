@@ -6,6 +6,7 @@ export default class RegisterItem extends React.Component {
     render() {
         let fieldName;
         let maxLength;
+        let capitalize = 'sentences';
         switch (this.props.fieldName) {
             case 'firstName':
                 fieldName = 'firstName';
@@ -15,27 +16,32 @@ export default class RegisterItem extends React.Component {
                 break;
             case 'phone':
                 fieldName = 'phone';
+                capitalize = 'none';
                 maxLength = 11;
                 break;
             case 'email':
                 fieldName = 'email';
+                capitalize = 'none';
                 break;
             case 'address':
                 fieldName = 'address';
                 break;
             case 'postal':
                 fieldName = 'postal';
-                maxLength = 6
+                capitalize = 'none';
+                maxLength = 6;
                 break;
             case 'city':
                 fieldName = 'city';
                 break;
             case 'nip':
                 fieldName = 'nip';
+                capitalize = 'none';
                 maxLength = 10;
                 break;
             case 'workerCount':
                 fieldName = 'workerCount';
+                capitalize = 'none';
                 break;
             case 'salesManager':
                 fieldName = 'salesManager';
@@ -47,7 +53,7 @@ export default class RegisterItem extends React.Component {
                     textAlign="center"
                     style={styles.textInput}
                     onChangeText={(text) => this.props.updateValue(text, fieldName)}
-                    autoCapitalize="none"
+                    autoCapitalize={capitalize}
                     keyboardType={this.props.keyboardType}
                     maxLength={maxLength > 0 ? maxLength : null}
                     value={this.props.value}

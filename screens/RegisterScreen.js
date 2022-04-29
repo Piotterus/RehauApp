@@ -135,11 +135,7 @@ export default class RegisterScreen extends React.Component {
     register() {
         if (this.checkFields()) {
 
-            const queryString = this.objToQueryString({
-                session: this.props.token,
-            });
-
-            let url = `${this.props.apiUrl}/userRegister?${queryString}`;
+            let url = `${this.props.apiUrl}/userRegister`;
 
             let agree1;
             if (this.state.check) {
@@ -154,9 +150,9 @@ export default class RegisterScreen extends React.Component {
                 user_email: this.state.email,
                 user_phone: this.state.phone,
                 user_nip: this.state.nip,
-                user__address_city: this.state.city,
-                user__address_street: this.state.address,
-                user__address_zipcode: this.state.postal,
+                user_address_city: this.state.city,
+                user_address_street: this.state.address,
+                user_address_zipcode: this.state.postal,
                 user_other1: this.state.workerCount,
                 user_account: this.state.salesManager,
                 regulations: {

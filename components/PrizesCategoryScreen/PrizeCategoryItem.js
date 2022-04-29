@@ -21,12 +21,12 @@ const styles = StyleSheet.create({
         padding: 5,
         //width: 200,
         //backgroundColor: 'blue',
-        height: 100,
+        height: 140,
         marginBottom: 5,
     },
     prizeCategoryImage: {
-        width: '80%',
-        height: 90,
+
+        height: '80%',
         //backgroundColor: 'red'
     },
     prizeCategoryViewText: {
@@ -35,6 +35,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#DC0060',
         paddingBottom: 5,
+        height: '20%',
+        //backgroundColor: 'red'
     },
     prizeCategoryText: {
         color: '#DC0060',

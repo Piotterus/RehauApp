@@ -40,6 +40,7 @@ import BonusPromoMyBonusesScreen from './screens/BonusPromoMyBonusesScreen';
 import HistoryFVScreen from './screens/HistoryFVScreen';
 import RegisterFVScreen from './screens/RegisterFVScreen';
 import RegisteredFVScreen from './screens/RegisteredFVScreen';
+import PasswordRemindScreen from './screens/PasswordRemindScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -439,6 +440,21 @@ export default class App extends  React.Component {
                                 }}
                     >
                       {props => <RegisterScreen
+                          {...props}
+                          appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
+                      />}
+                    </Stack.Screen>
+                    <Stack.Screen name="PasswordRemind"
+                                  options={{
+                                    title: 'PasswordRemind',
+                                    headerStyle: {
+                                      backgroundColor: 'transparent',
+                                    },
+                                    gestureEnabled: false,
+                                  }}
+                    >
+                      {props => <PasswordRemindScreen
                           {...props}
                           appId={this.state.appId}
                           apiUrl={this.state.apiUrl}

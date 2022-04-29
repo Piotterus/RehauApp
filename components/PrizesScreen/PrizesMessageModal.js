@@ -2,21 +2,21 @@ import React from 'react'
 import {Dimensions, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native';
 import Modal from 'react-native-modal';
 
-export default class MessageModal extends React.Component {
+export default class PrizesMessageModal extends React.Component {
 
     render() {
         let errorTitle = '';
         let errorMessage = '';
         errorTitle=this.props.message.code;
         errorMessage=this.props.message.message;
-        if (this.props.message.code === 0) {
+        if (this.props.type === 'success') {
             return (
                 <Modal isVisible={this.props.visible}>
                     <TouchableWithoutFeedback onPress={() => this.props.setModalMessageVisible(false)}>
                         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                             <View style={[styles.modalView, styles.modalOK]}>
                                 <Text style={{color: '#0E395A', fontSize: 16, fontWeight: 'bold'}}>Zamówienie</Text>
-                                <Text style={{color: '#0E395A', fontSize: 12}}>produkt został zamówiony</Text>
+                                <Text style={{color: '#0E395A', fontSize: 12}}>{this.props.message.title}</Text>
                                 <Text style={{color: '#0E395A', fontSize: 14}}>{errorMessage}</Text>
                                 <View style={{width: '100%', alignItems: 'center', alignSelf: 'center'}}>
                                     <View
@@ -38,14 +38,14 @@ export default class MessageModal extends React.Component {
                     </TouchableWithoutFeedback>
                 </Modal>
             );
-        } else {
+        } else if (this.props.type === 'error') {
             return (
                 <Modal isVisible={this.props.visible}>
                     <TouchableWithoutFeedback onPress={() => this.props.setModalMessageVisible(false)}>
                         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                             <View style={[styles.modalView, styles.modalError]}>
                                 <Text style={{color: '#0E395A', fontSize: 16, fontWeight: 'bold'}}>Zamówienie błędne</Text>
-                                <Text style={{color: '#0E395A', fontSize: 12}}>nie można zamówić produktu</Text>
+                                <Text style={{color: '#0E395A', fontSize: 12}}/>
                                 <Text style={{color: '#0E395A', fontSize: 14, paddingRight: 10, paddingLeft: 10}}>{errorMessage}</Text>
                                 <View style={{width: '100%', alignItems: 'center', alignSelf: 'center'}}>
                                     <View
@@ -67,6 +67,8 @@ export default class MessageModal extends React.Component {
                     </TouchableWithoutFeedback>
                 </Modal>
             )
+        } else {
+            return null;
         }
     }
 }

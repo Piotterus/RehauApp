@@ -30,11 +30,24 @@ export default class HistoryOrdersScreen extends React.Component {
         }
     }
 
+    objToQueryString(obj) {
+        const keyValuePairs = [];
+        for (const key in obj) {
+            keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
+        }
+        return keyValuePairs.join('&');
+    }
+
+
     componentDidMount() {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
-            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/history/orders`;
+            const queryString = this.objToQueryString({
+                session: this.props.token,
+            });
+
+            let url = `${this.props.apiUrl}/ordersList?${queryString}`;
 
             fetch(url, {
                 method: 'GET',
@@ -44,10 +57,11 @@ export default class HistoryOrdersScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
+                    responseJson = responseJson.data;
                     if (responseJson.error.code === 0) {
                         if (responseJson.orders !== undefined) {
                             this.setState({
-                                orders: responseJson?.orders?.orders,
+                                orders: responseJson?.orders,
                             }, () => this.setState({isLoading: false}))
                         } else {
                             this.setState({

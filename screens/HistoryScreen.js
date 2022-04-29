@@ -105,10 +105,10 @@ export default class HistoryScreen extends React.Component {
                 .then(responseJson => {
                     responseJson = responseJson.data;
                     console.log(responseJson);
-                    /*if (responseJson.error.code === 0) {
+                    if (responseJson.error.code === 0) {
                         if (responseJson.orders !== undefined) {
                             this.setState({
-                                orders: responseJson?.orders?.orders,
+                                orders: responseJson?.orders,
                             }, () => this.setState({isLoading: false}))
                         } else {
                             this.setState({
@@ -120,7 +120,7 @@ export default class HistoryScreen extends React.Component {
                             isLoading: false,
                             error: responseJson.error
                         }, () => this.setModalErrorVisible(true))
-                    }*/
+                    }
                 })
                 .catch((error) => {
                     this.setState({
@@ -168,7 +168,7 @@ export default class HistoryScreen extends React.Component {
         for (let i in this.state.orders) {
             if (i < 3) {
                 historyOrdersList.push(
-                    <HistoryOrderItem key={2*i} max={this.state.orders.length} lp={i} data={this.state.orders[i]} navigation={this.props.navigation}/>,
+                    <HistoryOrderItem key={2*i} lp={i} data={this.state.orders[i]} navigation={this.props.navigation}/>,
                 );
                 historyOrdersList.push(
                     <View key={2*i+1} style={{borderWidth: 0.5, borderColor: '#4E4E4E', width: '100%'}}/>,

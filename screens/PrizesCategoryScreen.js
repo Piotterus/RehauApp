@@ -58,7 +58,7 @@ export default class PrizesCategoryScreen extends React.Component {
                 .then(response => response.json())
                 .then(responseJson => {
                     responseJson = responseJson.data;
-                    console.log(responseJson);
+                    //console.log(responseJson);
                     if (responseJson.error.code === 0) {
                         this.setState({
                             prizesCategory: responseJson.category,
@@ -99,7 +99,6 @@ export default class PrizesCategoryScreen extends React.Component {
     createPrizesCategoryList() {
         let prizesCategoryList = [];
         for (let i in this.state.prizesCategory) {
-            console.log(this.state.prizesCategory[i])
             if (this.state.prizesCategory[i].name !== "Bonus") {
                 prizesCategoryList.push(
                     <PrizeCategoryItem navigation={this.props.navigation} key={i}

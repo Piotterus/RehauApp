@@ -15,6 +15,7 @@ import HeaderBack from '../components/allScreen/HeaderBack';
 import HeaderPage from '../components/allScreen/HeaderPage';
 import Footer from '../components/allScreen/Footer';
 import Activity from '../components/allScreen/Activity';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default class RegisterFVScreen extends Component {
     constructor(props) {
@@ -183,8 +184,14 @@ export default class RegisterFVScreen extends Component {
                         {this.state.isLoading === false &&
                         <View style={styles.bottomOverlay}>
                             <TouchableOpacity onPress={() => this.handleTorch(this.state.torchOn)}>
-                                <Image style={styles.cameraIcon} source={require('../icons/add.png')}/>
+                                {/*<Image style={styles.cameraIcon} source={require('../icons/add.png')}/>*/}
                                 {/*<Image style={{height: 30, width: 30}} source={require('../icons/X-icon.png')}/>*/}
+                                {!this.state.torchOn &&
+                                <Icon name="flash" size={50} color="#DC0060" />
+                                }
+                                {this.state.torchOn &&
+                                <Icon name="flash-off" size={50} color="#DC0060" />
+                                }
                             </TouchableOpacity>
                         </View>
                         }

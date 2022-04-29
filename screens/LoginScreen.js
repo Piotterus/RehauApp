@@ -1,16 +1,17 @@
 import React from 'react';
 
 import {
-    Image,
-    StyleSheet,
-    Dimensions,
-    View,
-    Text,
-    TextInput,
-    KeyboardAvoidingView,
-    Platform,
-    TouchableOpacity,
-    AsyncStorage
+  Image,
+  StyleSheet,
+  Dimensions,
+  View,
+  Text,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+  AsyncStorage,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import ErrorModal from '../components/allScreen/ErrorModal';
@@ -74,6 +75,7 @@ export default class LoginScreen extends React.Component {
         .then(response => response.json())
         .then(async responseJson => {
           responseJson = responseJson.data;
+          console.log(responseJson);
           if (responseJson.error.code === 0) {
             if (this.state.rememberEnabled) {
               await AsyncStorage.setItem('isLoggedIn', '1');
@@ -165,7 +167,9 @@ export default class LoginScreen extends React.Component {
                   />
                 </View>
                 <View style={styles.remindView}>
-                  <Text style={styles.remindText}>Przypomnij hasło</Text>
+                  <TouchableWithoutFeedback onPress={() =>  this.props.navigation.navigate('PasswordRemind')}>
+                    <Text style={styles.remindText}>Przypomnij hasło</Text>
+                  </TouchableWithoutFeedback>
                 </View>
                 <TouchableOpacity onPress={() => this.login(this.state.login, this.state.password)} style={styles.loginButton}>
                   <Text style={styles.loginText}>Zaloguj się</Text>
