@@ -18,27 +18,46 @@ import HeaderBack from '../components/allScreen/HeaderBack';
 import HeaderImage from '../components/allScreen/HeaderImage';
 import PointsItem from '../components/MyAccountScreen/PointsItem';
 import Divider from '../components/allScreen/Divider';
+import BonusPromoMenu from '../components/BonusPromoMenuScreen/BonusPromoMenu';
+import BonusPromoPremieButtons from '../components/BonusPromoPremieScreen/BonusPromoPremieButtons';
+import BonusPromoPremieText from '../components/BonusPromoPremieScreen/BonusPromoPremieText';
+import PrizeCategoryItem from '../components/PrizesCategoryScreen/PrizeCategoryItem';
+import BonusPromoMyFVItem from '../components/BonusPromoMyFVScreen/BonusPromoMyFVItem';
+import BonusPromoMyFVHeader from '../components/BonusPromoMyFVScreen/BonusPromoMyFVHeader';
 import Activity from '../components/allScreen/Activity';
-import BonusPromoBonusHeader from '../components/BonusPromoMyBonusesScreen/BonusPromoBonusHeader';
-import BonusPromoBonusItem from '../components/BonusPromoMyBonusesScreen/BonusPromoBonusItem';
 import ErrorModal from '../components/allScreen/ErrorModal';
+import HistoryFVItem2 from '../components/HistoryFVScreen/HistoryFVItem2';
+import HistoryFVItem from '../components/HistoryScreen/HistoryFVItem';
+import HistoryFVHeader from '../components/HistoryScreen/HistoryFVHeader';
 
-export default class BonusPromoMyBonusesScreen extends React.Component {
+export default class HistoryFVScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             error: '',
             modalErrorVisible: false,
-            isLoading: true,
-            orders: '',
+            loading: true,
+            invoicesList: '',
         }
+    }
+
+    objToQueryString(obj) {
+        const keyValuePairs = [];
+        for (const key in obj) {
+            keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
+        }
+        return keyValuePairs.join('&');
     }
 
     componentDidMount() {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
-            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/history/orders`;
+            const queryString = this.objToQueryString({
+                session: this.props.token,
+            });
+
+            let url = `${this.props.apiUrl}/invoicesList?${queryString}`;
 
             fetch(url, {
                 method: 'GET',
@@ -48,17 +67,16 @@ export default class BonusPromoMyBonusesScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
-                    console.log(url);
+                    responseJson = responseJson.data;
                     console.log(responseJson);
-                    //console.log(responseJson.orders.orders[1].status);
                     if (responseJson.error.code === 0) {
-                        if (responseJson.orders !== undefined) {
+                        if (responseJson.invoice !== undefined) {
                             this.setState({
-                                orders: responseJson?.orders?.orders,
+                                invoicesList: responseJson?.invoice,
                             }, () => this.setState({isLoading: false}))
                         } else {
                             this.setState({
-                                orders: '',
+                                invoicesList: '',
                             }, () => this.setState({isLoading: false}))
                         }
                     } else {
@@ -94,15 +112,15 @@ export default class BonusPromoMyBonusesScreen extends React.Component {
         this.setState({ modalErrorVisible: visible });
     };
 
-    createOrdersList() {
-        let orderList = [];
-        console.log(this.state.orders);
-        for (let i in this.state.orders) {
-            orderList.push(
-                <BonusPromoBonusItem navigation={this.props.navigation} key={i} order={this.state.orders[i]}/>,
+    createFVList() {
+        let fvList = [];
+        for (let i in this.state.invoicesList) {
+            console.log(this.state.invoicesList[i])
+            fvList.push(
+                <HistoryFVItem navigation={this.props.navigation} key={i} invoice={this.state.invoicesList[i]}/>,
             );
         }
-        return orderList;
+        return fvList;
     }
 
     render() {
@@ -115,11 +133,11 @@ export default class BonusPromoMyBonusesScreen extends React.Component {
                     <HeaderBack navigation={this.props.navigation} />
                     <HeaderImage image="BonusPromo"/>
                     <View style={styles.contactView}>
-                        <Text style={styles.contactHeaderText}>Moje bonusy</Text>
+                        <Text style={styles.contactHeaderText}>Moje faktury</Text>
                         <Divider/>
                         <ScrollView contentContainerStyle={{alignItems: 'flex-start'}} style={{width: '100%', height: '100%'}}>
-                            <BonusPromoBonusHeader/>
-                            {this.createOrdersList()}
+                            <HistoryFVHeader/>
+                            {this.createFVList()}
                         </ScrollView>
                     </View>
                     <Footer />

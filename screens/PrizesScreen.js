@@ -18,7 +18,7 @@ import ErrorModal from '../components/allScreen/ErrorModal';
 import Activity from '../components/allScreen/Activity';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
-import MessageModal from '../components/allScreen/MessageModal';
+import PrizesMessageModal from '../components/PrizesScreen/PrizesMessageModal';
 
 export default class PrizesScreen extends React.Component {
     constructor(props) {
@@ -28,11 +28,20 @@ export default class PrizesScreen extends React.Component {
             modalErrorVisible: false,
             modalMessageVisible: false,
             modalMessage: '',
+            modalType: '',
             isLoading: true,
             prizes: '',
             name: '',
             country: 'uk',
         }
+    }
+
+    objToQueryString(obj) {
+        const keyValuePairs = [];
+        for (const key in obj) {
+            keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
+        }
+        return keyValuePairs.join('&');
     }
 
     componentDidMount() {
@@ -72,9 +81,16 @@ export default class PrizesScreen extends React.Component {
         this.setState({
             isLoading: true,
         });
+        console.log(code);
         let body = {
-            code: code,
+            order: [
+                {
+                    symbol: code,
+                    quantity: 1,
+                }
+            ]
         };
+        console.log(body);
         if (code === "") {
             this.setState({
                 isLoading: false,
@@ -85,7 +101,10 @@ export default class PrizesScreen extends React.Component {
             }, () => this.setModalErrorVisible(true));
             return;
         }
-        let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/order`;
+        const queryString = this.objToQueryString({
+            session: this.props.token,
+        });
+        let url = `${this.props.apiUrl}/orderAdd2?${queryString}`;
 
         fetch(url, {
             method: 'POST',
@@ -96,14 +115,17 @@ export default class PrizesScreen extends React.Component {
         })
             .then(response => response.json())
             .then(responseJson => {
+                responseJson = responseJson.data;
                 console.log(responseJson);
-                if (responseJson.orderedProducts.error.code === 0) {
+                if (responseJson.error.code === 0) {
                     this.setState({
-                        modalMessage: responseJson.orderedProducts.error
+                        modalMessage: responseJson.data,
+                        modalType: 'success'
                     }, () => this.setModalMessageVisible(true))
                 } else {
                     this.setState({
-                        modalMessage: responseJson.orderedProducts.error
+                        modalMessage: responseJson.error,
+                        modalType: 'error'
                     }, () => this.setModalMessageVisible(true))
                 }
             })
@@ -123,12 +145,12 @@ export default class PrizesScreen extends React.Component {
 
     createPrizesList() {
         let prizesList = [];
-        for (let i in this.state?.prizes[this.state?.name]?.catalog) {
+        for (let i in this.state?.prizes?.catalog) {
             prizesList.push(
                 <PrizeItem
                     key={i}
-                    max={this.state.prizes[this.state?.name].catalog.length}
-                    data={this.state.prizes[this.state?.name].catalog[i]}
+                    max={this.state.prizes.catalog.length}
+                    data={this.state.prizes.catalog[i]}
                     sendNewOrder={this.sendNewOrder.bind(this)}
                     navigation={this.props.navigation}
                 />,
@@ -152,15 +174,15 @@ export default class PrizesScreen extends React.Component {
         return (
             <View style={{flex: 1}}>
                 <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
-                <MessageModal visible={this.state.modalMessageVisible} message={this.state.modalMessage} setModalMessageVisible={this.setModalMessageVisible.bind(this)}/>
+                <PrizesMessageModal visible={this.state.modalMessageVisible} message={this.state.modalMessage} type={this.state.modalType} setModalMessageVisible={this.setModalMessageVisible.bind(this)}/>
                 <SafeAreaView
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
                     <View style={styles.prizesView}>
                         <View style={styles.prizesHeaderView}>
-                            <Text style={styles.prizesHeaderText}>Wybierz kategorię</Text>
-                            <DropDownPicker
+                            <Text style={styles.prizesHeaderText}>{this.state.name}</Text>
+                            {/*<DropDownPicker
                                 items={this.createItemsList()}
                                 defaultValue={this.state.name}
                                 containerStyle={{height: 40, width: 100}}
@@ -174,7 +196,7 @@ export default class PrizesScreen extends React.Component {
                                 })}
                                 placeholder=""
                                 dropDownMaxHeight={500}
-                            />
+                            />*/}
                         </View>
                         <Divider/>
                         <ScrollView style={{width: '100%', height: '100%', zIndex: -1}}>

@@ -29,6 +29,7 @@ export default class MyAccountScreen extends React.Component {
             pointsActive: '',
             pointsUsed: '',
             pointsForUse: '',
+            value: '',
             isLoading: true,
         }
     }
@@ -45,7 +46,11 @@ export default class MyAccountScreen extends React.Component {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
-            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/points`;
+            const queryString = this.objToQueryString({
+                session: this.props.token,
+            });
+
+            let url = `${this.props.apiUrl}/points?${queryString}`;
 
             fetch(url, {
                 method: 'GET',
@@ -55,11 +60,14 @@ export default class MyAccountScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
+                    responseJson = responseJson.data;
+                    console.log(responseJson);
                     if (responseJson.error.code === 0) {
                         this.setState({
                             pointsActive: responseJson.points.active,
                             pointsUsed: responseJson.points.used,
                             pointsForUse: responseJson.points.foruse,
+                            value: responseJson.value.active,
                         }, () => this.setState({isLoading: false}))
                     } else {
                         this.setState({
@@ -111,9 +119,10 @@ export default class MyAccountScreen extends React.Component {
                             <Text style={{color: '#4E4E4E', fontSize: 16, fontWeight: 'bold'}}>{this.props.fullName}</Text>
                         </View>
                         <ScrollView style={{width: '100%', height: '100%'}}>
-                            <PointsItem name="Punkty zebrane" points={this.state.pointsActive}/>
-                            <PointsItem name="Punkty wykorzystane" points={this.state.pointsUsed}/>
-                            <PointsItem name="Pozostało na koncie" points={this.state.pointsForUse}/>
+                            <PointsItem name="Łączna wartość produktów REHAU na zarejestrowanych fakturach:" points={this.state.value} pointsType="pln"/>
+                            <PointsItem name="Przyznane punkty (5000 PLN = 1 PKT):" points={this.state.pointsActive} pointsType="pkt"/>
+                            <PointsItem name="Wykorzystane punkty:" points={this.state.pointsUsed} pointsType="pkt"/>
+                            <PointsItem name="Pozostało do wykorzystania:" points={this.state.pointsForUse} pointsType="pkt"/>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('History')} style={styles.myAccountButton}>
                                 <Text style={styles.myAccountButtonText}>Moja historia</Text>
                             </TouchableOpacity>

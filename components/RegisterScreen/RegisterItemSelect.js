@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width * 0.7,
         height: 40,
         color: '#4E4E4E',
-        fontSize: 14
+        fontSize: 14,
+        textAlign: 'center'
     },
     placeHolderText: {
         color: '#4E4E4E88',

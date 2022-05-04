@@ -1,16 +1,17 @@
 import React from 'react';
 
 import {
-    Image,
-    StyleSheet,
-    Dimensions,
-    View,
-    Text,
-    TextInput,
-    KeyboardAvoidingView,
-    Platform,
-    TouchableOpacity,
-    AsyncStorage
+  Image,
+  StyleSheet,
+  Dimensions,
+  View,
+  Text,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+  AsyncStorage,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import ErrorModal from '../components/allScreen/ErrorModal';
@@ -62,8 +63,8 @@ export default class LoginScreen extends React.Component {
       password: password,
     };
 
-    let url = `https://api.verbum.com.pl/authentication?${queryString}`;
-
+    let url = `${this.props.apiUrl}/authentication?${queryString}`;
+    console.log(url);
     fetch(url, {
       method: 'POST',
       headers: {
@@ -73,12 +74,18 @@ export default class LoginScreen extends React.Component {
     })
         .then(response => response.json())
         .then(async responseJson => {
+          responseJson = responseJson.data;
+          console.log(responseJson);
           if (responseJson.error.code === 0) {
             if (this.state.rememberEnabled) {
               await AsyncStorage.setItem('isLoggedIn', '1');
-              await AsyncStorage.setItem('token', responseJson.token);
+              await AsyncStorage.setItem('token', responseJson.session.id);
             }
-            this.checkIfForceUpdate(responseJson.token, responseJson.fullname)
+            if (responseJson.user?.datemodify == null) {
+                this.props.login(responseJson.session.id, responseJson.user.login, true);
+            } else {
+                this.props.login(responseJson.session.id, responseJson.user.login, false);
+            }
           } else {
             this.setState({
               error: responseJson.error,
@@ -101,46 +108,6 @@ export default class LoginScreen extends React.Component {
   }
 
   register() {
-
-  }
-
-  checkIfForceUpdate(token, fullname) {
-    const queryString = this.objToQueryString({
-      key: this.props.keyApp,
-    });
-
-    let url = `https://api.verbum.com.pl/${this.props.appId}/${token}`;
-
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': "application/json",
-      },
-    })
-        .then(response => response.json())
-        .then(async responseJson => {
-          if (responseJson.error.code === 0) {
-            if (responseJson.user?.datemodify == null) {
-              this.props.login(token, fullname, true);
-            } else {
-              this.props.login(token, fullname, false)
-            }
-          } else {
-            this.setState({
-              error: responseJson.error,
-              isLoading: false,
-            }, () => this.setModalErrorVisible(true))
-          }
-        })
-        .catch((error) => {
-          this.setState({
-            isLoading: false,
-            error: {
-              code: "BŁĄD",
-              message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
-            }
-          }, () => this.setModalErrorVisible(true));
-        });
 
   }
 
@@ -200,7 +167,9 @@ export default class LoginScreen extends React.Component {
                   />
                 </View>
                 <View style={styles.remindView}>
-                  <Text style={styles.remindText}>Przypomnij hasło</Text>
+                  <TouchableWithoutFeedback onPress={() =>  this.props.navigation.navigate('PasswordRemind')}>
+                    <Text style={styles.remindText}>Przypomnij hasło</Text>
+                  </TouchableWithoutFeedback>
                 </View>
                 <TouchableOpacity onPress={() => this.login(this.state.login, this.state.password)} style={styles.loginButton}>
                   <Text style={styles.loginText}>Zaloguj się</Text>

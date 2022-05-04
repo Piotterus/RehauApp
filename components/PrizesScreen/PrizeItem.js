@@ -14,13 +14,18 @@ export default class PrizeItem extends React.Component {
     componentDidMount() {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
-
+            console.log('focus');
+            console.log(this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[1].symbol);
                 this.setState({
-                    symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[0].symbol,
+                    symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[1].symbol,
                     isLoading: false,
                 })
 
         });
+        this.setState({
+            symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[1].symbol,
+            isLoading: false,
+        })
         this.listenerBlur = this.props.navigation.addListener('blur', () => {
             this.setState({
                 symbol: '',
@@ -32,7 +37,7 @@ export default class PrizeItem extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.data.symbol !== prevProps.data.symbol) {
             this.setState({
-                symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[0].symbol,
+                symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[1].symbol,
                 isLoading: false,
             })
         }
@@ -63,7 +68,7 @@ export default class PrizeItem extends React.Component {
                 {this.props.data.variants !== undefined &&
                 <DropDownPicker
                     items={this.createItemsList()}
-                    defaultValue={this.props.data?.variants[0].symbol}
+                    defaultValue={this.props.data?.variants[1].symbol}
                     containerStyle={{height: 40, width: 100}}
                     style={{backgroundColor: '#FFFFFF', zIndex: 1}}
                     itemStyle={{

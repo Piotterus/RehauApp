@@ -27,15 +27,27 @@ export default class PrizesCategoryScreen extends React.Component {
             error: '',
             modalErrorVisible: false,
             isLoading: true,
-            prizes: '',
+            prizesCategory: '',
         }
+    }
+
+    objToQueryString(obj) {
+        const keyValuePairs = [];
+        for (const key in obj) {
+            keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
+        }
+        return keyValuePairs.join('&');
     }
 
     componentDidMount() {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
-            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/prizes`;
+            const queryString = this.objToQueryString({
+                session: this.props.token,
+            });
+
+            let url = `${this.props.apiUrl}/catalogPrizes?${queryString}`;
 
             fetch(url, {
                 method: 'GET',
@@ -45,9 +57,11 @@ export default class PrizesCategoryScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
+                    responseJson = responseJson.data;
+                    //console.log(responseJson);
                     if (responseJson.error.code === 0) {
                         this.setState({
-                            prizes: responseJson.prizes,
+                            prizesCategory: responseJson.category,
                         }, () => this.setState({isLoading: false}))
                     } else {
                         this.setState({
@@ -61,7 +75,7 @@ export default class PrizesCategoryScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR"
                         }
                     }, () => this.setModalErrorVisible(true));
                 });
@@ -84,11 +98,11 @@ export default class PrizesCategoryScreen extends React.Component {
 
     createPrizesCategoryList() {
         let prizesCategoryList = [];
-        for (let i in this.state.prizes) {
-            if (this.state.prizes[i].name !== "Bonus") {
+        for (let i in this.state.prizesCategory) {
+            if (this.state.prizesCategory[i].name !== "Bonus") {
                 prizesCategoryList.push(
-                    <PrizeCategoryItem navigation={this.props.navigation} key={i} max={this.state.prizes.length}
-                                       data={this.state.prizes} name={this.state.prizes[i].name}/>,
+                    <PrizeCategoryItem navigation={this.props.navigation} key={i}
+                                       data={this.state.prizesCategory[i]} name={this.state.prizesCategory[i].name}/>,
                 );
             }
         }

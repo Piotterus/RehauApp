@@ -7,15 +7,15 @@ export default class PointsItem extends React.Component {
         if (this.props.name !== "") {
             return (
                 <View style={styles.pointsView}>
-                    <Text style={{color: '#DC0060', fontWeight: 'bold', fontSize: 14}}>{this.props.name}</Text>
-                    <Text style={{color: '#37A48B', fontWeight: 'bold', fontSize: 16}}>{this.props.points} pkt</Text>
+                    <Text style={styles.pointsText}>{this.props.name}</Text>
+                    <Text style={styles.pointsValue}>{this.props.points} {this.props.pointsType}</Text>
                 </View>
             )
         } else {
             return (
                 <View style={styles.pointsView}>
-                    <Text style={{color: '#DC0060', fontWeight: 'bold', fontSize: 14}}/>
-                    <Text style={{color: '#37A48B', fontWeight: 'bold', fontSize: 16}}/>
+                    <Text style={styles.pointsText}/>
+                    <Text style={styles.pointsValue}/>
                 </View>
             )
         }
@@ -30,6 +30,20 @@ const styles = StyleSheet.create({
         borderColor: '#4E4E4E',
         borderBottomWidth: 1,
         marginTop: 30,
+    },
+    pointsText: {
+        color: '#DC0060',
+        fontWeight: 'bold',
+        fontSize: 14,
+        flex: 3
+    },
+    pointsValue: {
+        color: '#37A48B',
+        fontWeight: 'bold',
+        fontSize: 16,
+        flex: 1,
+        alignSelf: 'flex-end',
+        textAlign: 'right'
     }
 });
 

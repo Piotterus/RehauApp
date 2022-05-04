@@ -157,22 +157,26 @@ export default class BonusPromoPrizesScreen extends React.Component {
             });
     }
 
-    sendPrzelew(code,points) {
+    sendPrzelew(code,points,cardNumber) {
         this.setState({
             isLoading: true,
         },() => this.setModalItemVisible(false,'',''));
-        let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/sendPrepaid`;
+        let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/sendPrepaidWithCard`;
 
         let body = {
             order: [
                 {
                     symbol: code,
                     quantity: 1,
-                    pricepoints: points
+                    pricepoints: points,
+                    pricevalue: points
                 }
-            ]
+            ],
+            card: {
+                number: cardNumber,
+            }
         };
-
+        console.log(body);
         fetch(url, {
             method: 'POST',
             headers: {

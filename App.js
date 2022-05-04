@@ -37,6 +37,10 @@ import BonusPromoOneProductScreen from './screens/BonusPromoOneProductScreen';
 import BonusPromoRegisterFVScreen from './screens/BonusPromoRegisterFVScreen';
 import BonusPromoRegisteredFVScreen from './screens/BonusPromoRegisteredFVScreen';
 import BonusPromoMyBonusesScreen from './screens/BonusPromoMyBonusesScreen';
+import HistoryFVScreen from './screens/HistoryFVScreen';
+import RegisterFVScreen from './screens/RegisterFVScreen';
+import RegisteredFVScreen from './screens/RegisteredFVScreen';
+import PasswordRemindScreen from './screens/PasswordRemindScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -46,15 +50,17 @@ export default class App extends  React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        isLoggedIn: false,
-        isSettingUp: true,
-        isUpdateNow: false,
-        token: '',
-        firstName: '',
-        lastName: '',
-        rememberMe: false,
-        appId: 15,
-        fullName: '',
+      isLoggedIn: false,
+      isSettingUp: true,
+      isUpdateNow: false,
+      token: '',
+      firstName: '',
+      lastName: '',
+      rememberMe: false,
+      appId: 99,
+      fullName: '',
+      apiUrl: 'https://2022.instalujkorzysci.pl/apiverbum/apiVerbum',
+      baseUrl: 'https://2022.instalujkorzysci.pl',
     }
   }
 
@@ -175,6 +181,7 @@ export default class App extends  React.Component {
                                   }}
                                   drawerContent={(props) => <CustomDrawer
                                       logout={this.logout.bind(this)} {...props}
+                                      baseUrl={this.state.baseUrl}
                                       />}
                                   openByDefault={false}
                 >
@@ -184,6 +191,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="RegisterCode">
@@ -191,6 +199,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="RegisteredCode">
@@ -198,6 +207,23 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="RegisterFV">
+                      {props => <RegisterFVScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="RegisteredFV">
+                      {props => <RegisteredFVScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="MyAccount">
@@ -206,6 +232,7 @@ export default class App extends  React.Component {
                           token={this.state.token}
                           appId={this.state.appId}
                           fullName={this.state.fullName}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="History">
@@ -213,6 +240,15 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
+                      />}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="HistoryFV">
+                      {props => <HistoryFVScreen
+                          {...props}
+                          token={this.state.token}
+                          appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="News">
@@ -220,6 +256,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="OneNews">
@@ -227,6 +264,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="PrizesCategory">
@@ -234,6 +272,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="Prizes">
@@ -241,6 +280,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="Contact">
@@ -248,6 +288,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="Statute">
@@ -255,6 +296,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="HistoryPoints">
@@ -262,6 +304,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="HistoryOrders">
@@ -269,6 +312,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="HistoryOneOrder">
@@ -276,6 +320,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="BonusPromoMenu">
@@ -283,6 +328,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="BonusPromoAbout">
@@ -290,6 +336,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="BonusPromoPrizes">
@@ -297,6 +344,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="BonusPromoPremie">
@@ -304,6 +352,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="BonusPromoMyFV">
@@ -311,6 +360,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="BonusPromoProducts">
@@ -318,6 +368,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="BonusPromoOneProduct">
@@ -325,6 +376,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="BonusPromoRegisterFV">
@@ -332,6 +384,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="BonusPromoRegisteredFV">
@@ -339,6 +392,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                     <Drawer.Screen name="BonusPromoMyBonuses">
@@ -346,6 +400,7 @@ export default class App extends  React.Component {
                           {...props}
                           token={this.state.token}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Drawer.Screen>
                   </>
@@ -372,6 +427,7 @@ export default class App extends  React.Component {
                           login={this.login.bind(this)}
                           appId={this.state.appId}
                           rememberMe={this.rememberMe.bind(this)}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Stack.Screen>
                     <Stack.Screen name="Register"
@@ -386,6 +442,22 @@ export default class App extends  React.Component {
                       {props => <RegisterScreen
                           {...props}
                           appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
+                      />}
+                    </Stack.Screen>
+                    <Stack.Screen name="PasswordRemind"
+                                  options={{
+                                    title: 'PasswordRemind',
+                                    headerStyle: {
+                                      backgroundColor: 'transparent',
+                                    },
+                                    gestureEnabled: false,
+                                  }}
+                    >
+                      {props => <PasswordRemindScreen
+                          {...props}
+                          appId={this.state.appId}
+                          apiUrl={this.state.apiUrl}
                       />}
                     </Stack.Screen>
                   </>

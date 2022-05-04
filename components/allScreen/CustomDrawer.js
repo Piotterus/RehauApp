@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text, View, StyleSheet, TouchableOpacity, ScrollView, Image, SafeAreaView, Dimensions} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, ScrollView, Image, SafeAreaView, Dimensions, Linking} from 'react-native';
 
 export default class CustomDrawer extends React.Component {
 
@@ -15,7 +15,7 @@ export default class CustomDrawer extends React.Component {
                             <Image source={require('../../images/LogoHeaderBack2.png')} style={{height: 40, width: 150}} resizeMode='contain'/>
                         </View>
                         <View style={styles.drawerLine}/>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Statute')} style={styles.drawerItem}>
+                        <TouchableOpacity onPress={() => Linking.openURL(`${this.props.baseUrl}/files/regulamin.pdf`)} style={styles.drawerItem}>
                             <Text style={styles.drawerText}>Regulamin</Text>
                         </TouchableOpacity>
                         <View style={styles.drawerLine}/>

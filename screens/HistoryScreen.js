@@ -22,6 +22,10 @@ import HistoryCodeItem from '../components/HistoryScreen/HistoryCodeItem';
 import HistoryOrderItem from '../components/HistoryScreen/HistoryOrderItem';
 import ErrorModal from '../components/allScreen/ErrorModal';
 import Activity from '../components/allScreen/Activity';
+import HistoryFVHeader from '../components/HistoryScreen/HistoryFVHeader';
+import HistoryFVItem from '../components/HistoryScreen/HistoryFVItem';
+import HistoryFVItem2 from '../components/HistoryFVScreen/HistoryFVItem2';
+import HistoryOrdersHeader from '../components/HistoryScreen/HistoryOrdersHeader';
 
 export default class HistoryScreen extends React.Component {
     constructor(props) {
@@ -31,15 +35,27 @@ export default class HistoryScreen extends React.Component {
             modalErrorVisible: false,
             isLoading: true,
             orders: '',
-            points: '',
+            invoicesList: '',
         }
+    }
+
+    objToQueryString(obj) {
+        const keyValuePairs = [];
+        for (const key in obj) {
+            keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
+        }
+        return keyValuePairs.join('&');
     }
 
     componentDidMount() {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
 
-            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/points`;
+            const queryString = this.objToQueryString({
+                session: this.props.token,
+            });
+
+            let url = `${this.props.apiUrl}/invoicesList?${queryString}`;
 
             fetch(url, {
                 method: 'GET',
@@ -49,14 +65,15 @@ export default class HistoryScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
+                    responseJson = responseJson.data;
                     if (responseJson.error.code === 0) {
-                        if (responseJson.history !== undefined) {
+                        if (responseJson.invoice !== undefined) {
                             this.setState({
-                                points: responseJson?.history,
+                                invoicesList: responseJson?.invoice,
                             }, () => this.setState({isLoading: false}))
                         } else {
                             this.setState({
-                                points: '',
+                                invoicesList: '',
                             }, () => this.setState({isLoading: false}))
                         }
                     } else {
@@ -76,7 +93,7 @@ export default class HistoryScreen extends React.Component {
                     }, () => this.setModalErrorVisible(true));
                 });
 
-            url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/history/orders`;
+            url = `${this.props.apiUrl}/ordersList?${queryString}`;
 
             fetch(url, {
                 method: 'GET',
@@ -86,10 +103,12 @@ export default class HistoryScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
+                    responseJson = responseJson.data;
+                    console.log(responseJson);
                     if (responseJson.error.code === 0) {
                         if (responseJson.orders !== undefined) {
                             this.setState({
-                                orders: responseJson?.orders?.orders,
+                                orders: responseJson?.orders,
                             }, () => this.setState({isLoading: false}))
                         } else {
                             this.setState({
@@ -129,19 +148,19 @@ export default class HistoryScreen extends React.Component {
         this.setState({ modalErrorVisible: visible });
     };
 
-    createHistoryCodeList() {
-        let historyCodeList = [];
-        for (let i in this.state.points) {
+    createHistoryFVList() {
+        let historyFVList = [];
+        for (let i in this.state.invoicesList) {
             if (i < 3) {
-                historyCodeList.push(
-                    <HistoryCodeItem key={2*i} max={this.state.points.length} lp={i} data={this.state.points[i]}/>,
+                historyFVList.push(
+                    <HistoryFVItem key={2*i} navigation={this.props.navigation} invoice={this.state.invoicesList[i]}/>,
                 );
-                historyCodeList.push(
+                historyFVList.push(
                     <View key={2*i+1} style={{borderWidth: 0.5, borderColor: '#4E4E4E', width: '100%'}}/>,
                 );
             }
         }
-        return historyCodeList;
+        return historyFVList;
     }
 
     createHistoryOrdersList() {
@@ -149,7 +168,7 @@ export default class HistoryScreen extends React.Component {
         for (let i in this.state.orders) {
             if (i < 3) {
                 historyOrdersList.push(
-                    <HistoryOrderItem key={2*i} max={this.state.orders.length} lp={i} data={this.state.orders[i]} navigation={this.props.navigation}/>,
+                    <HistoryOrderItem key={2*i} lp={i} data={this.state.orders[i]} navigation={this.props.navigation}/>,
                 );
                 historyOrdersList.push(
                     <View key={2*i+1} style={{borderWidth: 0.5, borderColor: '#4E4E4E', width: '100%'}}/>,
@@ -171,30 +190,32 @@ export default class HistoryScreen extends React.Component {
                     <HeaderImage image="History"/>
                     <View style={styles.historyCategoryView}>
                         <Text style={styles.historyHeaderText}>Moja historia</Text>
-                        <HistoryStrip text="Moje zarejestrowane kody"/>
+                        <HistoryStrip text="Moje zarejestrowane faktury"/>
                         <View style={styles.historyListView}>
-                            <View style={styles.historyListRow}>
-                                <Text style={[styles.historyListText, {flex: 1}]}>Lp.</Text>
-                                <Text style={[styles.historyListText, {flex: 2}]}>Kod</Text>
+                            {/*<View style={styles.historyListRow}>
+                                <Text style={[styles.historyListText, {flex: 1}]}>Numer FV</Text>
+                                <Text style={[styles.historyListText, {flex: 2}]}>Plik</Text>
                                 <View style={{flex: 2}}>
-                                    <Text style={[styles.historyListText, {alignSelf: 'flex-end'}]}>Naliczone punkty</Text>
+                                    <Text style={[styles.historyListText, {alignSelf: 'flex-end'}]}>Status</Text>
                                 </View>
-                            </View>
-                            <View style={{borderWidth: 1, borderColor: '#4E4E4E', width: '100%'}}/>
-                            {this.createHistoryCodeList()}
+                            </View>*/}
+                            <HistoryFVHeader/>
+                            {/*<View style={{borderWidth: 1, borderColor: '#4E4E4E', width: '100%'}}/>*/}
+                            {this.createHistoryFVList()}
                         </View>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("HistoryPoints")} style={styles.historyButton}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("HistoryFV")} style={styles.historyButton}>
                             <Text style={styles.historyButtonText}>WIĘCEJ</Text>
                         </TouchableOpacity>
                         <HistoryStrip text="Moje zamówienia"/>
                         <View style={styles.historyListView}>
-                            <View style={styles.historyListRow}>
+                            {/*<View style={styles.historyListRow}>
                                 <Text style={[styles.historyListText, {flex: 1}]}>Lp.</Text>
                                 <Text style={[styles.historyListText, {flex: 3}]}>Data złożenia</Text>
                                 <Text style={[styles.historyListText, {flex: 3}]}>Status</Text>
                                 <Text style={[styles.historyListText, {flex: 2, marginLeft: 3, marginRight: 3}]}/>
                             </View>
-                            <View style={{borderWidth: 1, borderColor: '#4E4E4E', width: '100%'}}/>
+                            <View style={{borderWidth: 1, borderColor: '#4E4E4E', width: '100%'}}/>*/}
+                            <HistoryOrdersHeader/>
                             {this.createHistoryOrdersList()}
                         </View>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("HistoryOrders")} style={styles.historyButton}>
@@ -248,7 +269,7 @@ const styles = StyleSheet.create({
     historyListView: {
         width: '100%',
         paddingLeft: 5,
-        paddingRight: 5
+        paddingRight: 5,
     },
     historyListText: {
         fontWeight: 'bold',

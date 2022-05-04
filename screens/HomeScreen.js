@@ -30,14 +30,14 @@ export default class HomeScreen extends React.Component {
             style={styles.imageBackground}>
             <HeaderBurger navigation={this.props.navigation} />
             <View style={styles.menuRow}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('RegisterCode')} style={styles.menuItem}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('RegisterFV')} style={styles.menuItem}>
                 <Image
                   source={require('../icons/barcode_icon.png')}
                   style={styles.menuImage}
                   resizeMode="contain"
                 />
                 <View style={styles.menuSpacer} />
-                <Text style={styles.menuText}>REJESTRUJ ZAKUP</Text>
+                <Text style={styles.menuText}>REJESTRUJ FAKTURĘ</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('MyAccount')} style={styles.menuItem}>
                 <Image
@@ -50,14 +50,14 @@ export default class HomeScreen extends React.Component {
               </TouchableOpacity>
             </View>
             <View style={styles.menuRow}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('PrizesCategory')} style={styles.menuItem}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('History')} style={styles.menuItem}>
                 <Image
-                    source={require('../icons/present_icon.png')}
+                    source={require('../icons/time_icon.png')}
                     style={styles.menuImage}
                     resizeMode="contain"
                 />
                 <View style={styles.menuSpacer} />
-                <Text style={styles.menuText}>NAGRODY</Text>
+                <Text style={styles.menuText}>MOJA HISTORIA</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('News')} style={styles.menuItem}>
                 <Image
@@ -70,20 +70,14 @@ export default class HomeScreen extends React.Component {
               </TouchableOpacity>
             </View>
             <View style={styles.menuRow}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('BonusPromoMenu')} style={styles.menuItem}>
-                <ImageBackground
-                    source={require('../images/wlaczBonusMenuTlo.png')}
-                    resizeMode="cover"
-                    style={styles.imageBonusTlo}
-                >
-                  <Image
-                    source={require('../icons/guzik-on.png')}
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('PrizesCategory')} style={styles.menuItem}>
+                <Image
+                    source={require('../icons/present_icon.png')}
                     style={styles.menuImage}
                     resizeMode="contain"
-                  />
-                  <View style={styles.menuSpacer} />
-                  <Text style={styles.menuText}>WŁĄCZ SOBIE BONUS</Text>
-                </ImageBackground>
+                />
+                <View style={styles.menuSpacer} />
+                <Text style={styles.menuText}>NAGRODY</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('Contact')} style={styles.menuItem}>
                 <Image
