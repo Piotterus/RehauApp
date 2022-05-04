@@ -42,7 +42,7 @@ export default class PasswordRemindScreen extends React.Component {
         });
 
         if (phone === '') {
-            phone = 'testapi';//'test';
+            phone = '698049158';//'test';
         }
 
         let body = {
@@ -64,10 +64,11 @@ export default class PasswordRemindScreen extends React.Component {
                 responseJson = responseJson.data;
                 console.log(responseJson);
                 if (responseJson.error.code === 0) {
-                    this.setState({
+                    this.props.navigation.navigate('Login', {data: responseJson.data})
+                    /*this.setState({
                         error: responseJson.data,
                         isLoading: false,
-                    }, () => this.setModalErrorVisible(true))
+                    }, () => this.setModalErrorVisible(true))*/
                 } else {
                     this.setState({
                         error: responseJson.error,
@@ -115,7 +116,7 @@ export default class PasswordRemindScreen extends React.Component {
                     style={{flex: 1}}
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <Image
-                        source={require('../images/rsz_splash_rehau_2021_v2.jpg')}
+                        source={require('../images/rehau_splash_2022.jpg')}
                         style={styles.imageBackground}
                     />
                     <View style={styles.middleView}>

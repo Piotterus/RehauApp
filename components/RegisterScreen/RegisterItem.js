@@ -23,6 +23,9 @@ export default class RegisterItem extends React.Component {
                 fieldName = 'email';
                 capitalize = 'none';
                 break;
+            case 'firmName':
+                fieldName = 'firmName';
+                break;
             case 'address':
                 fieldName = 'address';
                 break;
@@ -50,7 +53,7 @@ export default class RegisterItem extends React.Component {
         return (
             <View style={styles.textInputView}>
                 <TextInput
-                    textAlign="center"
+                    //textAlign="center"
                     style={styles.textInput}
                     onChangeText={(text) => this.props.updateValue(text, fieldName)}
                     autoCapitalize={capitalize}
@@ -72,7 +75,8 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width * 0.7,
         height: 40,
         color: '#4E4E4E',
-        fontSize: 14
+        fontSize: 14,
+        //textAlign: 'center'
     },
     placeHolderText: {
         color: '#4E4E4E88',

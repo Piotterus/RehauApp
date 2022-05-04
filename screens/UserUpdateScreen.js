@@ -200,7 +200,7 @@ export default class UserUpdateScreen extends React.Component {
                 <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
                 <SafeAreaView style={{flex: 1}} forceInset={{ top: 'always', bottom: 0, right: 0, left: 0 }}>
                     <Image
-                        source={require('../images/rsz_splash_rehau_2021_v2.jpg')}
+                        source={require('../images/rehau_splash_2022.jpg')}
                         style={styles.imageBackground}
                     />
                     <View style={styles.middleView}>

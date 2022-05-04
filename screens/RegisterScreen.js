@@ -36,13 +36,16 @@ export default class RegisterScreen extends React.Component {
             lastName: '',
             phone: '',
             email: '',
+            firmName: '',
             address: '',
             postal: '',
             city: '',
             nip: '',
             workerCount: '',
             salesManager: '',
-            check: false,
+            agree1: false,
+            agree2: false,
+            agree3: false,
         }
     }
 
@@ -59,6 +62,8 @@ export default class RegisterScreen extends React.Component {
     };
 
     updateValue(text, field) {
+        console.log(text);
+        console.log(field);
         if (field === 'firstName') {
             this.setState({
                 firstName: text,
@@ -74,6 +79,10 @@ export default class RegisterScreen extends React.Component {
         } else if (field === 'email') {
             this.setState({
                 email: text,
+            });
+        } else if (field === 'firmName') {
+            this.setState({
+                firmName: text,
             });
         } else if (field === 'address') {
             this.setState({
@@ -119,12 +128,16 @@ export default class RegisterScreen extends React.Component {
             this.state.lastName !== "" &&
             this.state.phone !== "" &&
             this.state.email !== "" &&
+            this.state.firmName !== "" &&
             this.state.postal !== "" &&
             this.state.address !== "" &&
             this.state.city !== "" &&
             this.state.nip !== "" &&
             this.state.workerCount !== "" &&
-            this.state.salesManager !== ""
+            this.state.salesManager !== "" &&
+            this.state.agree1 &&
+            this.state.agree2 &&
+            this.state.agree3
         ) {
             return true;
         } else {
@@ -132,22 +145,57 @@ export default class RegisterScreen extends React.Component {
         }
     }
 
-    register() {
+    populateFields() {
+        if (__DEV__) {
+            this.setState({
+                firstName: 'Piotr',
+                lastName: 'Katański',
+                phone: '737998243',
+                email: 'piotter94@poczta.onet.pl',
+                firmName: 'MPL Verbum',
+                postal: '61-626',
+                address: 'Szelągowska 45A',
+                city: 'Poznań',
+                nip: '7781226405',
+                workerCount: '3',
+                salesManager: '900',
+                agree1: true,
+                agree2: true,
+                agree3: true,
+            })
+        }
+    }
+
+    async register() {
+        await this.populateFields();
         if (this.checkFields()) {
 
             let url = `${this.props.apiUrl}/userRegister`;
 
             let agree1;
-            if (this.state.check) {
+            let agree2;
+            let agree3;
+            if (this.state.agree1) {
                 agree1 = 1;
             } else {
                 agree1 = 0;
+            }
+            if (this.state.agree2) {
+                agree2 = 1;
+            } else {
+                agree2 = 0;
+            }
+            if (this.state.agree3) {
+                agree3 = 1;
+            } else {
+                agree3 = 0;
             }
 
             let body = {
                 user_firstname: this.state.firstName,
                 user_lastname: this.state.lastName,
                 user_email: this.state.email,
+                user_name: this.state.firmName,
                 user_phone: this.state.phone,
                 user_nip: this.state.nip,
                 user_address_city: this.state.city,
@@ -157,6 +205,8 @@ export default class RegisterScreen extends React.Component {
                 user_account: this.state.salesManager,
                 regulations: {
                     1: agree1,
+                    2: agree2,
+                    3: agree3,
                 }
             };
 
@@ -172,7 +222,7 @@ export default class RegisterScreen extends React.Component {
                     responseJson = responseJson.data;
                     console.log(responseJson);
                     if (responseJson.error.code === 0) {
-                        this.props.navigation.navigate('Login');
+                        this.props.navigation.navigate('Login', {data: responseJson.data});
                     } else {
                         this.setState({
                             isLoading: false,
@@ -218,10 +268,11 @@ export default class RegisterScreen extends React.Component {
                             <Divider/>
                             <Text style={styles.registerHeaderText}>Wypełnij poprawnie poniższy formualrz i dołącz do Instaluj Korzyści.</Text>
                             <Text style={styles.registerHeaderText}>Zapraszamy!</Text>
-                            <RegisterItem text='Imię' updateValue={this.updateValue.bind(this)} value={this.state.firstname} fieldName='firstName' keyboardType='default'/>
-                            <RegisterItem text='Nazwisko' updateValue={this.updateValue.bind(this)} value={this.state.lastname} fieldName='lastName' keyboardType='default'/>
+                            <RegisterItem text='Imię' updateValue={this.updateValue.bind(this)} value={this.state.firstName} fieldName='firstName' keyboardType='default'/>
+                            <RegisterItem text='Nazwisko' updateValue={this.updateValue.bind(this)} value={this.state.lastName} fieldName='lastName' keyboardType='default'/>
                             <RegisterItem text='Telefon' updateValue={this.updateValue.bind(this)} value={this.state.phone} fieldName='phone' keyboardType='numeric'/>
                             <RegisterItem text='Adres e-mail' updateValue={this.updateValue.bind(this)} value={this.state.email} fieldName='email' keyboardType='email-address'/>
+                            <RegisterItem text='Nazwa firmy' updateValue={this.updateValue.bind(this)} value={this.state.firmName} fieldName='firmName' keyboardType='email-address'/>
                             <RegisterItem text='Adres' updateValue={this.updateValue.bind(this)} value={this.state.address} fieldName='address' keyboardType='default'/>
                             <RegisterItem text='Kod pocztowy' updateValue={this.updateValue.bind(this)} value={this.state.postal} fieldName='postal' keyboardType='numeric'/>
                             <RegisterItem text='Miejscowość' updateValue={this.updateValue.bind(this)} value={this.state.city} fieldName='city' keyboardType='default'/>
@@ -230,14 +281,30 @@ export default class RegisterScreen extends React.Component {
                             {/*<RegisterItem text='Menadżer sprzedaży' updateValue={this.updateValue.bind(this)} fieldName='salesManager'/>*/}
                             <RegisterItemSelect text='Menadżer sprzedaży' value={this.state.salesManager} updateValue={this.updateValue.bind(this)} fieldName='salesManager'/>
                             <CheckBox
-                                title='Zapoznałam/łem się z Regulaminem Promocji "Promocja Rehau - Instaluj korzyści"'
-                                checked={this.state.check}
-                                onPress={() => this.setCheck(!this.state.check)}
+                                title='Zapoznałam/łem się z Regulaminem Promocji „Promocja Rehau – Instaluj korzyści”, który dostępny jest na www.instalujkorzysci.pl, i go akceptuję.'
+                                checked={this.state.agree1}
+                                onPress={() => this.setCheck(!this.state.agree1)}
                                 containerStyle={styles.checkBoxView}
                                 textStyle={styles.checkBoxText}
                             />
-                            <Text style={styles.registerFooterText}>Rozumiem, że nie mam obowiązku podania moich danych osobowych a moje powyższe zgody są dobrowolne i nie muszę ich udzielać, przy czym w przypadku ich nieudzielenia bądź późniejszego wycofania, jak również przesłania wniosku o zmianę lub usunięcie moich danych, stracę możliwość uczestnictwa w Promocji.</Text>
-                            <Text style={[styles.registerFooterText, {alignSelf: 'flex-start'}]}>Wszystkie pola są obowiązkowe!</Text>
+                            <CheckBox
+                                title='Wyrażam zgodę na przekazywanie treści marketingowych za pośrednictwem moich urządzeń telekomunikacyjnych, w szczególności takich jak laptop, telefon czy smartfon, zgodnie z art. 172 ust. 1 ustawy z dnia 16 lipca 2004 r. Prawo telekomunikacyjne.'
+                                checked={this.state.agree2}
+                                onPress={() => this.setCheck(!this.state.agree2)}
+                                containerStyle={styles.checkBoxView}
+                                textStyle={styles.checkBoxText}
+                            />
+                            <CheckBox
+                                title='Wyrażam zgodę na otrzymywanie informacji handlowej od REHAU sp. z o.o., zgodnie z art. 10 ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną. '
+                                checked={this.state.agree3}
+                                onPress={() => this.setCheck(!this.state.agree3)}
+                                containerStyle={styles.checkBoxView}
+                                textStyle={styles.checkBoxText}
+                            />
+                            <Text style={styles.registerFooterText}>Klauzula informacyjna:</Text>
+                            <Text style={styles.registerFooterText}>Warunkiem ważności udzielonej zgody jest zaznaczenie obu powyższych zgód. Rozumiem, że nie mam obowiązku podania moich danych osobowych a moje powyższe zgody są dobrowolne i nie muszę ich udzielać, przy czym w przypadku ich nieudzielenia bądź późniejszego wycofania, jak również przesłania wniosku o zmianę lub usunięcie moich danych, stracę możliwość otrzymywania treści marketingowych (w tym newsletterów i ofert) z REHAU.</Text>
+                            {/*<Text style={styles.registerFooterText}>Rozumiem, że nie mam obowiązku podania moich danych osobowych a moje powyższe zgody są dobrowolne i nie muszę ich udzielać, przy czym w przypadku ich nieudzielenia bądź późniejszego wycofania, jak również przesłania wniosku o zmianę lub usunięcie moich danych, stracę możliwość uczestnictwa w Promocji.</Text>
+                            <Text style={[styles.registerFooterText, {alignSelf: 'flex-start'}]}>Wszystkie pola są obowiązkowe!</Text>*/}
                             <TouchableOpacity onPress={() => this.register()} style={styles.registerButton}>
                                 <Text style={styles.registerText}>Zapisz się</Text>
                             </TouchableOpacity>

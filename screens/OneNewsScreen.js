@@ -30,7 +30,6 @@ export default class OneNewsScreen extends React.Component {
     componentDidMount() {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
-console.log("focus");
             if (this.props.route.params?.data) {
                 this.setState({
                     news: this.props.route.params.data,

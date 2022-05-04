@@ -8,14 +8,17 @@ export default class HistoryOrdersHeader extends React.Component {
 
         return(
             <View style={styles.FVView}>
-                <View style={styles.FVDataView}>
-                    <Text style={[styles.textSmall, styles.textBold]}>Numer Zamówienia</Text>
-                </View>
                 <View style={styles.textView}>
+                    <Text style={[styles.textSmall, styles.textBold]}>Nr Zam.</Text>
+                </View>
+                <View style={styles.FVDataView}>
                     <Text style={[styles.textSmall]}>Data złożenia</Text>
                 </View>
-                <View style={styles.textView}>
+                <View style={styles.FVDataView}>
                     <Text style={[styles.textSmall]}>Status</Text>
+                </View>
+                <View style={styles.textView}>
+                    <Text style={[styles.textSmall]}/>
                 </View>
             </View>
         )
@@ -32,10 +35,11 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
     },
     FVDataView: {
-        flex: 2,
+        flex: 3,
+        alignItems: 'center'
     },
     textView: {
-        flex: 1,
+        flex: 2,
         alignItems: 'center'
     },
     textSmall: {

@@ -15,7 +15,8 @@ import HeaderBack from '../components/allScreen/HeaderBack';
 import HeaderPage from '../components/allScreen/HeaderPage';
 import Footer from '../components/allScreen/Footer';
 import Activity from '../components/allScreen/Activity';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default class RegisterFVScreen extends Component {
     constructor(props) {
@@ -26,6 +27,7 @@ export default class RegisterFVScreen extends Component {
             modalErrorVisible: false,
             isLoading: false,
             torchOn: false,
+            image: '',
         };
     }
 
@@ -43,7 +45,10 @@ export default class RegisterFVScreen extends Component {
 
         });
         this.listenerBlur = this.props.navigation.addListener('blur', () => {
-
+            this.setState({
+                isLoading: false,
+                image: '',
+            })
         });
     }
 
@@ -105,10 +110,12 @@ export default class RegisterFVScreen extends Component {
             const options = { quality: 0.75, base64: true };
             const data = await this.camera.takePictureAsync(options);
             console.log(data.uri);
+            console.log(data);
             this.setState({
-                isLoading: true,
+                //isLoading: true,
+                image: data,
             });
-            this.sendImage(data)
+            //this.sendImage(data)
 
         }
     };
@@ -136,7 +143,7 @@ export default class RegisterFVScreen extends Component {
         })
             .then(response => response.json())
             .then(responseJson => {
-                responseJson = responseJson.data
+                responseJson = responseJson.data;
                 console.log(responseJson);
                 if (responseJson.error.code === 0) {
                     this.setState({
@@ -171,7 +178,7 @@ export default class RegisterFVScreen extends Component {
                     <HeaderBack navigation={this.props.navigation} />
                     <HeaderPage title="Rejestracja FV" />
                     <View style={styles.container}>
-                        {this.state.isLoading === false &&
+                        {this.state.isLoading === false && this.state.image === '' &&
                         <RNCamera
                             style={styles.preview}
                             flashMode={this.state.torchOn ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
@@ -181,21 +188,21 @@ export default class RegisterFVScreen extends Component {
                         >
                         </RNCamera>
                         }
-                        {this.state.isLoading === false &&
+                        {this.state.isLoading === false && this.state.image === '' &&
                         <View style={styles.bottomOverlay}>
                             <TouchableOpacity onPress={() => this.handleTorch(this.state.torchOn)}>
                                 {/*<Image style={styles.cameraIcon} source={require('../icons/add.png')}/>*/}
                                 {/*<Image style={{height: 30, width: 30}} source={require('../icons/X-icon.png')}/>*/}
                                 {!this.state.torchOn &&
-                                <Icon name="flash" size={50} color="#DC0060" />
+                                <Ionicons name="flash" size={50} color="#DC0060" />
                                 }
                                 {this.state.torchOn &&
-                                <Icon name="flash-off" size={50} color="#DC0060" />
+                                <Ionicons name="flash-off" size={50} color="#DC0060" />
                                 }
                             </TouchableOpacity>
                         </View>
                         }
-                        {this.state.isLoading === false &&
+                        {this.state.isLoading === false && this.state.image === '' &&
                         <View style={{position: 'absolute', left: 0, right: 0, bottom: 40, alignItems: 'center'}}>
                             <TouchableOpacity onPress={this.takePicture.bind(this)}>
                                 <View style={styles.whiteCircle}>
@@ -204,11 +211,28 @@ export default class RegisterFVScreen extends Component {
                             </TouchableOpacity>
                         </View>
                         }
+                        {this.state.isLoading === false && this.state.image !== '' &&
+                        <View style={{flex: 1}}>
+                            <Image source={{uri: this.state.image.uri}} style={{flex: 1}}/>
+                        </View>
+                        }
+                        {this.state.isLoading === false && this.state.image !== '' &&
+                        <View style={{position: 'absolute', left: 0, right: 0, bottom: 40, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around'}}>
+                            <TouchableOpacity onPress={() => this.setState({image: ''})}>
+                                <AntDesign name="closecircle" size={50} color="#DC0060" />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.setState({isLoading: true}, () => this.sendImage(this.state.image))}>
+                                <AntDesign name="checkcircle" size={50} color="#DC0060" />
+                            </TouchableOpacity>
+                        </View>
+                        }
                         {this.state.isLoading === true &&
                         <View style={{position: 'absolute', left: 0, right: 0, top: '35%', alignItems: 'center'}}>
                             <Text style={{color: '#4E4E4E'}}>Proszę czekać...</Text>
+
                         </View>
                         }
+
                     </View>
                     <Footer />
                     {this.state.isLoading &&

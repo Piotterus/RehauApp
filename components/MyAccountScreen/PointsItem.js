@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     pointsText: {
         color: '#DC0060',
         fontWeight: 'bold',
-        fontSize: 14,
-        flex: 3
+        fontSize: 12,
+        flex: 3,
     },
     pointsValue: {
         color: '#37A48B',

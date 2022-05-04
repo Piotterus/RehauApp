@@ -40,6 +40,23 @@ export default class LoginScreen extends React.Component {
     return keyValuePairs.join('&');
   }
 
+  componentDidMount() {
+
+    this.listenerFocus = this.props.navigation.addListener('focus', () => {
+      if (this.props.route.params?.data) {
+        this.setState({
+          error: this.props.route.params.data,
+        }, () => this.setState({modalErrorVisible: true}))
+      }
+    });
+    this.listenerBlur = this.props.navigation.addListener('blur', () => {
+      this.setState({
+        modalErrorVisible: false,
+        error: '',
+      })
+    });
+  }
+
   login(login,password) {
 
     this.setState({
@@ -137,8 +154,9 @@ export default class LoginScreen extends React.Component {
           style={{flex: 1}}
           forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
           <Image
-            source={require('../images/rsz_splash_rehau_2021_v2.jpg')}
+            source={require('../images/rehau_splash_2022.jpg')}
             style={styles.imageBackground}
+            resizeMode='cover'
           />
           <View style={styles.middleView}>
             <View style={{marginTop: 200}}>
@@ -174,9 +192,6 @@ export default class LoginScreen extends React.Component {
                 <TouchableOpacity onPress={() => this.login(this.state.login, this.state.password)} style={styles.loginButton}>
                   <Text style={styles.loginText}>Zaloguj się</Text>
                 </TouchableOpacity>
-                <View style={styles.noAccountView}>
-                  <Text style={styles.noAccountText}>Nie masz konta?</Text>
-                </View>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')} style={styles.registerButton}>
                   <Text style={styles.registerText}>Zarejestruj się</Text>
                 </TouchableOpacity>
@@ -322,7 +337,7 @@ const styles = StyleSheet.create({
   remindText: {
     textDecorationLine: 'underline',
     color: '#4E4E4E',
-    fontSize: 12,
+    fontSize: 13,
   },
   noAccountView: {
     width: Dimensions.get('window').width * 0.7,

@@ -13,7 +13,7 @@ export default class SplashScreen extends React.Component {
         return (
             <View style={{flex: 1, backgroundColor: '#0A3251'}}>
                 <SafeAreaView style={{flex: 1}} forceInset={{ top: 'always', bottom: 0, right: 0, left: 0 }}>
-                    <Image source={require('../images/rsz_splash_rehau_2021.jpg')} style={styles.imageBackground}/>
+                    <Image source={require('../images/rehau_splash_2022.jpg')} style={styles.imageBackground}/>
                 </SafeAreaView>
             </View>
         );

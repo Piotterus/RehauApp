@@ -37,7 +37,7 @@ export default class HomeScreen extends React.Component {
                   resizeMode="contain"
                 />
                 <View style={styles.menuSpacer} />
-                <Text style={styles.menuText}>REJESTRUJ FAKTURĘ</Text>
+                <Text style={styles.menuText}>DODAJ FAKTURĘ</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('MyAccount')} style={styles.menuItem}>
                 <Image

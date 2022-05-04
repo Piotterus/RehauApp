@@ -6,7 +6,7 @@ export default class HistoryOrderItem extends React.Component {
     render() {
         return(
             <View style={styles.historyCodeView}>
-                <Text style={[styles.historyListText, {flex: 1}]}>{this.props.lp}</Text>
+                <Text style={[styles.historyListText, {flex: 2}]}>50525</Text>
                 <Text style={[styles.historyListText, {flex: 3}]}>{this.props.data.dateadd}</Text>
                 <Text style={[styles.historyListText, {flex: 3}]}>{this.props.data.status.name}</Text>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate("HistoryOneOrder", {data: this.props.data}) } style={{flex: 2, backgroundColor: '#9B9B9B', borderRadius: 15, justifyContent: 'center', alignItems: 'center', margin: 3}}>
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     },
     historyListText: {
         fontSize: 12,
+        textAlign: 'center'
     }
 });
 
