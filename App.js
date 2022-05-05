@@ -100,13 +100,13 @@ export default class App extends  React.Component {
     return keyValuePairs.join('&');
   }
 
-  setup() {
+  /*setup() {
     this.setState({
       isSettingUp: false,
     })
-  }
+  }*/
 
-  /*setup = async() => {
+  setup = async() => {
     const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
     const token = await AsyncStorage.getItem('token');
     if (isLoggedIn !== '1') {
@@ -120,7 +120,7 @@ export default class App extends  React.Component {
         token: token
       })
     }
-  };*/
+  };
 
   login(token, fullName, update) {
     this.setState({

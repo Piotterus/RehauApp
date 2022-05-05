@@ -10,12 +10,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
-  AsyncStorage,
   TouchableWithoutFeedback,
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import ErrorModal from '../components/allScreen/ErrorModal';
 import Activity from '../components/allScreen/Activity';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -27,7 +27,7 @@ export default class LoginScreen extends React.Component {
       isFocusedAge: false,
       error: '',
       modalErrorVisible: false,
-      rememberEnabled: false,
+      rememberEnabled: true,
       isLoading: false,
     }
   }
@@ -63,15 +63,15 @@ export default class LoginScreen extends React.Component {
     this.setState({
       isLoading: true,
     });
-
-    if (login === '') {
+    if (__DEV__) {
+      if (login === '') {
         login = 'testapi';//'test';
-    }
+      }
 
-    if (password === '') {
+      if (password === '') {
         password = 'TestVerbumAPI1';//'test';
+      }
     }
-
     const queryString = this.objToQueryString({
       key: this.props.keyApp,
     });
@@ -82,7 +82,7 @@ export default class LoginScreen extends React.Component {
     };
 
     let url = `${this.props.apiUrl}/authentication?${queryString}`;
-    console.log(url);
+
     fetch(url, {
       method: 'POST',
       headers: {
