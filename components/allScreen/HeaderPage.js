@@ -7,7 +7,7 @@ export default class HeaderPage extends React.Component {
         if (this.props.title === "Rejestracja kodu") {
             return (
                 <View style={styles.headerView}>
-                    <Image source={require('../../icons/barcode_icon.png')} style={{height: 30, width: 30}}
+                    <Image source={require('../../icons/register_fv.png')} style={{height: 30, width: 30}}
                            resizeMode='contain'/>
                     <Text style={styles.headerText}>{this.props.title}</Text>
                 </View>
@@ -23,7 +23,7 @@ export default class HeaderPage extends React.Component {
         } else {
             return (
                 <View style={styles.headerView}>
-                    <Image source={require('../../icons/barcode_icon.png')} style={{height: 30, width: 30}}
+                    <Image source={require('../../icons/register_fv.png')} style={{height: 30, width: 30}}
                            resizeMode='contain'/>
                     <Text style={styles.headerText}>{this.props.title}</Text>
                 </View>

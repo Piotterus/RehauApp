@@ -24,9 +24,9 @@ export default class HistoryFVItem extends React.Component {
                     <Text style={styles.fvDateText}>{invoice.points}</Text>
                 </View>
                 <View style={styles.fvImageView}>
-                    {/*<TouchableOpacity onPress={() => Linking.openURL(invoice.files[1].urlOriginal)}>
+                    <TouchableOpacity onPress={() => Linking.openURL(invoice.attachments[1].url)} style={{alignItems: 'center'}}>
                         <Image source={Icons.fv.plik} style={styles.fvImage} resizeMode="contain"/>
-                    </TouchableOpacity>*/}
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.fvImageView}>
                     {status === 'zaakceptowana' &&
@@ -52,16 +52,16 @@ const styles = StyleSheet.create({
         height: 45,
     },
     FVDataView: {
-        flex: 4,
+        flex: 2,
     },
     fvImageView: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     fvImage: {
         height: 25,
         width: 25,
-
+        alignSelf: 'center',
     },
     fvTitleText: {
         color: '#4E4E4E',

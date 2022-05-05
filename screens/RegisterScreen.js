@@ -10,7 +10,7 @@ import {
     ActivityIndicator,
     TouchableOpacity,
     TextInput,
-    KeyboardAvoidingView,
+    KeyboardAvoidingView, TouchableWithoutFeedback, Linking,
 } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import SafeAreaView from 'react-native-safe-area-view';
@@ -31,7 +31,7 @@ export default class RegisterScreen extends React.Component {
         this.state = {
             error: '',
             modalErrorVisible: false,
-            isLoading: false,
+            isLoading: true,
             firstName: '',
             lastName: '',
             phone: '',
@@ -46,6 +46,7 @@ export default class RegisterScreen extends React.Component {
             agree1: false,
             agree2: false,
             agree3: false,
+            distributorsList: '',
         }
     }
 
@@ -55,6 +56,65 @@ export default class RegisterScreen extends React.Component {
             keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
         }
         return keyValuePairs.join('&');
+    }
+
+    componentDidMount() {
+
+        this.listenerFocus = this.props.navigation.addListener('focus', () => {
+            const queryString = this.objToQueryString({
+                session: this.props.token,
+            });
+
+            let url = `${this.props.apiUrl}/distributorsList?${queryString}`;
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': "application/json",
+                },
+            })
+                .then(response => response.json())
+                .then(responseJson => {
+                    responseJson = responseJson.data;
+                    console.log(responseJson);
+                    if (responseJson.error.code === 0) {
+                        this.setState({
+                            distributorsList: responseJson.distributor,
+                        }, () => this.setState({isLoading: false}))
+                    } else {
+                        this.props.navigation.navigate('Login', {data: responseJson.error});
+                        /*this.setState({
+                            isLoading: false,
+                            error: responseJson.error
+                        }, () => this.setModalErrorVisible(true))*/
+                    }
+                })
+                .catch((error) => {
+                    let errorCode = {
+                        code: "BŁĄD",
+                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR"
+                    };
+                    this.props.navigation.navigate('Login', {data: errorCode});
+                    /*this.setState({
+                        isLoading: false,
+                        error: {
+                            code: "BŁĄD",
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
+                        }
+                    }, () => this.setModalErrorVisible(true));*/
+                });
+        });
+        this.listenerBlur = this.props.navigation.addListener('blur', () => {
+            this.setState({
+                isLoading: false,
+                image: '',
+            })
+        });
+    }
+
+    componentWillUnmount() {
+        this.listenerFocus();
+        this.listenerBlur();
     }
 
     setModalErrorVisible = (visible) => {
@@ -117,10 +177,20 @@ export default class RegisterScreen extends React.Component {
         }
     }
 
-    setCheck(check) {
-        this.setState({
-            check: check,
-        })
+    setCheck(number, check) {
+        if (number === 'agree1') {
+            this.setState({
+                agree1: check,
+            })
+        } else if (number === 'agree2') {
+            this.setState({
+                agree2: check,
+            })
+        } else if (number === 'agree3') {
+            this.setState({
+                agree3: check,
+            })
+        }
     }
 
     checkFields() {
@@ -135,9 +205,7 @@ export default class RegisterScreen extends React.Component {
             this.state.nip !== "" &&
             this.state.workerCount !== "" &&
             this.state.salesManager !== "" &&
-            this.state.agree1 &&
-            this.state.agree2 &&
-            this.state.agree3
+            this.state.agree1
         ) {
             return true;
         } else {
@@ -205,8 +273,8 @@ export default class RegisterScreen extends React.Component {
                 user_account: this.state.salesManager,
                 regulations: {
                     1: agree1,
-                    2: agree2,
-                    3: agree3,
+                    3: agree2,
+                    4: agree3,
                 }
             };
 
@@ -279,25 +347,28 @@ export default class RegisterScreen extends React.Component {
                             <RegisterItem text='NIP' updateValue={this.updateValue.bind(this)} value={this.state.nip} fieldName='nip' keyboardType='numeric'/>
                             <RegisterItem text='Ilość pracowników' updateValue={this.updateValue.bind(this)} value={this.state.workerCount} fieldName='workerCount' keyboardType='numeric'/>
                             {/*<RegisterItem text='Menadżer sprzedaży' updateValue={this.updateValue.bind(this)} fieldName='salesManager'/>*/}
-                            <RegisterItemSelect text='Menadżer sprzedaży' value={this.state.salesManager} updateValue={this.updateValue.bind(this)} fieldName='salesManager'/>
+                            <RegisterItemSelect text='Menadżer sprzedaży' value={this.state.salesManager} updateValue={this.updateValue.bind(this)} fieldName='salesManager' items={this.state.distributorsList}/>
                             <CheckBox
                                 title='Zapoznałam/łem się z Regulaminem Promocji „Promocja Rehau – Instaluj korzyści”, który dostępny jest na www.instalujkorzysci.pl, i go akceptuję.'
                                 checked={this.state.agree1}
-                                onPress={() => this.setCheck(!this.state.agree1)}
+                                onPress={() => this.setCheck('agree1',!this.state.agree1)}
                                 containerStyle={styles.checkBoxView}
                                 textStyle={styles.checkBoxText}
                             />
+                            <TouchableWithoutFeedback onPress={() => Linking.openURL(`${this.props.baseUrl}/files/regulamin.pdf`)} style={styles.registerFooterText}>
+                                <Text style={styles.registerFooterText}>REGULAMIN</Text>
+                            </TouchableWithoutFeedback>
                             <CheckBox
                                 title='Wyrażam zgodę na przekazywanie treści marketingowych za pośrednictwem moich urządzeń telekomunikacyjnych, w szczególności takich jak laptop, telefon czy smartfon, zgodnie z art. 172 ust. 1 ustawy z dnia 16 lipca 2004 r. Prawo telekomunikacyjne.'
                                 checked={this.state.agree2}
-                                onPress={() => this.setCheck(!this.state.agree2)}
+                                onPress={() => this.setCheck('agree2',!this.state.agree2)}
                                 containerStyle={styles.checkBoxView}
                                 textStyle={styles.checkBoxText}
                             />
                             <CheckBox
-                                title='Wyrażam zgodę na otrzymywanie informacji handlowej od REHAU sp. z o.o., zgodnie z art. 10 ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną. '
+                                title='Wyrażam zgodę na otrzymywanie informacji handlowej od REHAU sp. z o.o., zgodnie z art. 10 ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną.'
                                 checked={this.state.agree3}
-                                onPress={() => this.setCheck(!this.state.agree3)}
+                                onPress={() => this.setCheck('agree3',!this.state.agree3)}
                                 containerStyle={styles.checkBoxView}
                                 textStyle={styles.checkBoxText}
                             />

@@ -25,7 +25,7 @@ export default class PrizeItem extends React.Component {
         this.setState({
             symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[1].symbol,
             isLoading: false,
-        })
+        });
         this.listenerBlur = this.props.navigation.addListener('blur', () => {
             this.setState({
                 symbol: '',
@@ -60,11 +60,12 @@ export default class PrizeItem extends React.Component {
     }
 
     render() {
+        console.log(this.props.data);
         return(
             <View style={styles.prizeCategoryView}>
                 <Image source={{uri:this.props.data.imagemedium}} style={styles.prizeImage} resizeMode='contain'/>
                 <Text style={{fontWeight: 'bold', fontSize: 16}}>{this.props.data.title}</Text>
-                <Text>{this.props.data.description}</Text>
+                <Text>Punkty: <Text style={{fontWeight: 'bold'}}>{this.props.data.pricePoints}</Text></Text>
                 {this.props.data.variants !== undefined &&
                 <DropDownPicker
                     items={this.createItemsList()}

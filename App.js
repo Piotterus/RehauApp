@@ -166,6 +166,7 @@ export default class App extends  React.Component {
                 token={this.state.token}
                 appId={this.state.appId}
                 update={this.update.bind(this)}
+                apiUrl={this.state.apiUrl}
             />
           </SafeAreaProvider>
       )
@@ -443,6 +444,7 @@ export default class App extends  React.Component {
                           {...props}
                           appId={this.state.appId}
                           apiUrl={this.state.apiUrl}
+                          baseUrl={this.state.baseUrl}
                       />}
                     </Stack.Screen>
                     <Stack.Screen name="PasswordRemind"

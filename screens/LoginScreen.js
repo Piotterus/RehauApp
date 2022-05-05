@@ -53,7 +53,8 @@ export default class LoginScreen extends React.Component {
       this.setState({
         modalErrorVisible: false,
         error: '',
-      })
+      });
+      this.props.navigation.setParams({data: null});
     });
   }
 
@@ -98,6 +99,7 @@ export default class LoginScreen extends React.Component {
               await AsyncStorage.setItem('isLoggedIn', '1');
               await AsyncStorage.setItem('token', responseJson.session.id);
             }
+            //this.props.login(responseJson.session.id, responseJson.user.fullname, true);
             if (responseJson.user?.datemodify == null) {
                 this.props.login(responseJson.session.id, responseJson.user.fullname, true);
             } else {

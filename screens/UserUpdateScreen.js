@@ -17,6 +17,8 @@ import ErrorModal from '../components/allScreen/ErrorModal';
 import Activity from '../components/allScreen/Activity';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { CheckBox } from 'react-native-elements'
+import RegisterItemSelect from '../components/RegisterScreen/RegisterItemSelect';
+import UpdateItemSelect from '../components/UserUpdateScreen/UpdateItemSelect';
 
 Icon.loadFont();
 
@@ -34,10 +36,17 @@ export default class UserUpdateScreen extends React.Component {
             company: '',
             phone: '',
             email: '',
+            nip: '',
+            address: '',
+            postal: '',
+            city: '',
+            workerCount: '',
+            salesManager: '',
             regulations: '',
             agree1: false,
             agree2: false,
-            agree3: false
+            agree3: false,
+            distributorsList: '',
         }
     }
 
@@ -51,7 +60,11 @@ export default class UserUpdateScreen extends React.Component {
 
     componentDidMount() {
 
-        let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}`;
+        const queryString = this.objToQueryString({
+            session: this.props.token,
+        });
+
+        let url = `${this.props.apiUrl}/userData?${queryString}`;
 
         fetch(url, {
             method: 'GET',
@@ -61,6 +74,8 @@ export default class UserUpdateScreen extends React.Component {
         })
             .then(response => response.json())
             .then(responseJson => {
+                responseJson = responseJson.data;
+                //console.log(responseJson);
                 if (responseJson.error.code === 0) {
                     this.setState({
                         uid: responseJson.user.uid,
@@ -69,6 +84,12 @@ export default class UserUpdateScreen extends React.Component {
                         company: responseJson.user.name,
                         email: responseJson.user.email,
                         phone: responseJson.user.phone,
+                        city: responseJson.user.address_city,
+                        address: responseJson.user.address_street,
+                        postal: responseJson.user.address_zipcode,
+                        nip: responseJson.user.nip,
+                        workerCount: responseJson.user.other1,
+                        salesManager: responseJson.user.account.id
                     }, () => this.setState({isLoading: false}))
                 } else {
                     this.setState({
@@ -82,7 +103,76 @@ export default class UserUpdateScreen extends React.Component {
                     isLoading: false,
                     error: {
                         code: "BŁĄD",
-                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
+                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR1:" + error
+                    }
+                }, () => this.setModalErrorVisible(true));
+            });
+
+
+        url = `${this.props.apiUrl}/distributorsList?${queryString}`;
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                responseJson = responseJson.data;
+                //console.log(responseJson);
+                if (responseJson.error.code === 0) {
+                    this.setState({
+                        distributorsList: responseJson.distributor,
+                    }, () => this.setState({isLoading: false}))
+                } else {
+                    this.setState({
+                        isLoading: false,
+                        error: responseJson.error
+                    }, () => this.setModalErrorVisible(true))
+                }
+            })
+            .catch((error) => {
+                this.setState({
+                    isLoading: false,
+                    error: {
+                        code: "BŁĄD",
+                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR2:" + error
+                    }
+                }, () => this.setModalErrorVisible(true));
+            });
+
+        url = `${this.props.apiUrl}/regulations?${queryString}`;
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                responseJson = responseJson.data;
+                console.log(responseJson);
+                if (responseJson.error.code === 0) {
+                    this.setState({
+                        agree1: responseJson.regulations.items[1] === '1',
+                        agree2: responseJson.regulations.items[3] === '1',
+                        agree3: responseJson.regulations.items[4] === '1'
+                    }, () => this.setState({isLoading: false}))
+                } else {
+                    this.setState({
+                        isLoading: false,
+                        error: responseJson.error
+                    }, () => this.setModalErrorVisible(true))
+                }
+            })
+            .catch((error) => {
+                this.setState({
+                    isLoading: false,
+                    error: {
+                        code: "BŁĄD",
+                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR2:" + error
                     }
                 }, () => this.setModalErrorVisible(true));
             });
@@ -109,13 +199,63 @@ export default class UserUpdateScreen extends React.Component {
             this.setState({
                 company: text,
             });
+        } else if (field === 'nip') {
+            this.setState({
+                nip: text,
+            });
+        } else if (field === 'address') {
+            this.setState({
+                address: text,
+            });
+        } else if (field === 'postal') {
+            this.setState({
+                postal: text,
+            });
+        } else if (field === 'city') {
+            this.setState({
+                city: text,
+            });
+        } else if (field === 'workerCount') {
+            this.setState({
+                workerCount: text,
+            });
+        } else if (field === 'salesManager') {
+            this.setState({
+                salesManager: text,
+            });
+        }
+    }
+
+    checkFields() {
+        if (this.state.firstname !== "" &&
+            this.state.lastname !== "" &&
+            this.state.phone !== "" &&
+            this.state.email !== "" &&
+            this.state.company !== "" &&
+            this.state.postal !== "" &&
+            this.state.address !== "" &&
+            this.state.city !== "" &&
+            this.state.nip !== "" &&
+            this.state.workerCount !== "" &&
+            this.state.salesManager !== "" &&
+            this.state.agree1
+        ) {
+            return true;
+        } else {
+            return false;
         }
     }
 
     sendUpdate() {
-        if (this.state.firstname !== "" && this.state.lastname !== "" && this.state.phone !== "" && this.state.email !== "" && this.state.agree1 !== false) {
-            let url = `https://api.verbum.com.pl/${this.props.appId}/${this.props.token}/user/update`;
+        if (this.checkFields()) {
 
+            const queryString = this.objToQueryString({
+                session: this.props.token,
+                uid: this.state.uid,
+            });
+
+            let url = `${this.props.apiUrl}/userUpdate?${queryString}`;
+console.log(url);
             let agree1;
             if (this.state.agree1) {
                 agree1 = 1;
@@ -136,17 +276,21 @@ export default class UserUpdateScreen extends React.Component {
             }
 
             let body = {
-                appId: this.props.appId,
-                uid: this.state.uid,
-                firstname: this.state.firstname,
-                lastname: this.state.lastname,
-                company: this.state.company,
-                email: this.state.email,
-                phone: this.state.phone,
+                user_firstname: this.state.firstname,
+                user_lastname: this.state.lastname,
+                user_email: this.state.email,
+                user_name: this.state.company,
+                user_phone: this.state.phone,
+                user_nip: this.state.nip,
+                user_address_city: this.state.city,
+                user_address_street: this.state.address,
+                user_address_zipcode: this.state.postal,
+                user_other1: this.state.workerCount,
+                user_account: this.state.salesManager,
                 regulations: {
                     1: agree1,
-                    2: agree2,
-                    3: agree3
+                    3: agree2,
+                    4: agree3,
                 }
             };
 
@@ -159,6 +303,8 @@ export default class UserUpdateScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
+                    responseJson = responseJson.data;
+                    console.log(responseJson);
                     if (responseJson.error.code === 0) {
                         this.props.update();
                     } else {
@@ -247,7 +393,7 @@ export default class UserUpdateScreen extends React.Component {
                                     autoCapitalize="none"
                                     defaultValue={this.state.phone}
                                 />
-                                <Text style={styles.textLabel}>Firma</Text>
+                                <Text style={styles.textLabel}>Firma<Text style={styles.textRequired}>*</Text></Text>
                                 <TextInput
                                     placeholder="Firma"
                                     placeholderTextColor="#4E4E4E88"
@@ -257,13 +403,64 @@ export default class UserUpdateScreen extends React.Component {
                                     autoCapitalize="none"
                                     defaultValue={this.state.company}
                                 />
+                                <Text style={styles.textLabel}>NIP<Text style={styles.textRequired}>*</Text></Text>
+                                <TextInput
+                                    placeholder="NIP"
+                                    placeholderTextColor="#4E4E4E88"
+                                    textAlign="left"
+                                    style={styles.textInput}
+                                    onChangeText={(text) => this.updateValue(text, 'nip')}
+                                    autoCapitalize="none"
+                                    defaultValue={this.state.nip}
+                                />
+                                <Text style={styles.textLabel}>Adres<Text style={styles.textRequired}>*</Text></Text>
+                                <TextInput
+                                    placeholder="Adres"
+                                    placeholderTextColor="#4E4E4E88"
+                                    textAlign="left"
+                                    style={styles.textInput}
+                                    onChangeText={(text) => this.updateValue(text, 'address')}
+                                    autoCapitalize="none"
+                                    defaultValue={this.state.address}
+                                />
+                                <Text style={styles.textLabel}>Kod pocztowy<Text style={styles.textRequired}>*</Text></Text>
+                                <TextInput
+                                    placeholder="Kod pocztowy"
+                                    placeholderTextColor="#4E4E4E88"
+                                    textAlign="left"
+                                    style={styles.textInput}
+                                    onChangeText={(text) => this.updateValue(text, 'postal')}
+                                    autoCapitalize="none"
+                                    defaultValue={this.state.postal}
+                                />
+                                <Text style={styles.textLabel}>Miejscowość<Text style={styles.textRequired}>*</Text></Text>
+                                <TextInput
+                                    placeholder="Miejscowość"
+                                    placeholderTextColor="#4E4E4E88"
+                                    textAlign="left"
+                                    style={styles.textInput}
+                                    onChangeText={(text) => this.updateValue(text, 'city')}
+                                    autoCapitalize="none"
+                                    defaultValue={this.state.city}
+                                />
+                                <Text style={styles.textLabel}>Ilość pracowników<Text style={styles.textRequired}>*</Text></Text>
+                                <TextInput
+                                    placeholder="Ilość pracowników"
+                                    placeholderTextColor="#4E4E4E88"
+                                    textAlign="left"
+                                    style={styles.textInput}
+                                    onChangeText={(text) => this.updateValue(text, 'workerCount')}
+                                    autoCapitalize="none"
+                                    defaultValue={this.state.workerCount}
+                                />
+                                <UpdateItemSelect text='Menadżer sprzedaży' value={this.state.salesManager} updateValue={this.updateValue.bind(this)} fieldName='salesManager' items={this.state.distributorsList}/>
                                 <Text style={styles.textConsent}>Przed przystąpieniem do Programu "Instaluj Korzyści", należy wyrazić zgody.</Text>
                                 <View style={styles.consentRow}>
                                     <CheckBox
                                         checked={this.state.agree1}
                                         onPress={() => this.setState({agree1: !this.state.agree1})}
                                     />
-                                    <Text style={styles.textConsent}>Zapoznałam/łem się z Regulaminem Promocji „Promocja Rehau – Instaluj korzyści”, który dostępny jest na www.instalujkorzysci.pl, i go akceptuję<Text style={styles.textRequired}>*</Text>)</Text>
+                                    <Text style={styles.textConsent}>Zapoznałam/łem się z Regulaminem Promocji „Promocja Rehau – Instaluj korzyści”, który dostępny jest na www.instalujkorzysci.pl, i go akceptuję.<Text style={styles.textRequired}>*</Text>)</Text>
                                 </View>
                                 <View style={styles.consentRow}>
                                     <CheckBox
@@ -279,6 +476,7 @@ export default class UserUpdateScreen extends React.Component {
                                     />
                                     <Text style={styles.textConsent}>Wyrażam zgodę na otrzymywanie informacji handlowej od REHAU sp. z o.o., zgodnie z art. 10 ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną.</Text>
                                 </View>
+                                <Text style={styles.textConsent}>Klauzula informacyjna:</Text>
                                 <Text style={styles.textConsent}>Warunkiem ważności udzielonej zgody jest zaznaczenie obu powyższych zgód. Rozumiem, że nie mam obowiązku podania moich danych osobowych a moje powyższe zgody są dobrowolne i nie muszę ich udzielać, przy czym w przypadku ich nieudzielenia bądź późniejszego wycofania, jak również przesłania wniosku o zmianę lub usunięcie moich danych, stracę możliwość otrzymywania treści marketingowych (w tym newsletterów i ofert) z REHAU.</Text>
                                 <TouchableOpacity onPress={() => this.sendUpdate()} style={styles.consentButton}>
                                     <Text style={styles.consentText}>Zapisz</Text>

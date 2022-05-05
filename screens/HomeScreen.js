@@ -32,7 +32,7 @@ export default class HomeScreen extends React.Component {
             <View style={styles.menuRow}>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('RegisterFV')} style={styles.menuItem}>
                 <Image
-                  source={require('../icons/barcode_icon.png')}
+                  source={require('../icons/register_fv.png')}
                   style={styles.menuImage}
                   resizeMode="contain"
                 />
