@@ -349,7 +349,7 @@ export default class RegisterScreen extends React.Component {
                             {/*<RegisterItem text='Menadżer sprzedaży' updateValue={this.updateValue.bind(this)} fieldName='salesManager'/>*/}
                             <RegisterItemSelect text='Menadżer sprzedaży' value={this.state.salesManager} updateValue={this.updateValue.bind(this)} fieldName='salesManager' items={this.state.distributorsList}/>
                             <CheckBox
-                                title='Zapoznałam/łem się z Regulaminem Promocji „Promocja Rehau – Instaluj korzyści”, który dostępny jest na www.instalujkorzysci.pl, i go akceptuję.'
+                                title='Zapoznałam/łem się z&nbsp;Regulaminem Promocji „Promocja Rehau&nbsp;–&nbsp;Instaluj korzyści”, który dostępny jest na www.instalujkorzysci.pl, i&nbsp;go akceptuję.'
                                 checked={this.state.agree1}
                                 onPress={() => this.setCheck('agree1',!this.state.agree1)}
                                 containerStyle={styles.checkBoxView}
@@ -359,14 +359,14 @@ export default class RegisterScreen extends React.Component {
                                 <Text style={styles.registerFooterText}>REGULAMIN</Text>
                             </TouchableWithoutFeedback>
                             <CheckBox
-                                title='Wyrażam zgodę na przekazywanie treści marketingowych za pośrednictwem moich urządzeń telekomunikacyjnych, w szczególności takich jak laptop, telefon czy smartfon, zgodnie z art. 172 ust. 1 ustawy z dnia 16 lipca 2004 r. Prawo telekomunikacyjne.'
+                                title='Wyrażam zgodę na przekazywanie treści marketingowych za pośrednictwem moich urządzeń telekomunikacyjnych, w&nbsp;szczególności takich jak laptop, telefon czy smartfon, zgodnie z&nbsp;art. 172 ust. 1 ustawy z&nbsp;dnia 16 lipca 2004 r. Prawo telekomunikacyjne.'
                                 checked={this.state.agree2}
                                 onPress={() => this.setCheck('agree2',!this.state.agree2)}
                                 containerStyle={styles.checkBoxView}
                                 textStyle={styles.checkBoxText}
                             />
                             <CheckBox
-                                title='Wyrażam zgodę na otrzymywanie informacji handlowej od REHAU sp. z o.o., zgodnie z art. 10 ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną.'
+                                title='Wyrażam zgodę na otrzymywanie informacji handlowej od REHAU sp. z&nbsp;o.o., zgodnie z&nbsp;art. 10 ustawy z&nbsp;dnia 18 lipca 2002 r. o&nbsp;świadczeniu usług drogą elektroniczną.'
                                 checked={this.state.agree3}
                                 onPress={() => this.setCheck('agree3',!this.state.agree3)}
                                 containerStyle={styles.checkBoxView}
@@ -453,6 +453,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         //width: '90%',
         paddingRight: 20,
+        textAlign: 'justify'
     },
     registerFooterText: {
         fontSize: 12,

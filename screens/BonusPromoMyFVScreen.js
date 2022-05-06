@@ -74,7 +74,7 @@ export default class BonusPromoMyFVScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
                         }
                     }, () => this.setModalErrorVisible(true));
                 });

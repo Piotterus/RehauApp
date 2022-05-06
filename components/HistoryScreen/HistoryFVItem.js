@@ -21,7 +21,7 @@ export default class HistoryFVItem extends React.Component {
                     <Text style={styles.fvDateText}>{invoice.dateadd}</Text>
                 </View>
                 <View style={styles.FVDataView}>
-                    <Text style={styles.fvDateText}>{invoice.value}</Text>
+                    <Text style={[styles.fvDateText, {textAlign: 'center'}]}>{invoice.value}</Text>
                 </View>
                 <View style={styles.fvImageView}>
                     <TouchableOpacity onPress={() => Linking.openURL(invoice.attachments[1].url)} style={{alignItems: 'center'}}>

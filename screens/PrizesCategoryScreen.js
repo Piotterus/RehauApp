@@ -75,7 +75,7 @@ export default class PrizesCategoryScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR"
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
                         }
                     }, () => this.setModalErrorVisible(true));
                 });

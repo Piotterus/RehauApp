@@ -103,7 +103,7 @@ export default class UserUpdateScreen extends React.Component {
                     isLoading: false,
                     error: {
                         code: "BŁĄD",
-                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR1:" + error
+                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
                     }
                 }, () => this.setModalErrorVisible(true));
             });
@@ -137,7 +137,7 @@ export default class UserUpdateScreen extends React.Component {
                     isLoading: false,
                     error: {
                         code: "BŁĄD",
-                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR2:" + error
+                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
                     }
                 }, () => this.setModalErrorVisible(true));
             });
@@ -172,7 +172,7 @@ export default class UserUpdateScreen extends React.Component {
                     isLoading: false,
                     error: {
                         code: "BŁĄD",
-                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR2:" + error
+                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
                     }
                 }, () => this.setModalErrorVisible(true));
             });

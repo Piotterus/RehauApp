@@ -66,6 +66,7 @@ export default class HistoryScreen extends React.Component {
                 .then(response => response.json())
                 .then(responseJson => {
                     responseJson = responseJson.data;
+                    console.log(responseJson);
                     if (responseJson.error.code === 0) {
                         if (responseJson.invoice !== undefined) {
                             this.setState({
@@ -88,7 +89,7 @@ export default class HistoryScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
                         }
                     }, () => this.setModalErrorVisible(true));
                 });
@@ -127,7 +128,7 @@ export default class HistoryScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD ERROR:" + error
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
                         }
                     }, () => this.setModalErrorVisible(true));
                 });
@@ -188,7 +189,7 @@ export default class HistoryScreen extends React.Component {
                     forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
                     <HeaderImage image="History"/>
-                    <View style={styles.historyCategoryView}>
+                    <ScrollView style={styles.historyCategoryView} contentContainerStyle={{alignItems: 'center'}}>
                         <Text style={styles.historyHeaderText}>Moja historia</Text>
                         <HistoryStrip text="Moje zarejestrowane faktury"/>
                         <View style={styles.historyListView}>
@@ -221,7 +222,7 @@ export default class HistoryScreen extends React.Component {
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("HistoryOrders")} style={styles.historyButton}>
                             <Text style={styles.historyButtonText}>WIĘCEJ</Text>
                         </TouchableOpacity>
-                    </View>
+                    </ScrollView>
                     <Footer />
                     {this.state.isLoading &&
                     <Activity/>
@@ -241,7 +242,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderWidth: 1,
         borderColor: '#AAAAAABF',
-        alignItems: 'center',
+        //alignItems: 'center',
         flex: 1,
         marginBottom: 20
     },
