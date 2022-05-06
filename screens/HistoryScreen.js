@@ -65,6 +65,8 @@ export default class HistoryScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
+                    console.log('FV calosc');
+                    console.log(responseJson);
                     responseJson = responseJson.data;
                     console.log('FV odebrane');
                     console.log(responseJson);
@@ -114,6 +116,8 @@ export default class HistoryScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
+                    console.log('Zamówienia calosc');
+                    console.log(responseJson);
                     responseJson = responseJson.data;
                     console.log('Zamówienia odebrane');
                     console.log(responseJson);

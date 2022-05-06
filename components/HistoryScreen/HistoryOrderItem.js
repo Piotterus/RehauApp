@@ -8,7 +8,7 @@ export default class HistoryOrderItem extends React.Component {
         let order = this.props.data;
         let status = '';
         let number = order.title.replace('Zamówienie nr','')
-        console.log(order.title);
+
         if (order.status.id === 'confirmed' || order.status.id === 'finished') {
             status = 'zaakceptowana';
         } else if (order.status.id === 'canceled' || order.status.id === 'cancelled') {
