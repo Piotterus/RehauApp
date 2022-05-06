@@ -89,7 +89,7 @@ export default class HistoryScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD Faktury"
                         }
                     }, () => this.setModalErrorVisible(true));
                 });
@@ -128,7 +128,7 @@ export default class HistoryScreen extends React.Component {
                         isLoading: false,
                         error: {
                             code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD"
+                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD Zamowienia"
                         }
                     }, () => this.setModalErrorVisible(true));
                 });
