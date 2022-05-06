@@ -47,6 +47,112 @@ export default class HistoryScreen extends React.Component {
         return keyValuePairs.join('&');
     }
 
+    async getInvoiceList(queryString) {
+        let url = `${this.props.apiUrl}/invoicesList?${queryString}`;
+
+         await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                console.log('FV calosc');
+                console.log(responseJson);
+                responseJson = responseJson.data;
+                console.log('FV odebrane');
+                console.log(responseJson);
+                if (responseJson.error.code === 0) {
+                    console.log('FV bez błędu');
+                    console.log(responseJson.error);
+                    if (responseJson.invoice !== undefined) {
+                        console.log('FV są');
+                        console.log(responseJson.invoice);
+                        this.setState({
+                            invoicesList: responseJson?.invoice,
+                        }, () => this.setState({isLoading: false}))
+                    } else {
+                        console.log('FV nie ma');
+                        this.setState({
+                            invoicesList: '',
+                        }, () => this.setState({isLoading: false}))
+                    }
+                } else {
+                    console.log('FV z błędem');
+                    console.log(responseJson.error);
+                    this.setState({
+                        isLoading: false,
+                        error: responseJson.error
+                    }, () => this.setModalErrorVisible(true))
+                }
+            })
+            .catch((error) => {
+
+                console.log('FV odebrane z bledem');
+                console.log(error);
+                this.setState({
+                    isLoading: false,
+                    error: {
+                        code: "BŁĄD",
+                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD Faktury"
+                    }
+                }, () => this.setModalErrorVisible(true));
+            });
+    }
+
+    async getOrdersList(queryString) {
+        let url = `${this.props.apiUrl}/ordersList?${queryString}`;
+
+        await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                console.log('Zamówienia calosc');
+                console.log(responseJson);
+                responseJson = responseJson.data;
+                console.log('Zamówienia odebrane');
+                console.log(responseJson);
+                if (responseJson.error.code === 0) {
+                    console.log('Zamówienia bez błędu');
+                    console.log(responseJson.error);
+                    if (responseJson.orders !== undefined) {
+                        console.log('Zamówienia są');
+                        console.log(responseJson.orders);
+                        this.setState({
+                            orders: responseJson?.orders,
+                        }, () => this.setState({isLoading: false}))
+                    } else {
+                        this.setState({
+                            orders: '',
+                        }, () => this.setState({isLoading: false}))
+                    }
+                } else {
+                    console.log('Zamówienia z błędem');
+                    console.log(responseJson.error);
+                    this.setState({
+                        isLoading: false,
+                        error: responseJson.error
+                    }, () => this.setModalErrorVisible(true))
+                }
+            })
+            .catch((error) => {
+                console.log('Zamówienia odebrane z bledem');
+                console.log(error);
+                this.setState({
+                    isLoading: false,
+                    error: {
+                        code: "BŁĄD",
+                        message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD Zamowienia"
+                    }
+                }, () => this.setModalErrorVisible(true));
+            });
+    }
+
     componentDidMount() {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
@@ -55,106 +161,9 @@ export default class HistoryScreen extends React.Component {
                 session: this.props.token,
             });
 
-            let url = `${this.props.apiUrl}/invoicesList?${queryString}`;
+            this.getInvoiceList(queryString);
 
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': "application/json",
-                },
-            })
-                .then(response => response.json())
-                .then(responseJson => {
-                    console.log('FV calosc');
-                    console.log(responseJson);
-                    responseJson = responseJson.data;
-                    console.log('FV odebrane');
-                    console.log(responseJson);
-                    if (responseJson.error.code === 0) {
-                        console.log('FV bez błędu');
-                        console.log(responseJson.error);
-                        if (responseJson.invoice !== undefined) {
-                            console.log('FV są');
-                            console.log(responseJson.invoice);
-                            this.setState({
-                                invoicesList: responseJson?.invoice,
-                            }, () => this.setState({isLoading: false}))
-                        } else {
-                            console.log('FV nie ma');
-                            this.setState({
-                                invoicesList: '',
-                            }, () => this.setState({isLoading: false}))
-                        }
-                    } else {
-                        console.log('FV z błędem');
-                        console.log(responseJson.error);
-                        this.setState({
-                            isLoading: false,
-                            error: responseJson.error
-                        }, () => this.setModalErrorVisible(true))
-                    }
-                })
-                .catch((error) => {
-                    console.log('FV odebrane z bledem');
-                    console.log(error);
-                    this.setState({
-                        isLoading: false,
-                        error: {
-                            code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD Faktury"
-                        }
-                    }, () => this.setModalErrorVisible(true));
-                });
-
-            url = `${this.props.apiUrl}/ordersList?${queryString}`;
-
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': "application/json",
-                },
-            })
-                .then(response => response.json())
-                .then(responseJson => {
-                    console.log('Zamówienia calosc');
-                    console.log(responseJson);
-                    responseJson = responseJson.data;
-                    console.log('Zamówienia odebrane');
-                    console.log(responseJson);
-                    if (responseJson.error.code === 0) {
-                        console.log('Zamówienia bez błędu');
-                        console.log(responseJson.error);
-                        if (responseJson.orders !== undefined) {
-                            console.log('Zamówienia są');
-                            console.log(responseJson.orders);
-                            this.setState({
-                                orders: responseJson?.orders,
-                            }, () => this.setState({isLoading: false}))
-                        } else {
-                            this.setState({
-                                orders: '',
-                            }, () => this.setState({isLoading: false}))
-                        }
-                    } else {
-                        console.log('Zamówienia z błędem');
-                        console.log(responseJson.error);
-                        this.setState({
-                            isLoading: false,
-                            error: responseJson.error
-                        }, () => this.setModalErrorVisible(true))
-                    }
-                })
-                .catch((error) => {
-                    console.log('Zamówienia odebrane z bledem');
-                    console.log(error);
-                    this.setState({
-                        isLoading: false,
-                        error: {
-                            code: "BŁĄD",
-                            message: "WYSTĄPIŁ NIESPODZIEWANY BŁĄD Zamowienia"
-                        }
-                    }, () => this.setModalErrorVisible(true));
-                });
+            this.getOrdersList(queryString);
         });
         this.listenerBlur = this.props.navigation.addListener('blur', () => {
             this.setState({
