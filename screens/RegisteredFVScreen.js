@@ -56,7 +56,7 @@ export default class RegisteredFVScreen extends React.Component {
     }
 
     setGreetingsText() {
-        return <Text style={styles.registeredCodeGreetingsText}>Twoja faktura została zarejestrowana!</Text>
+        return <Text style={styles.registeredCodeGreetingsText}>Twoja faktura została przesłana!</Text>
     }
 
     render() {

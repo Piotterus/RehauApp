@@ -109,8 +109,9 @@ export default class RegisterFVScreen extends Component {
         if (this.camera) {
             const options = { quality: 0.75, base64: true };
             const data = await this.camera.takePictureAsync(options);
-            console.log(data.uri);
-            console.log(data);
+            //console.log(data.uri);
+            //console.log(data);
+            console.log(data.base64);
             this.setState({
                 //isLoading: true,
                 image: data,

@@ -18,6 +18,8 @@ import HistoryCodeItem from '../components/HistoryScreen/HistoryCodeItem';
 import HistoryOrderItem from '../components/HistoryScreen/HistoryOrderItem';
 import ErrorModal from '../components/allScreen/ErrorModal';
 import Activity from '../components/allScreen/Activity';
+import HistoryOrdersHeader from '../components/HistoryScreen/HistoryOrdersHeader';
+import Divider from '../components/allScreen/Divider';
 
 export default class HistoryOrdersScreen extends React.Component {
     constructor(props) {
@@ -104,12 +106,9 @@ export default class HistoryOrdersScreen extends React.Component {
     createHistoryOrdersList() {
         let historyOrdersList = [];
         for (let i in this.state.orders) {
-                historyOrdersList.push(
-                    <HistoryOrderItem key={2*i} max={this.state.orders.length} lp={i} data={this.state.orders[i]} navigation={this.props.navigation}/>,
-                );
-                historyOrdersList.push(
-                    <View key={2*i+1} style={{borderWidth: 0.5, borderColor: '#4E4E4E', width: '100%'}}/>,
-                );
+            historyOrdersList.push(
+                <HistoryOrderItem key={i} max={this.state.orders.length} lp={i} data={this.state.orders[i]} navigation={this.props.navigation}/>,
+            );
         }
         return historyOrdersList;
     }
@@ -125,18 +124,12 @@ export default class HistoryOrdersScreen extends React.Component {
                     <HeaderBack navigation={this.props.navigation} />
                     <HeaderImage image="PrizeCategory"/>
                     <View style={styles.historyCategoryView}>
-                        <Text style={styles.historyHeaderText}>Moja historia</Text>
-                        <HistoryStrip text="Moje zamówienia"/>
-                        <View style={styles.historyListView}>
-                            <View style={styles.historyListRow}>
-                                <Text style={[styles.historyListText, {flex: 1}]}>Lp.</Text>
-                                <Text style={[styles.historyListText, {flex: 3}]}>Data złożenia</Text>
-                                <Text style={[styles.historyListText, {flex: 3}]}>Status</Text>
-                                <Text style={[styles.historyListText, {flex: 2, marginLeft: 3, marginRight: 3}]}/>
-                            </View>
-                            <View style={{borderWidth: 1, borderColor: '#4E4E4E', width: '100%'}}/>
+                        <Text style={styles.historyHeaderText}>Moje zamówienia</Text>
+                        <Divider/>
+                        <ScrollView style={styles.historyListView}>
+                            <HistoryOrdersHeader/>
                             {this.createHistoryOrdersList()}
-                        </View>
+                        </ScrollView>
                     </View>
                     <Footer />
                     {this.state.isLoading &&
@@ -156,16 +149,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: '#AAAAAABF',
-        alignItems: 'center',
+        borderColor: '#000000BF',
+        padding: 10,
+        alignItems: 'flex-start',
         flex: 1,
         marginBottom: 20
     },
     historyHeaderText: {
-        color: '#4E4E4E',
-        fontSize: 16,
-        marginTop: 10,
-        marginBottom: 10,
+        color: '#DC0060',
+        fontSize: 20,
+        alignSelf: 'center'
     },
     historyButton: {
         backgroundColor: '#37A48B',

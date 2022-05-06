@@ -8,13 +8,13 @@ export default class HistoryOrdersHeader extends React.Component {
 
         return(
             <View style={styles.FVView}>
-                <View style={styles.textView}>
+                <View style={styles.FVDataView}>
                     <Text style={[styles.textSmall, styles.textBold]}>Nr Zam.</Text>
                 </View>
                 <View style={styles.FVDataView}>
                     <Text style={[styles.textSmall]}>Data złożenia</Text>
                 </View>
-                <View style={styles.FVDataView}>
+                <View style={styles.textView}>
                     <Text style={[styles.textSmall]}>Status</Text>
                 </View>
                 <View style={styles.textView}>

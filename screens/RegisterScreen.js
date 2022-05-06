@@ -327,7 +327,7 @@ export default class RegisterScreen extends React.Component {
                 <ErrorModal visible={this.state.modalErrorVisible} error={this.state.error} setModalErrorVisible={this.setModalErrorVisible.bind(this)}/>
                 <SafeAreaView
                     style={{flex: 1}}
-                    forceInset={{top: 0, bottom: 'always', right: 0, left: 0}}>
+                    forceInset={{top: 'always', bottom: 0, right: 0, left: 0}}>
                     <HeaderBack navigation={this.props.navigation} />
                     <HeaderImage image="Register"/>
                     <View style={styles.myAccountView}>
@@ -446,6 +446,7 @@ const styles = StyleSheet.create({
     checkBoxView: {
         backgroundColor: 'transparent',
         borderWidth: 0,
+        flex: 1,
     },
     checkBoxText: {
         fontWeight: 'normal',
@@ -454,6 +455,7 @@ const styles = StyleSheet.create({
     registerFooterText: {
         fontSize: 12,
         color: '#4E4E4E',
+        flex: 1,
     },
     registerButton: {
         backgroundColor: '#37A48B',

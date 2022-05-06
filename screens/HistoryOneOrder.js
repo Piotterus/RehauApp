@@ -94,7 +94,7 @@ export default class HistoryOneOrder extends React.Component {
                                 <Text style={[styles.historyListText, {flex: 1}]}>Lp.</Text>
                                 <Text style={[styles.historyListText, {flex: 6}]}>Nazwa</Text>
                                 <Text style={[styles.historyListText, {flex: 2}]}>Ilość</Text>
-                                <Text style={[styles.historyListText, {flex: 2}]}>Wartość</Text>
+                                <Text style={[styles.historyListText, {flex: 2}]}>PKT</Text>
                             </View>
                             {this.createHistoryOrdersList()}
                         </View>

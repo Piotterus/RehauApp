@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
         padding: 5,
         //width: 200,
         //backgroundColor: 'blue',
-        height: 140,
-        marginBottom: 5,
+        height: 150,
+        marginBottom: 10,
     },
     prizeCategoryImage: {
 
