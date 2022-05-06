@@ -159,8 +159,8 @@ export default class HistoryScreen extends React.Component {
         this.listenerBlur = this.props.navigation.addListener('blur', () => {
             this.setState({
                 isLoading: true,
-
-
+                orders: '',
+                invoicesList: '',
             })
         });
     }
