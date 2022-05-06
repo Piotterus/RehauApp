@@ -451,6 +451,8 @@ const styles = StyleSheet.create({
     checkBoxText: {
         fontWeight: 'normal',
         fontSize: 12,
+        //width: '90%',
+        paddingRight: 20,
     },
     registerFooterText: {
         fontSize: 12,
