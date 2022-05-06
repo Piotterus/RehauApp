@@ -66,18 +66,26 @@ export default class HistoryScreen extends React.Component {
                 .then(response => response.json())
                 .then(responseJson => {
                     responseJson = responseJson.data;
+                    console.log('FV odebrane');
                     console.log(responseJson);
                     if (responseJson.error.code === 0) {
+                        console.log('FV bez błędu');
+                        console.log(responseJson.error);
                         if (responseJson.invoice !== undefined) {
+                            console.log('FV są');
+                            console.log(responseJson.invoice);
                             this.setState({
                                 invoicesList: responseJson?.invoice,
                             }, () => this.setState({isLoading: false}))
                         } else {
+                            console.log('FV nie ma');
                             this.setState({
                                 invoicesList: '',
                             }, () => this.setState({isLoading: false}))
                         }
                     } else {
+                        console.log('FV z błędem');
+                        console.log(responseJson.error);
                         this.setState({
                             isLoading: false,
                             error: responseJson.error
@@ -85,6 +93,8 @@ export default class HistoryScreen extends React.Component {
                     }
                 })
                 .catch((error) => {
+                    console.log('FV odebrane z bledem');
+                    console.log(error);
                     this.setState({
                         isLoading: false,
                         error: {
@@ -105,9 +115,14 @@ export default class HistoryScreen extends React.Component {
                 .then(response => response.json())
                 .then(responseJson => {
                     responseJson = responseJson.data;
+                    console.log('Zamówienia odebrane');
                     console.log(responseJson);
                     if (responseJson.error.code === 0) {
+                        console.log('Zamówienia bez błędu');
+                        console.log(responseJson.error);
                         if (responseJson.orders !== undefined) {
+                            console.log('Zamówienia są');
+                            console.log(responseJson.orders);
                             this.setState({
                                 orders: responseJson?.orders,
                             }, () => this.setState({isLoading: false}))
@@ -117,6 +132,8 @@ export default class HistoryScreen extends React.Component {
                             }, () => this.setState({isLoading: false}))
                         }
                     } else {
+                        console.log('Zamówienia z błędem');
+                        console.log(responseJson.error);
                         this.setState({
                             isLoading: false,
                             error: responseJson.error
@@ -124,6 +141,8 @@ export default class HistoryScreen extends React.Component {
                     }
                 })
                 .catch((error) => {
+                    console.log('Zamówienia odebrane z bledem');
+                    console.log(error);
                     this.setState({
                         isLoading: false,
                         error: {
@@ -136,6 +155,8 @@ export default class HistoryScreen extends React.Component {
         this.listenerBlur = this.props.navigation.addListener('blur', () => {
             this.setState({
                 isLoading: true,
+
+
             })
         });
     }

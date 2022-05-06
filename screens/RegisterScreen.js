@@ -373,7 +373,7 @@ export default class RegisterScreen extends React.Component {
                                 textStyle={styles.checkBoxText}
                             />
                             <Text style={styles.registerFooterText}>Klauzula informacyjna:</Text>
-                            <Text style={styles.registerFooterText}>Warunkiem ważności udzielonej zgody jest zaznaczenie obu powyższych zgód. Rozumiem, że nie mam obowiązku podania moich danych osobowych a moje powyższe zgody są dobrowolne i nie muszę ich udzielać, przy czym w przypadku ich nieudzielenia bądź późniejszego wycofania, jak również przesłania wniosku o zmianę lub usunięcie moich danych, stracę możliwość otrzymywania treści marketingowych (w tym newsletterów i ofert) z REHAU.</Text>
+                            <Text style={styles.registerFooterText}>Warunkiem ważności udzielonej zgody jest zaznaczenie obu powyższych zgód. Rozumiem, że nie mam obowiązku podania moich danych osobowych a&nbsp;moje powyższe zgody są dobrowolne i&nbsp;nie muszę ich udzielać, przy czym w&nbsp;przypadku ich nieudzielenia bądź późniejszego wycofania, jak również przesłania wniosku o&nbsp;zmianę lub usunięcie moich danych, stracę możliwość otrzymywania treści marketingowych (w&nbsp;tym newsletterów i&nbsp;ofert) z REHAU.</Text>
                             {/*<Text style={styles.registerFooterText}>Rozumiem, że nie mam obowiązku podania moich danych osobowych a moje powyższe zgody są dobrowolne i nie muszę ich udzielać, przy czym w przypadku ich nieudzielenia bądź późniejszego wycofania, jak również przesłania wniosku o zmianę lub usunięcie moich danych, stracę możliwość uczestnictwa w Promocji.</Text>
                             <Text style={[styles.registerFooterText, {alignSelf: 'flex-start'}]}>Wszystkie pola są obowiązkowe!</Text>*/}
                             <TouchableOpacity onPress={() => this.register()} style={styles.registerButton}>
@@ -459,6 +459,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#4E4E4E',
         flex: 1,
+        textAlign: 'justify',
     },
     registerButton: {
         backgroundColor: '#37A48B',
