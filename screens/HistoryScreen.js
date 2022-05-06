@@ -47,7 +47,7 @@ export default class HistoryScreen extends React.Component {
         return keyValuePairs.join('&');
     }
 
-    async getInvoiceList(queryString) {
+    async getData(queryString) {
         let url = `${this.props.apiUrl}/invoicesList?${queryString}`;
 
          await fetch(url, {
@@ -99,10 +99,8 @@ export default class HistoryScreen extends React.Component {
                     }
                 }, () => this.setModalErrorVisible(true));
             });
-    }
 
-    async getOrdersList(queryString) {
-        let url = `${this.props.apiUrl}/ordersList?${queryString}`;
+        url = `${this.props.apiUrl}/ordersList?${queryString}`;
 
         await fetch(url, {
             method: 'GET',
@@ -161,9 +159,7 @@ export default class HistoryScreen extends React.Component {
                 session: this.props.token,
             });
 
-            this.getInvoiceList(queryString);
-
-            this.getOrdersList(queryString);
+            this.getData(queryString);
         });
         this.listenerBlur = this.props.navigation.addListener('blur', () => {
             this.setState({
