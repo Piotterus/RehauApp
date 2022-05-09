@@ -109,6 +109,7 @@ export default class App extends  React.Component {
   setup = async() => {
     const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
     const token = await AsyncStorage.getItem('token');
+    const fullname = await AsyncStorage.getItem('fullname');
     if (isLoggedIn !== '1') {
       this.setState({
         isSettingUp: false
@@ -117,7 +118,8 @@ export default class App extends  React.Component {
       this.setState({
         isSettingUp: false,
         isLoggedIn: true,
-        token: token
+        token: token,
+        fullName: fullname
       })
     }
   };
@@ -140,6 +142,7 @@ export default class App extends  React.Component {
   async logout() {
     await AsyncStorage.setItem('isLoggedIn','0');
     await AsyncStorage.setItem('token','');
+    await AsyncStorage.setItem('fullname','');
     this.setState( {
       isLoggedIn: false,
     });

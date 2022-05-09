@@ -98,6 +98,7 @@ export default class LoginScreen extends React.Component {
             if (this.state.rememberEnabled) {
               await AsyncStorage.setItem('isLoggedIn', '1');
               await AsyncStorage.setItem('token', responseJson.session.id);
+              await AsyncStorage.setItem('fullname', responseJson.user.fullname);
             }
             //this.props.login(responseJson.session.id, responseJson.user.fullname, true);
             if (responseJson.user?.datemodify == null) {
