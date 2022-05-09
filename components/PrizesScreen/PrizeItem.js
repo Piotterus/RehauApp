@@ -14,8 +14,8 @@ export default class PrizeItem extends React.Component {
     componentDidMount() {
 
         this.listenerFocus = this.props.navigation.addListener('focus', () => {
-            console.log('focus');
-            console.log(this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[1].symbol);
+            //console.log('focus');
+            //console.log(this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[1].symbol);
                 this.setState({
                     symbol: this.props.data.variants == null ? this.props.data.symbol : this.props.data.variants[1].symbol,
                     isLoading: false,
@@ -60,7 +60,7 @@ export default class PrizeItem extends React.Component {
     }
 
     render() {
-        console.log(this.props.data);
+        //console.log(this.props.data);
         return(
             <View style={styles.prizeCategoryView}>
                 <Image source={{uri:this.props.data.imagemedium}} style={styles.prizeImage} resizeMode='contain'/>
