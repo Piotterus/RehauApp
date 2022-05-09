@@ -110,17 +110,9 @@ export default class HistoryScreen extends React.Component {
         })
             .then(response => response.json())
             .then(responseJson => {
-                console.log('Zamówienia calosc');
-                console.log(responseJson);
                 responseJson = responseJson.data;
-                console.log('Zamówienia odebrane');
-                console.log(responseJson);
                 if (responseJson.error.code === 0) {
-                    console.log('Zamówienia bez błędu');
-                    console.log(responseJson.error);
                     if (responseJson.orders !== undefined) {
-                        console.log('Zamówienia są');
-                        console.log(responseJson.orders);
                         this.setState({
                             orders: responseJson?.orders,
                         }, () => this.setState({isLoading: false}))
@@ -130,8 +122,6 @@ export default class HistoryScreen extends React.Component {
                         }, () => this.setState({isLoading: false}))
                     }
                 } else {
-                    console.log('Zamówienia z błędem');
-                    console.log(responseJson.error);
                     this.setState({
                         isLoading: false,
                         error: responseJson.error
@@ -139,8 +129,6 @@ export default class HistoryScreen extends React.Component {
                 }
             })
             .catch((error) => {
-                console.log('Zamówienia odebrane z bledem');
-                console.log(error);
                 this.setState({
                     isLoading: false,
                     error: {
