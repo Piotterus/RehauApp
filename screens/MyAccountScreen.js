@@ -31,6 +31,7 @@ export default class MyAccountScreen extends React.Component {
             pointsForUse: '',
             value: '',
             isLoading: true,
+            info: '',
         }
     }
 
@@ -61,13 +62,14 @@ export default class MyAccountScreen extends React.Component {
                 .then(response => response.json())
                 .then(responseJson => {
                     responseJson = responseJson.data;
-                    //console.log(responseJson);
+                    console.log(responseJson);
                     if (responseJson.error.code === 0) {
                         this.setState({
                             pointsActive: responseJson.points.active,
                             pointsUsed: responseJson.points.used,
                             pointsForUse: responseJson.points.foruse,
                             value: responseJson.value.active,
+                            info: responseJson.value.info,
                         }, () => this.setState({isLoading: false}))
                     } else {
                         this.setState({
@@ -119,6 +121,9 @@ export default class MyAccountScreen extends React.Component {
                             <Text style={{color: '#4E4E4E', fontSize: 16, fontWeight: 'bold'}}>{this.props.fullName}</Text>
                         </View>
                         <ScrollView style={{width: '100%', height: '100%'}}>
+                            {this.state.info !== '' && this.state.info?.id !== 0 &&
+                                <Text style={styles.myAccountExtraText}>{this.state.info.message}</Text>
+                            }
                             <PointsItem name="Łączna wartość produktów REHAU na zarejestrowanych fakturach:" points={this.state.value} pointsType="pln"/>
                             <PointsItem name="Przyznane punkty (5000 PLN = 1 PKT):" points={this.state.pointsActive} pointsType="pkt"/>
                             <PointsItem name="Wykorzystane punkty:" points={this.state.pointsUsed} pointsType="pkt"/>
@@ -185,4 +190,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    myAccountExtraText: {
+        color: '#DC0060',
+        fontWeight: 'bold',
+        fontSize: 12,
+    }
 });
