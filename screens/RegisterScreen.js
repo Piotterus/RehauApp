@@ -331,7 +331,7 @@ export default class RegisterScreen extends React.Component {
                     <HeaderBack navigation={this.props.navigation} />
                     <HeaderImage image="Register"/>
                     <View style={styles.myAccountView}>
-                        <ScrollView style={{width: '90%', height: '100%'}} contentContainerStyle={styles.registerForm}>
+                        <ScrollView style={{width: '90%', height: '100%'}} contentContainerStyle={styles.registerForm} showsVerticalScrollIndicator={false}>
                             <Text style={styles.myAccountHeaderText}>Przystąp do programu</Text>
                             <Divider/>
                             <Text style={styles.registerHeaderText}>Wypełnij poprawnie poniższy formualrz i dołącz do Instaluj Korzyści.</Text>
@@ -460,6 +460,7 @@ const styles = StyleSheet.create({
         color: '#4E4E4E',
         flex: 1,
         textAlign: 'justify',
+        paddingRight: 10,
     },
     registerButton: {
         backgroundColor: '#37A48B',
