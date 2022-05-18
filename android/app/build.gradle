@@ -132,8 +132,8 @@ android {
         applicationId "pl.com.verbum.rehau.instalujkorzysci"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 40005
-        versionName "4.0.5"
+        versionCode 40006
+        versionName "4.0.6"
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
     }
