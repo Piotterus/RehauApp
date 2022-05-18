@@ -59,8 +59,8 @@ export default class App extends  React.Component {
       rememberMe: false,
       appId: 99,
       fullName: '',
-      apiUrl: 'https://2022.instalujkorzysci.pl/apiverbum/apiVerbum',
-      baseUrl: 'https://2022.instalujkorzysci.pl',
+      apiUrl: 'https://www.instalujkorzysci.pl/apiverbum/apiVerbum',
+      baseUrl: 'https://www.instalujkorzysci.pl',
     }
   }
 
